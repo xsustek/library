@@ -1,12 +1,17 @@
 package cz.muni.fi.pv168.book_rental;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 
 /**
@@ -25,6 +30,7 @@ public class CustomerManagerImplTest {
     public void createCustomer() {
         Customer customer = newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+        manager.createCustomer(customer);
 
         assertThat("saved customer has null id", customer.getId(), is(not(equalTo(null))));
 
@@ -39,13 +45,67 @@ public class CustomerManagerImplTest {
         manager.createCustomer(null);
     }
 
-    @Test
-    public void createGraveWithWrongValues() {
-        ExpectedException expectedException = ExpectedException.none();
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
+    @Test
+    public void createCustomerWithWrongValues() {
         Customer customer = newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "+4209058ab95366");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("invalid phone number not detected");
+        manager.createCustomer(customer);
+
+        customer = newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "420905867953");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("invalid phone number not detected");
+        manager.createCustomer(customer);
+
+        customer = newCustomer("65982",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
 
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("invalid name not detected");
+        manager.createCustomer(customer);
+
+        customer = newCustomer("Jozef Mrkva", "Botanická 68a", "+420905867953");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("invalid address not detected");
+        manager.createCustomer(customer);
+
+        customer = newCustomer("Jozef Mrkva",
+                "Botanická 68a, Brno-Královo Pole", "+420905867953");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("invalid address not detected");
+        manager.createCustomer(customer);
+
+    }
+
+    @Test
+    public void findAllCustomers() {
+        assertTrue(manager.findAllCustomers().isEmpty());
+
+        Customer customer1 = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+        Customer customer2 = newCustomer("František Testovací",
+                "Nová 5, 952 46 Novohrad", "+420932456789");
+
+        manager.createCustomer(customer1);
+        manager.createCustomer(customer2);
+
+        List<Customer> expected = Arrays.asList(customer1, customer2);
+        List<Customer> retrieved = manager.findAllCustomers();
+
+        Collections.sort(expected, idComparator);
+        Collections.sort(retrieved, idComparator);
+
+        assertEquals("expected and retrieved customers differ", expected, retrieved);
+        assertDeepEquals(expected, retrieved);
     }
 
     private static Customer newCustomer(String name, String address, String phoneNumber) {
@@ -63,4 +123,19 @@ public class CustomerManagerImplTest {
         assertEquals("address value is not equal", expected.getAddress(), actual.getAddress());
         assertEquals("phoneNumber value is not equal", expected.getPhoneNumber(), actual.getPhoneNumber());
     }
+
+    private void assertDeepEquals(List<Customer> expected, List<Customer> retrieved) {
+        for (int i = 0; i < expected.size(); i++) {
+            Customer customer1 = expected.get(i);
+            Customer customer2 = retrieved.get(i);
+
+            assertDeepEquals(customer1, customer2);
+        }
+    }
+
+    private static Comparator<Customer> idComparator = new Comparator<Customer>() {
+        public int compare(Customer o1, Customer o2) {
+            return o1.getId().compareTo(o2.getId());
+        }
+    };
 }
