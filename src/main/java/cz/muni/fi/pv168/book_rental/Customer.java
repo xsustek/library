@@ -7,6 +7,10 @@ public class Customer {
     private Long id;
     private String name;
     private String address;
+    private String number;
+
+    public Customer() {
+    }
 
     public String getNumber() {
         return number;
@@ -14,11 +18,6 @@ public class Customer {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    private String number;
-
-    public Customer() {
     }
 
     public Long getId() {

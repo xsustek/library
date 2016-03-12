@@ -8,6 +8,12 @@ import java.util.Date;
 public class Lease {
     private Long id;
     private Date endTime;
+    private Customer customer;
+    private Book book;
+    private Date realEndTime;
+
+    public Lease() {
+    }
 
     public Date getRealEndTime() {
         return realEndTime;
@@ -16,10 +22,6 @@ public class Lease {
     public void setRealEndTime(Date realEndTime) {
         this.realEndTime = realEndTime;
     }
-
-    private Customer customer;
-    private Book book;
-    private Date realEndTime;
 
     public Long getId() {
         return id;
@@ -53,6 +55,4 @@ public class Lease {
         this.book = book;
     }
 
-    public Lease() {
-    }
 }

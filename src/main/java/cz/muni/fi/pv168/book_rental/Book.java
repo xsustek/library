@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.book_rental;
 
 import java.util.Date;
-import java.util.StringTokenizer;
 
 /**
  * Created by Milan on 26.02.2016.
@@ -12,6 +11,9 @@ public class Book {
     private int pages;
     private Date releaseYear;
     private String author;
+
+    public Book() {
+    }
 
     public String getAuthor(){
         return author;
@@ -44,9 +46,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Book() {
     }
 
     public Long getId() {
