@@ -7,17 +7,17 @@ public class Customer {
     private Long id;
     private String name;
     private String address;
-    private String number;
+    private String phoneNumber;
 
     public Customer() {
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
