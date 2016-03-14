@@ -164,7 +164,39 @@ public class CustomerManagerImplTest {
 
     @Test
     public void updateCustomerWithWrongAttributes() {
+        Customer customer = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+        manager.createCustomer(customer);
 
+        Long customerId = customer.getId();
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("null argument was updated");
+        manager.updateCustomer(null);
+
+        customer = manager.getCustomerById(customerId);
+        customer.setId(null);
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("customer was updated with id equals to null");
+        manager.updateCustomer(customer);
+
+        customer = manager.getCustomerById(customerId);
+        customer.setName("554");
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("customer was updated with invalid name");
+        manager.updateCustomer(customer);
+
+        customer = manager.getCustomerById(customerId);
+        customer.setAddress(", 943 58 Nicota");
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("customer was updated with invalid address");
+        manager.updateCustomer(customer);
+
+        customer = manager.getCustomerById(customerId);
+        customer.setPhoneNumber("number");
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("customer was updated with invalid phone number");
+        manager.updateCustomer(customer);
     }
 
     @Test
@@ -187,8 +219,19 @@ public class CustomerManagerImplTest {
     }
 
     @Test
-    public void deleteGraveWithWrongAttributes() {
+    public void deleteCustomerWithWrongAttributes() {
+        Customer customer = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+        manager.createCustomer(customer);
 
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("null argument was deleted");
+        manager.deleteCustomer(null);
+
+        customer.setId(null);
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("customer was deleted with id equals to null");
+        manager.deleteCustomer(customer);
     }
 
     private static Customer newCustomer(String name, String address, String phoneNumber) {
