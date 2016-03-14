@@ -108,6 +108,89 @@ public class CustomerManagerImplTest {
         assertDeepEquals(expected, retrieved);
     }
 
+    @Test
+    public void updateCustomer() {
+        Customer customer1 = newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+        Customer customer2 = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+
+        manager.createCustomer(customer1);
+        manager.createCustomer(customer2);
+
+        Long customer1Id = customer1.getId();
+
+        // Change name to Jozef Brkva
+        customer1.setName("Jozef Brkva");
+        manager.updateCustomer(customer1);
+
+        customer1 = manager.getCustomerById(customer1Id);
+
+        assertThat("name was not changed", customer1.getName(), is(equalTo("Jozef Brkva")));
+        assertThat("address was changed when changing name",
+                customer1.getAddress(), is(equalTo("Botanická 68a, 602 00 Brno-Královo Pole")));
+        assertThat("phone number was changed when changing name",
+                customer1.getPhoneNumber(), is(equalTo("+420905867953")));
+
+        // Change address to Valaska 20, 615 30 Poliacko
+        customer1.setAddress("Valaska 20, 615 30 Poliacko");
+        manager.updateCustomer(customer1);
+
+        customer1 = manager.getCustomerById(customer1Id);
+
+        assertThat("address was not changed",
+                customer1.getAddress(), is(equalTo("Valaska 20, 615 30 Poliacko")));
+        assertThat("name was changed when changing address",
+                customer1.getName(), is(equalTo("Jozef Brkva")));
+        assertThat("phone number was changed when changing address",
+                customer1.getPhoneNumber(), is(equalTo("+420905867953")));
+
+        // Change phone number to +420915768359
+        customer1.setPhoneNumber("+420915768359");
+        manager.updateCustomer(customer1);
+
+        customer1 = manager.getCustomerById(customer1Id);
+
+        assertThat("phone number was not changed",
+                customer1.getPhoneNumber(), is(equalTo("+420915768359")));
+        assertThat("name was changed when changing phone number",
+                customer1.getName(), is(equalTo("Jozef Mrkva")));
+        assertThat("address was changed when changing phone number",
+                customer1.getAddress(), is(equalTo("Botanická 68a, 602 00 Brno-Královo Pole")));
+
+        // Check if updates didn't affected other records
+        assertDeepEquals(customer2, manager.getCustomerById(customer2.getId()));
+    }
+
+    @Test
+    public void updateCustomerWithWrongAttributes() {
+
+    }
+
+    @Test
+    public void deleteCustomer() {
+        Customer customer1 = newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+        Customer customer2 = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+
+        manager.createCustomer(customer1);
+        manager.createCustomer(customer2);
+
+        assertNotNull(manager.getCustomerById(customer1.getId()));
+        assertNotNull(manager.getCustomerById(customer2.getId()));
+
+        manager.deleteCustomer(customer1);
+
+        assertNull(manager.getCustomerById(customer1.getId()));
+        assertNotNull(manager.getCustomerById(customer2.getId()));
+    }
+
+    @Test
+    public void deleteGraveWithWrongAttributes() {
+
+    }
+
     private static Customer newCustomer(String name, String address, String phoneNumber) {
         Customer customer = new Customer();
         customer.setName(name);
