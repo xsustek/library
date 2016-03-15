@@ -1,9 +1,7 @@
 package cz.muni.fi.pv168.book_rental;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,80 +18,62 @@ import static org.junit.Assert.*;
 public class CustomerManagerImplTest {
 
     private CustomerManagerImpl manager;
+    private Customer customer1;
+    private Customer customer2;
+
 
     @Before
     public void setUp() {
         manager = new CustomerManagerImpl();
+        customer1 = newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+        customer2 = newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
     }
 
     @Test
     public void createCustomer() {
-        Customer customer = newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
-        manager.createCustomer(customer);
+        manager.createCustomer(customer1);
 
-        assertThat("saved customer has null id", customer.getId(), is(not(equalTo(null))));
+        assertThat(customer1.getId(), is(not(equalTo(null))));
 
-        Customer loadedCustomer = manager.getCustomerById(customer.getId());
-        assertThat("loaded customer differs from the saved one", loadedCustomer, is(equalTo(customer)));
-        assertThat("loaded customer is the same instance", loadedCustomer, is(sameInstance(customer)));
-        assertDeepEquals(customer, loadedCustomer);
+        Customer loadedCustomer = manager.getCustomerById(customer1.getId());
+
+        assertThat(loadedCustomer, is(equalTo(customer1)));
+        assertThat(loadedCustomer, is(sameInstance(customer1)));
+        assertDeepEquals(customer1, loadedCustomer);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateGraveWithNull() {
+    public void testCreateCustomerWithNull() {
         manager.createCustomer(null);
     }
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
-    @Test
-    public void createCustomerWithWrongValues() {
-        Customer customer = newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+4209058ab95366");
+    @Test(expected = IllegalArgumentException.class)
+    public void createCustomerWithWrongName() {
+        customer1.setName("65982");
 
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("invalid phone number not detected");
-        manager.createCustomer(customer);
+        manager.createCustomer(customer1);
+    }
 
-        customer = newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "420905867953");
+    @Test(expected = IllegalArgumentException.class)
+    public void createCustomerWithWrongAddress() {
+        customer1.setAddress("Botanická 68a, Brno-Kralovo Pole");
 
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("invalid phone number not detected");
-        manager.createCustomer(customer);
+        manager.createCustomer(customer1);
+    }
 
-        customer = newCustomer("65982",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+    @Test(expected = IllegalArgumentException.class)
+    public void createCustomerWithWrongPhoneNumber() {
+        customer1.setPhoneNumber("+4209058ab95366");
 
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("invalid name not detected");
-        manager.createCustomer(customer);
-
-        customer = newCustomer("Jozef Mrkva", "Botanická 68a", "+420905867953");
-
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("invalid address not detected");
-        manager.createCustomer(customer);
-
-        customer = newCustomer("Jozef Mrkva",
-                "Botanická 68a, Brno-Královo Pole", "+420905867953");
-
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("invalid address not detected");
-        manager.createCustomer(customer);
-
+        manager.createCustomer(customer1);
     }
 
     @Test
     public void findAllCustomers() {
         assertTrue(manager.findAllCustomers().isEmpty());
-
-        Customer customer1 = newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-        Customer customer2 = newCustomer("František Testovací",
-                "Nová 5, 952 46 Novohrad", "+420932456789");
 
         manager.createCustomer(customer1);
         manager.createCustomer(customer2);
@@ -104,17 +84,12 @@ public class CustomerManagerImplTest {
         Collections.sort(expected, idComparator);
         Collections.sort(retrieved, idComparator);
 
-        assertEquals("expected and retrieved customers differ", expected, retrieved);
+        assertEquals(expected, retrieved);
         assertDeepEquals(expected, retrieved);
     }
 
     @Test
     public void updateCustomer() {
-        Customer customer1 = newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
-        Customer customer2 = newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-
         manager.createCustomer(customer1);
         manager.createCustomer(customer2);
 
@@ -126,11 +101,9 @@ public class CustomerManagerImplTest {
 
         customer1 = manager.getCustomerById(customer1Id);
 
-        assertThat("name was not changed", customer1.getName(), is(equalTo("Jozef Brkva")));
-        assertThat("address was changed when changing name",
-                customer1.getAddress(), is(equalTo("Botanická 68a, 602 00 Brno-Královo Pole")));
-        assertThat("phone number was changed when changing name",
-                customer1.getPhoneNumber(), is(equalTo("+420905867953")));
+        assertThat(customer1.getName(), is(equalTo("Jozef Brkva")));
+        assertThat(customer1.getAddress(), is(equalTo("Botanická 68a, 602 00 Brno-Královo Pole")));
+        assertThat(customer1.getPhoneNumber(), is(equalTo("+420905867953")));
 
         // Change address to Valaska 20, 615 30 Poliacko
         customer1.setAddress("Valaska 20, 615 30 Poliacko");
@@ -138,12 +111,9 @@ public class CustomerManagerImplTest {
 
         customer1 = manager.getCustomerById(customer1Id);
 
-        assertThat("address was not changed",
-                customer1.getAddress(), is(equalTo("Valaska 20, 615 30 Poliacko")));
-        assertThat("name was changed when changing address",
-                customer1.getName(), is(equalTo("Jozef Brkva")));
-        assertThat("phone number was changed when changing address",
-                customer1.getPhoneNumber(), is(equalTo("+420905867953")));
+        assertThat(customer1.getAddress(), is(equalTo("Valaska 20, 615 30 Poliacko")));
+        assertThat(customer1.getName(), is(equalTo("Jozef Brkva")));
+        assertThat(customer1.getPhoneNumber(), is(equalTo("+420905867953")));
 
         // Change phone number to +420915768359
         customer1.setPhoneNumber("+420915768359");
@@ -151,61 +121,47 @@ public class CustomerManagerImplTest {
 
         customer1 = manager.getCustomerById(customer1Id);
 
-        assertThat("phone number was not changed",
-                customer1.getPhoneNumber(), is(equalTo("+420915768359")));
-        assertThat("name was changed when changing phone number",
-                customer1.getName(), is(equalTo("Jozef Mrkva")));
-        assertThat("address was changed when changing phone number",
-                customer1.getAddress(), is(equalTo("Botanická 68a, 602 00 Brno-Královo Pole")));
+        assertThat(customer1.getPhoneNumber(), is(equalTo("+420915768359")));
+        assertThat(customer1.getName(), is(equalTo("Jozef Brkva")));
+        assertThat(customer1.getAddress(), is(equalTo("Valaska 20, 615 30 Poliacko")));
 
         // Check if updates didn't affected other records
         assertDeepEquals(customer2, manager.getCustomerById(customer2.getId()));
     }
 
-    @Test
-    public void updateCustomerWithWrongAttributes() {
-        Customer customer = newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-        manager.createCustomer(customer);
-
-        Long customerId = customer.getId();
-
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("null argument was updated");
+    @Test(expected = IllegalArgumentException.class)
+    public void updateCustomerWithNull() {
         manager.updateCustomer(null);
+    }
 
-        customer = manager.getCustomerById(customerId);
-        customer.setId(null);
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("customer was updated with id equals to null");
-        manager.updateCustomer(customer);
+    @Test(expected = IllegalArgumentException.class)
+    public void updateCustomerWithWrongName() {
+        manager.createCustomer(customer1);
 
-        customer = manager.getCustomerById(customerId);
-        customer.setName("554");
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("customer was updated with invalid name");
-        manager.updateCustomer(customer);
+        customer1.setName("554");
+        manager.updateCustomer(customer1);
+    }
 
-        customer = manager.getCustomerById(customerId);
-        customer.setAddress(", 943 58 Nicota");
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("customer was updated with invalid address");
-        manager.updateCustomer(customer);
+    @Test(expected = IllegalArgumentException.class)
+    public void updateCustomerWithWrongAddress() {
+        manager.createCustomer(customer1);
 
-        customer = manager.getCustomerById(customerId);
-        customer.setPhoneNumber("number");
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("customer was updated with invalid phone number");
-        manager.updateCustomer(customer);
+        customer1.setAddress(", 943 58 Nicota");
+
+        manager.updateCustomer(customer1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateCustomerWithWrongPhoneNumber() {
+        manager.createCustomer(customer1);
+
+        customer1.setPhoneNumber("number");
+
+        manager.updateCustomer(customer1);
     }
 
     @Test
     public void deleteCustomer() {
-        Customer customer1 = newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
-        Customer customer2 = newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-
         manager.createCustomer(customer1);
         manager.createCustomer(customer2);
 
@@ -218,20 +174,9 @@ public class CustomerManagerImplTest {
         assertNotNull(manager.getCustomerById(customer2.getId()));
     }
 
-    @Test
-    public void deleteCustomerWithWrongAttributes() {
-        Customer customer = newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-        manager.createCustomer(customer);
-
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("null argument was deleted");
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteCustomerWithNull() {
         manager.deleteCustomer(null);
-
-        customer.setId(null);
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("customer was deleted with id equals to null");
-        manager.deleteCustomer(customer);
     }
 
     private static Customer newCustomer(String name, String address, String phoneNumber) {
