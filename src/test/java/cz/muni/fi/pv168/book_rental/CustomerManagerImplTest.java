@@ -147,7 +147,6 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setAddress(", 943 58 Nicota");
-
         manager.updateCustomer(customer1);
     }
 
@@ -156,7 +155,6 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setPhoneNumber("number");
-
         manager.updateCustomer(customer1);
     }
 
