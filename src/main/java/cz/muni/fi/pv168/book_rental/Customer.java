@@ -60,12 +60,45 @@ public class Customer {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
+        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
+        if (address != null ? !address.equals(customer.address) : customer.address != null) return false;
+        return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + "\'" +
+                ", address='" + address + "\'" +
+                ", phone number='" + phoneNumber + "\'" +
+                "}";
+    }
+
     private boolean isValidName(String name) {
         if (name == null || name.isEmpty()) {
             return false;
         }
 
-        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e]", name);
+        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e]+", name);
     }
 
     private boolean isValidPhoneNumber(String number) {
