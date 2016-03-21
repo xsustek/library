@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Milan on 26.02.2016.
@@ -50,25 +51,37 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer == null) {
             throw new IllegalArgumentException("customer is null");
         }
+
+        if (!isValidName(customer.getName())) {
+            throw new IllegalArgumentException("Invalid customer's name");
+        }
+
+        if (!isValidAddress(customer.getAddress())) {
+            throw new IllegalArgumentException("Invalid customer's address");
+        }
+
+        if (!isValidPhoneNumber(customer.getPhoneNumber())) {
+            throw new IllegalArgumentException("Invalid customer's phone number");
+        }
     }
 
     private Long getKey(ResultSet keyRS, Customer customer) throws ServiceFailureException, SQLException {
         if (keyRS.next()) {
             if (keyRS.getMetaData().getColumnCount() != 1) {
                 throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retriving failed when trying to insert customer " + customer
+                        + "retrieving failed when trying to insert customer " + customer
                         + " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
             }
             Long result = keyRS.getLong(1);
             if (keyRS.next()) {
                 throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retriving failed when trying to insert customer " + customer
+                        + "retrieving failed when trying to insert customer " + customer
                         + " - more keys found");
             }
             return result;
         } else {
             throw new ServiceFailureException("Internal Error: Generated key"
-                    + "retriving failed when trying to insert customer " + customer
+                    + "retrieving failed when trying to insert customer " + customer
                     + " - no key found");
         }
     }
@@ -187,5 +200,30 @@ public class CustomerManagerImpl implements CustomerManager {
                     "Error when updating customer " + customer, ex);
         }
 
+    }
+
+    private boolean isValidName(String name) {
+        if (name == null || name.isEmpty()) {
+            return false;
+        }
+
+        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e]+", name);
+    }
+
+    private boolean isValidPhoneNumber(String number) {
+        if (number == null || number.isEmpty()) {
+            return false;
+        }
+
+        return Pattern.matches("[+]\\d{12}+", number);
+    }
+
+    private boolean isValidAddress(String address) {
+        if (address == null || address.isEmpty()) {
+            return false;
+        }
+
+        return Pattern.matches("[a-zA-Z0-9\\u00c0-\\u017e -]+[,][ ]" +
+                "[0-9]{3}+[ ][0-9]{2}+[ ][a-zA-Z0-9\\u00c0-\\u017e., -]+", address);
     }
 }

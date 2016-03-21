@@ -1,8 +1,15 @@
 package cz.muni.fi.pv168.book_rental;
 
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,17 +25,39 @@ import static org.junit.Assert.*;
 public class CustomerManagerImplTest {
 
     private CustomerManagerImpl manager;
+    private DataSource dataSource;
+
     private Customer customer1;
     private Customer customer2;
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
 
     @Before
-    public void setUp() {
-        manager = new CustomerManagerImpl();
+    public void setUp() throws SQLException {
+        dataSource = prepareDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE CUSTOMER ("
+                    + "id bigint primary key generated always as identity,"
+                    + "name varchar(100),"
+                    + "address varchar(250),"
+                    + "phoneNumber varchar(13))").executeUpdate();
+        }
+
+        manager = new CustomerManagerImpl(dataSource);
+
         customer1 = newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
         customer2 = newCustomer("Ján Otrok",
                 "Obchodná 9, 613 05 Albertov", "+420915687932");
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE CUSTOMER").executeUpdate();
+        }
     }
 
     @Test
@@ -49,25 +78,60 @@ public class CustomerManagerImplTest {
         manager.createCustomer(null);
     }
 
+    @Test
+    public void createCustomerWithNonExistingId() {
+        customer1.setId(1L);
 
-    @Test(expected = IllegalArgumentException.class)
+        expectedException.expect(IllegalArgumentException.class);
+        manager.createCustomer(customer1);
+    }
+
+
+    @Test
     public void createCustomerWithWrongName() {
         customer1.setName("65982");
 
+        expectedException.expect(IllegalArgumentException.class);
         manager.createCustomer(customer1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void createCustomerWithNullName() {
+        customer1.setName(null);
+
+        expectedException.expect(IllegalArgumentException.class);
+        manager.createCustomer(customer1);
+    }
+
+    @Test
     public void createCustomerWithWrongAddress() {
         customer1.setAddress("Botanická 68a, Brno-Kralovo Pole");
 
+        expectedException.expect(IllegalArgumentException.class);
         manager.createCustomer(customer1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void createCustomerWithNullAddress() {
+        customer1.setAddress(null);
+
+        expectedException.expect(IllegalArgumentException.class);
+        manager.createCustomer(customer1);
+    }
+
+    @Test
     public void createCustomerWithWrongPhoneNumber() {
         customer1.setPhoneNumber("+4209058ab95366");
 
+        expectedException.expect(IllegalArgumentException.class);
+        manager.createCustomer(customer1);
+    }
+
+    @Test
+    public void createCustomerWthNullPhoneNUmber() {
+        customer1.setPhoneNumber(null);
+
+        expectedException.expect(IllegalArgumentException.class);
         manager.createCustomer(customer1);
     }
 
@@ -134,27 +198,75 @@ public class CustomerManagerImplTest {
         manager.updateCustomer(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void updateCustomerWithNullId() {
+        manager.createCustomer(customer1);
+
+        customer1.setId(null);
+        expectedException.expect(IllegalArgumentException.class);
+        manager.updateCustomer(customer1);
+    }
+
+    @Test
+    public void updateCustomerWithNonExistingId() {
+        manager.createCustomer(customer1);
+
+        customer1.setId(customer1.getId() + 1);
+        expectedException.expect(IllegalArgumentException.class);
+        manager.updateCustomer(customer1);
+    }
+
+    @Test
     public void updateCustomerWithWrongName() {
         manager.createCustomer(customer1);
 
         customer1.setName("554");
+        expectedException.expect(IllegalArgumentException.class);
         manager.updateCustomer(customer1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void updateCustomerWithNullName() {
+        manager.createCustomer(customer1);
+
+        customer1.setName(null);
+        expectedException.expect(IllegalArgumentException.class);
+        manager.updateCustomer(customer1);
+    }
+
+    @Test
     public void updateCustomerWithWrongAddress() {
         manager.createCustomer(customer1);
 
         customer1.setAddress(", 943 58 Nicota");
+        expectedException.expect(IllegalArgumentException.class);
         manager.updateCustomer(customer1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void updateCustomerWithNullAddress() {
+        manager.createCustomer(customer1);
+
+        customer1.setAddress(null);
+        expectedException.expect(IllegalArgumentException.class);
+        manager.updateCustomer(customer1);
+    }
+
+    @Test
     public void updateCustomerWithWrongPhoneNumber() {
         manager.createCustomer(customer1);
 
         customer1.setPhoneNumber("number");
+        expectedException.expect(IllegalArgumentException.class);
+        manager.updateCustomer(customer1);
+    }
+
+    @Test
+    public void updateCustomerWithNullPhoneNumber() {
+        manager.createCustomer(customer1);
+
+        customer1.setPhoneNumber(null);
+        expectedException.expect(IllegalArgumentException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -175,6 +287,24 @@ public class CustomerManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void deleteCustomerWithNull() {
         manager.deleteCustomer(null);
+    }
+
+    @Test
+    public void deleteCustomerWithNullId() {
+        customer1.setId(null);
+
+        expectedException.expect(IllegalArgumentException.class);
+        manager.deleteCustomer(customer1);
+    }
+
+    @Test
+    public void deleteCustomerWithNonExistingId() {
+        manager.createCustomer(customer1);
+        customer1.setId(customer1.getId());
+
+        customer1.setId(customer1.getId() + 1);
+        expectedException.expect(IllegalArgumentException.class);
+        manager.deleteCustomer(customer1);
     }
 
     private static Customer newCustomer(String name, String address, String phoneNumber) {
@@ -207,4 +337,11 @@ public class CustomerManagerImplTest {
             return o1.getId().compareTo(o2.getId());
         }
     };
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:customermgr-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
 }

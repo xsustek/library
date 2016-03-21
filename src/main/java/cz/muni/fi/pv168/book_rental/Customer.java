@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.book_rental;
 
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 /**
  * Created by Robert Duriancik on 26.02.2016.
@@ -20,11 +20,7 @@ public class Customer {
 
     // format "+xxxxxxxxxxxx"
     public void setPhoneNumber(String phoneNumber) {
-        if (isValidPhoneNumber(phoneNumber)) {
-            this.phoneNumber = phoneNumber;
-        } else {
-            throw new IllegalArgumentException("Invalid phone number");
-        }
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
@@ -40,11 +36,7 @@ public class Customer {
     }
 
     public void setName(String name) {
-        if (isValidName(name)) {
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Invalid name");
-        }
+        this.name = name;
     }
 
     public String getAddress() {
@@ -53,34 +45,27 @@ public class Customer {
 
     // pattern "street streetNumber, zipCode(xxx xx) city"
     public void setAddress(String address) {
-        if (isValidAddress(address)) {
-            this.address = address;
-        } else {
-            throw new IllegalArgumentException("Invalid address");
-        }
+        this.address = address;
+
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (this.id == null && this != o) {
+            return false;
+        }
 
-        Customer customer = (Customer) o;
+        final Customer customer = (Customer) o;
+        return Objects.equals(this.id, customer.id);
 
-        if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
-        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
-        if (address != null ? !address.equals(customer.address) : customer.address != null) return false;
-        return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
+        return Objects.hashCode(id);
     }
 
     @Override
@@ -91,31 +76,6 @@ public class Customer {
                 ", address='" + address + "\'" +
                 ", phone number='" + phoneNumber + "\'" +
                 "}";
-    }
-
-    private boolean isValidName(String name) {
-        if (name == null || name.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e]+", name);
-    }
-
-    private boolean isValidPhoneNumber(String number) {
-        if (number == null || number.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[+]\\d{12}+", number);
-    }
-
-    private boolean isValidAddress(String address) {
-        if (address == null || address.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[a-zA-Z0-9\\u00c0-\\u017e -]+[,][ ]" +
-                "[0-9]{3}+[ ][0-9]{2}+[ ][a-zA-Z0-9\\u00c0-\\u017e., -]+", address);
     }
 
 }
