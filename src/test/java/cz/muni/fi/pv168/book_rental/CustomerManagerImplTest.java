@@ -39,10 +39,10 @@ public class CustomerManagerImplTest {
         dataSource = prepareDataSource();
         try (Connection connection = dataSource.getConnection()) {
             connection.prepareStatement("CREATE TABLE CUSTOMER ("
-                    + "id bigint primary key generated always as identity,"
-                    + "name varchar(100),"
-                    + "address varchar(250),"
-                    + "phoneNumber varchar(13))").executeUpdate();
+                    + "ID bigint primary key generated always as identity,"
+                    + "NAME varchar(100),"
+                    + "ADDRESS varchar(250),"
+                    + "PHONENUMBER varchar(13))").executeUpdate();
         }
 
         manager = new CustomerManagerImpl(dataSource);
@@ -69,7 +69,7 @@ public class CustomerManagerImplTest {
         Customer loadedCustomer = manager.getCustomerById(customer1.getId());
 
         assertThat(loadedCustomer, is(equalTo(customer1)));
-        assertThat(loadedCustomer, is(sameInstance(customer1)));
+        assertThat(loadedCustomer, is(not(sameInstance(customer1))));
         assertDeepEquals(customer1, loadedCustomer);
     }
 
@@ -212,7 +212,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setId(customer1.getId() + 1);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(EntityNotFoundException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -303,7 +303,7 @@ public class CustomerManagerImplTest {
         customer1.setId(customer1.getId());
 
         customer1.setId(customer1.getId() + 1);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(EntityNotFoundException.class);
         manager.deleteCustomer(customer1);
     }
 

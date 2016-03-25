@@ -26,7 +26,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO CUSTOMER (name, address, number) VALUES (?, ?, ?)",
+                        "INSERT INTO CUSTOMER (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, customer.getName());
@@ -90,7 +90,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "SELECT id,name,address,number FROM customer WHERE id = ?")) {
+                        "SELECT ID,NAME,ADDRESS,PHONENUMBER FROM CUSTOMER WHERE ID = ?")) {
 
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
@@ -121,7 +121,7 @@ public class CustomerManagerImpl implements CustomerManager {
         customer.setId(rs.getLong("id"));
         customer.setName(rs.getString("name"));
         customer.setAddress(rs.getString("address"));
-        customer.setPhoneNumber(rs.getString("number"));
+        customer.setPhoneNumber(rs.getString("phoneNumber"));
         return customer;
     }
 
@@ -130,7 +130,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "SELECT id,name,address,number FROM customer")) {
+                        "SELECT ID,NAME,ADDRESS,PHONENUMBER FROM CUSTOMER")) {
 
             ResultSet rs = st.executeQuery();
 
@@ -155,7 +155,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "UPDATE customer SET name = ?, address = ?, number = ? WHERE id = ?")) {
+                        "UPDATE CUSTOMER SET NAME = ?, ADDRESS = ?, PHONENUMBER = ? WHERE ID = ?")) {
 
             st.setString(1, customer.getName());
             st.setString(2, customer.getAddress());
@@ -185,7 +185,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "DELETE FROM customer WHERE id = ?")) {
+                        "DELETE FROM CUSTOMER WHERE ID = ?")) {
 
             st.setLong(1, customer.getId());
 
@@ -207,7 +207,7 @@ public class CustomerManagerImpl implements CustomerManager {
             return false;
         }
 
-        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e]+", name);
+        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e ]+", name);
     }
 
     private boolean isValidPhoneNumber(String number) {
