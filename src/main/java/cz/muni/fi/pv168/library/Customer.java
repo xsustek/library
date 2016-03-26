@@ -58,6 +58,7 @@ public class Customer {
         }
 
         final Customer customer = (Customer) o;
+
         return Objects.equals(this.id, customer.id);
 
 

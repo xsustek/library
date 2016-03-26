@@ -22,6 +22,11 @@ public class LeaseManagerImpl implements LeaseManager {
 
     public void createLease(Lease lease) {
         checkDataSource();
+        validate(lease);
+
+        if (lease.getId() != null) {
+            throw new IllegalArgumentException("lease id is already set");
+        }
     }
 
     public Lease getLeaseById(Long id) {
@@ -58,6 +63,14 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         if (lease.getBook() == null) {
+
+        }
+
+        if (lease.getCustomer() == null) {
+
+        }
+
+        if (lease.getEndTime() == null) {
 
         }
     }

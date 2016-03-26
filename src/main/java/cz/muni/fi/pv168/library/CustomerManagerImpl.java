@@ -1,5 +1,9 @@
 package cz.muni.fi.pv168.library;
 
+import cz.muni.fi.pv168.common.EntityNotFoundException;
+import cz.muni.fi.pv168.common.ServiceFailureException;
+import cz.muni.fi.pv168.common.ValidationException;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,15 +57,15 @@ public class CustomerManagerImpl implements CustomerManager {
         }
 
         if (!isValidName(customer.getName())) {
-            throw new IllegalArgumentException("Invalid customer's name");
+            throw new ValidationException("Invalid customer's name");
         }
 
         if (!isValidAddress(customer.getAddress())) {
-            throw new IllegalArgumentException("Invalid customer's address");
+            throw new ValidationException("Invalid customer's address");
         }
 
         if (!isValidPhoneNumber(customer.getPhoneNumber())) {
-            throw new IllegalArgumentException("Invalid customer's phone number");
+            throw new ValidationException("Invalid customer's phone number");
         }
     }
 

@@ -74,7 +74,7 @@ public class Lease {
             return false;
         }
 
-        Lease lease = (Lease) o;
+        final Lease lease = (Lease) o;
 
         return Objects.equals(this.id, lease.id);
     }

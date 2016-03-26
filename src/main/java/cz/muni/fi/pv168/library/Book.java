@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Milan on 26.02.2016.
@@ -54,5 +55,34 @@ public class Book {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{"
+                + "id=" + id
+                + ", title=" + title
+                + ", author=" + author
+                + ", releaseYear=" + releaseYear
+                + ", pages=" + pages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (this != o && this.id == null) {
+            return false;
+        }
+
+        final Book book = (Book) o;
+
+        return Objects.equals(this.id, book.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.id);
     }
 }

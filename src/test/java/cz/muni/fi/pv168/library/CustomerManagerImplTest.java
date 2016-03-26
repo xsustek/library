@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library;
 
+import cz.muni.fi.pv168.common.EntityNotFoundException;
+import cz.muni.fi.pv168.common.ValidationException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -91,7 +93,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithWrongName() {
         customer1.setName("65982");
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -99,7 +101,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithNullName() {
         customer1.setName(null);
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -107,7 +109,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithWrongAddress() {
         customer1.setAddress("Botanická 68a, Brno-Kralovo Pole");
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -115,7 +117,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithNullAddress() {
         customer1.setAddress(null);
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -123,7 +125,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithWrongPhoneNumber() {
         customer1.setPhoneNumber("+4209058ab95366");
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -131,7 +133,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWthNullPhoneNUmber() {
         customer1.setPhoneNumber(null);
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.createCustomer(customer1);
     }
 
@@ -221,7 +223,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setName("554");
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -230,7 +232,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setName(null);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -239,7 +241,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setAddress(", 943 58 Nicota");
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -248,7 +250,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setAddress(null);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -257,7 +259,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setPhoneNumber("number");
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -266,7 +268,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setPhoneNumber(null);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(ValidationException.class);
         manager.updateCustomer(customer1);
     }
 
