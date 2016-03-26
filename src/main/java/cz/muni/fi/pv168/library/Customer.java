@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.book_rental;
+package cz.muni.fi.pv168.library;
 
 import java.util.Objects;
 

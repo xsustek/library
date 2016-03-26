@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.book_rental;
+package cz.muni.fi.pv168.library;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
@@ -38,11 +38,11 @@ public class CustomerManagerImplTest {
     public void setUp() throws SQLException {
         dataSource = prepareDataSource();
         try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("CREATE TABLE CUSTOMER ("
-                    + "ID bigint primary key generated always as identity,"
-                    + "NAME varchar(100),"
-                    + "ADDRESS varchar(250),"
-                    + "PHONENUMBER varchar(13))").executeUpdate();
+            connection.prepareStatement("CREATE TABLE CUSTOMERS ("
+                    + "ID BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                    + "NAME VARCHAR(100) NOT NULL,"
+                    + "ADDRESS VARCHAR(250) NOT NULL,"
+                    + "PHONE_NUMBER VARCHAR(13) NOT NULL)").executeUpdate();
         }
 
         manager = new CustomerManagerImpl(dataSource);
@@ -56,7 +56,7 @@ public class CustomerManagerImplTest {
     @After
     public void tearDown() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("DROP TABLE CUSTOMER").executeUpdate();
+            connection.prepareStatement("DROP TABLE CUSTOMERS").executeUpdate();
         }
     }
 

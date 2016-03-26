@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.book_rental;
+package cz.muni.fi.pv168.library;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -26,7 +26,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO CUSTOMER (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)",
+                        "INSERT INTO CUSTOMERS (NAME, ADDRESS, PHONE_NUMBER) VALUES (?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, customer.getName());
@@ -90,7 +90,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "SELECT ID,NAME,ADDRESS,PHONENUMBER FROM CUSTOMER WHERE ID = ?")) {
+                        "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS WHERE ID = ?")) {
 
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
@@ -121,7 +121,7 @@ public class CustomerManagerImpl implements CustomerManager {
         customer.setId(rs.getLong("id"));
         customer.setName(rs.getString("name"));
         customer.setAddress(rs.getString("address"));
-        customer.setPhoneNumber(rs.getString("phoneNumber"));
+        customer.setPhoneNumber(rs.getString("phone_number"));
         return customer;
     }
 
@@ -130,7 +130,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "SELECT ID,NAME,ADDRESS,PHONENUMBER FROM CUSTOMER")) {
+                        "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS")) {
 
             ResultSet rs = st.executeQuery();
 
@@ -155,7 +155,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "UPDATE CUSTOMER SET NAME = ?, ADDRESS = ?, PHONENUMBER = ? WHERE ID = ?")) {
+                        "UPDATE CUSTOMERS SET NAME = ?, ADDRESS = ?, PHONE_NUMBER = ? WHERE ID = ?")) {
 
             st.setString(1, customer.getName());
             st.setString(2, customer.getAddress());
@@ -185,7 +185,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "DELETE FROM CUSTOMER WHERE ID = ?")) {
+                        "DELETE FROM CUSTOMERS WHERE ID = ?")) {
 
             st.setLong(1, customer.getId());
 
