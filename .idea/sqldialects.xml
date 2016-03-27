@@ -2,8 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main" dialect="Derby" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/cz.muni.fi.pv168.library/CREATE_TABLES.sql" dialect="Derby" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/cz.muni.fi.pv168.library/DROP_TABLES.sql" dialect="Derby" />
     <file url="file://$PROJECT_DIR$/src/test" dialect="Derby" />
   </component>
 </project>

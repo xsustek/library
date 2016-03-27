@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.EntityNotFoundException;
+import cz.muni.fi.pv168.common.DBUtils;
+import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ValidationException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
@@ -10,7 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,15 +39,10 @@ public class CustomerManagerImplTest {
     @Before
     public void setUp() throws SQLException {
         dataSource = prepareDataSource();
-        try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("CREATE TABLE CUSTOMERS ("
-                    + "ID BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
-                    + "NAME VARCHAR(100) NOT NULL,"
-                    + "ADDRESS VARCHAR(250) NOT NULL,"
-                    + "PHONE_NUMBER VARCHAR(13) NOT NULL)").executeUpdate();
-        }
+        DBUtils.executeSqlScript(dataSource, CustomerManager.class.getResource("createTables.sql"));
 
-        manager = new CustomerManagerImpl(dataSource);
+        manager = new CustomerManagerImpl();
+        manager.setDataSource(dataSource);
 
         customer1 = newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
@@ -57,9 +52,7 @@ public class CustomerManagerImplTest {
 
     @After
     public void tearDown() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("DROP TABLE CUSTOMERS").executeUpdate();
-        }
+        DBUtils.executeSqlScript(dataSource, CustomerManager.class.getResource("dropTables.sql"));
     }
 
     @Test
@@ -84,7 +77,7 @@ public class CustomerManagerImplTest {
     public void createCustomerWithNonExistingId() {
         customer1.setId(1L);
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(IllegalEntityException.class);
         manager.createCustomer(customer1);
     }
 
@@ -205,7 +198,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setId(null);
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(IllegalEntityException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -214,7 +207,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer1);
 
         customer1.setId(customer1.getId() + 1);
-        expectedException.expect(EntityNotFoundException.class);
+        expectedException.expect(IllegalEntityException.class);
         manager.updateCustomer(customer1);
     }
 
@@ -295,7 +288,7 @@ public class CustomerManagerImplTest {
     public void deleteCustomerWithNullId() {
         customer1.setId(null);
 
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(IllegalEntityException.class);
         manager.deleteCustomer(customer1);
     }
 
@@ -305,7 +298,7 @@ public class CustomerManagerImplTest {
         customer1.setId(customer1.getId());
 
         customer1.setId(customer1.getId() + 1);
-        expectedException.expect(EntityNotFoundException.class);
+        expectedException.expect(IllegalEntityException.class);
         manager.deleteCustomer(customer1);
     }
 

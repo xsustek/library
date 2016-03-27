@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.EntityNotFoundException;
+import cz.muni.fi.pv168.common.DBUtils;
+import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
 
@@ -8,23 +9,36 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
  * Created by Milan on 26.02.2016.
  */
 public class CustomerManagerImpl implements CustomerManager {
-    private final DataSource dataSource;
 
-    public CustomerManagerImpl(DataSource dataSource) {
+    private static final Logger logger = Logger.getLogger(
+            CustomerManagerImpl.class.getName());
+
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    public void checkDataSource() {
+        if (dataSource == null) {
+            throw new IllegalStateException("Data source is not set");
+        }
+    }
+
     public void createCustomer(Customer customer) {
+        checkDataSource();
         validate(customer);
 
         if (customer.getId() != null) {
-            throw new IllegalArgumentException("customer id is already set");
+            throw new IllegalEntityException("customer id is already set");
         }
 
         try (
@@ -38,59 +52,25 @@ public class CustomerManagerImpl implements CustomerManager {
             statement.setString(3, customer.getPhoneNumber());
 
             int addedRows = statement.executeUpdate();
-            if (addedRows != 1) {
-                throw new ServiceFailureException("Internal error: More rows (" +
-                        addedRows + ") inserted when trying to insert customer " + customer);
-            }
+            DBUtils.checkUpdatesCount(addedRows, customer, true);
 
-            ResultSet keys = statement.getGeneratedKeys();
-            customer.setId(getKey(keys, customer));
+            Long id = DBUtils.getId(statement.getGeneratedKeys());
+            customer.setId(id);
         } catch (SQLException e) {
-            throw new ServiceFailureException("Error when inserting customer" + customer, e);
+            String msg = "Error when inserting customer into db";
+            logger.log(Level.SEVERE, msg, e);
+            throw new ServiceFailureException(msg, e);
         }
 
-    }
-
-    private void validate(Customer customer) throws IllegalArgumentException {
-        if (customer == null) {
-            throw new IllegalArgumentException("customer is null");
-        }
-
-        if (!isValidName(customer.getName())) {
-            throw new ValidationException("Invalid customer's name");
-        }
-
-        if (!isValidAddress(customer.getAddress())) {
-            throw new ValidationException("Invalid customer's address");
-        }
-
-        if (!isValidPhoneNumber(customer.getPhoneNumber())) {
-            throw new ValidationException("Invalid customer's phone number");
-        }
-    }
-
-    private Long getKey(ResultSet keyRS, Customer customer) throws ServiceFailureException, SQLException {
-        if (keyRS.next()) {
-            if (keyRS.getMetaData().getColumnCount() != 1) {
-                throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retrieving failed when trying to insert customer " + customer
-                        + " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
-            }
-            Long result = keyRS.getLong(1);
-            if (keyRS.next()) {
-                throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retrieving failed when trying to insert customer " + customer
-                        + " - more keys found");
-            }
-            return result;
-        } else {
-            throw new ServiceFailureException("Internal Error: Generated key"
-                    + "retrieving failed when trying to insert customer " + customer
-                    + " - no key found");
-        }
     }
 
     public Customer getCustomerById(Long id) {
+        checkDataSource();
+
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
@@ -114,8 +94,87 @@ public class CustomerManagerImpl implements CustomerManager {
             }
 
         } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when retrieving customer with id " + id, ex);
+            String msg = "Error when getting customer with id = " + id + " from DB";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+
+    }
+
+    public List<Customer> findAllCustomers() {
+        checkDataSource();
+
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement st = connection.prepareStatement(
+                        "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS")) {
+
+            ResultSet rs = st.executeQuery();
+            List<Customer> result = new ArrayList<>();
+
+            while (rs.next()) {
+                result.add(resultSetToCustomer(rs));
+            }
+
+            return result;
+
+        } catch (SQLException ex) {
+            String msg = "Error when getting all customers from DB";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+
+    }
+
+    public void updateCustomer(Customer customer) {
+        checkDataSource();
+        validate(customer);
+
+        if (customer.getId() == null) {
+            throw new IllegalEntityException("customer id is null");
+        }
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement st = connection.prepareStatement(
+                        "UPDATE CUSTOMERS SET NAME = ?, ADDRESS = ?, PHONE_NUMBER = ? WHERE ID = ?")) {
+
+            st.setString(1, customer.getName());
+            st.setString(2, customer.getAddress());
+            st.setString(3, customer.getPhoneNumber());
+            st.setLong(4, customer.getId());
+
+            int count = st.executeUpdate();
+            DBUtils.checkUpdatesCount(count, customer, false);
+        } catch (SQLException ex) {
+            String msg = "Error when updating customer in the db";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+
+    }
+
+    public void deleteCustomer(Customer customer) {
+        checkDataSource();
+
+        if (customer == null) {
+            throw new IllegalArgumentException("customer is null");
+        }
+        if (customer.getId() == null) {
+            throw new IllegalEntityException("customer id is null");
+        }
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement st = connection.prepareStatement(
+                        "DELETE FROM CUSTOMERS WHERE ID = ?")) {
+
+            st.setLong(1, customer.getId());
+
+            int count = st.executeUpdate();
+            DBUtils.checkUpdatesCount(count, customer, false);
+        } catch (SQLException ex) {
+            String msg = "Error when deleting customer from the db";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
         }
 
     }
@@ -129,81 +188,22 @@ public class CustomerManagerImpl implements CustomerManager {
         return customer;
     }
 
-    public List<Customer> findAllCustomers() {
-
-        try (
-                Connection connection = dataSource.getConnection();
-                PreparedStatement st = connection.prepareStatement(
-                        "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS")) {
-
-            ResultSet rs = st.executeQuery();
-
-            List<Customer> result = new ArrayList<>();
-            while (rs.next()) {
-                result.add(resultSetToCustomer(rs));
-            }
-            return result;
-
-        } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when retrieving all customers", ex);
-        }
-
-    }
-
-    public void updateCustomer(Customer customer) {
-        validate(customer);
-        if (customer.getId() == null) {
-            throw new IllegalArgumentException("customer id is null");
-        }
-        try (
-                Connection connection = dataSource.getConnection();
-                PreparedStatement st = connection.prepareStatement(
-                        "UPDATE CUSTOMERS SET NAME = ?, ADDRESS = ?, PHONE_NUMBER = ? WHERE ID = ?")) {
-
-            st.setString(1, customer.getName());
-            st.setString(2, customer.getAddress());
-            st.setString(3, customer.getPhoneNumber());
-            st.setLong(4, customer.getId());
-
-            int count = st.executeUpdate();
-            if (count == 0) {
-                throw new EntityNotFoundException("Customer " + customer + " was not found in database!");
-            } else if (count != 1) {
-                throw new ServiceFailureException("Invalid updated rows count detected (one row should be updated): " + count);
-            }
-        } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when updating customer " + customer, ex);
-        }
-
-    }
-
-    public void deleteCustomer(Customer customer) {
+    private void validate(Customer customer) throws IllegalArgumentException {
         if (customer == null) {
             throw new IllegalArgumentException("customer is null");
         }
-        if (customer.getId() == null) {
-            throw new IllegalArgumentException("customer id is null");
-        }
-        try (
-                Connection connection = dataSource.getConnection();
-                PreparedStatement st = connection.prepareStatement(
-                        "DELETE FROM CUSTOMERS WHERE ID = ?")) {
 
-            st.setLong(1, customer.getId());
-
-            int count = st.executeUpdate();
-            if (count == 0) {
-                throw new EntityNotFoundException("Customer " + customer + " was not found in database!");
-            } else if (count != 1) {
-                throw new ServiceFailureException("Invalid deleted rows count detected (one row should be updated): " + count);
-            }
-        } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when updating customer " + customer, ex);
+        if (!isValidName(customer.getName())) {
+            throw new ValidationException("Invalid customer's name");
         }
 
+        if (!isValidAddress(customer.getAddress())) {
+            throw new ValidationException("Invalid customer's address");
+        }
+
+        if (!isValidPhoneNumber(customer.getPhoneNumber())) {
+            throw new ValidationException("Invalid customer's phone number");
+        }
     }
 
     private boolean isValidName(String name) {
