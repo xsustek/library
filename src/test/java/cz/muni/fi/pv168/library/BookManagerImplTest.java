@@ -1,8 +1,13 @@
 package cz.muni.fi.pv168.library;
 
+import cz.muni.fi.pv168.common.DBUtils;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -14,13 +19,30 @@ import static org.junit.Assert.assertThat;
  * Created by Milan on 15.03.2016.
  */
 public class BookManagerImplTest {
-    private BookManager manager;
+    private BookManagerImpl manager;
     private Book book;
+    private DataSource dataSource;
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+        dataSource = prepareDataSource();
+        DBUtils.executeSqlScript(dataSource, BookManager.class.getResource("createTables.sql"));
+
         manager = new BookManagerImpl();
-        book = Creator.newBook("Pejsek a kocicka", 87, new GregorianCalendar(1978, 8, 5).getTime(), "Capek");
+        manager.setDataSource(dataSource);
+        book = Creator.newBook("Pejsek a kocicka", 87, new GregorianCalendar(1978, 8, 5).getTime(), "Karel Capek");
+    }
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:bookmgr-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        DBUtils.executeSqlScript(dataSource, BookManager.class.getResource("dropTables.sql"));
     }
 
     @Test
@@ -83,8 +105,8 @@ public class BookManagerImplTest {
 
     @Test
     public void loadAllBook() {
-        Book book1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Capek");
-        Book book2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Capek");
+        Book book1 = newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
+        Book book2 = newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
 
         manager.createBook(book);
         manager.createBook(book1);
@@ -119,7 +141,7 @@ public class BookManagerImplTest {
     public void updateBookAuthor() {
         manager.createBook(book);
 
-        book.setAuthor("Zelenka");
+        book.setAuthor("Petr Zelenka");
         manager.updateBook(book);
 
         Book retrieved = manager.getBookById(book.getId());
@@ -167,6 +189,16 @@ public class BookManagerImplTest {
 
         List<Book> retrieved = manager.findAllBooks();
         assertThat(retrieved.size(), is(equalTo(0)));
+    }
+
+
+    public Book newBook(String title, int pages, Date releaseYear, String author) {
+        Book b = new Book();
+        b.setTitle(title);
+        b.setPages(pages);
+        b.setReleaseYear(releaseYear);
+        b.setAuthor(author);
+        return b;
     }
 
     private void assertDeepEquals(List<Book> expectedList, List<Book> actualList) {
