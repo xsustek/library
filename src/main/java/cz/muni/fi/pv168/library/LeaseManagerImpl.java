@@ -27,14 +27,14 @@ public class LeaseManagerImpl implements LeaseManager {
             LeaseManagerImpl.class.getName());
 
     private static DataSource dataSource;
-    private JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate;
 
     public void setSources(DataSource dataSource) {
         this.dataSource = dataSource;
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void checkSources() {
+    private void checkSources() {
         if (jdbcTemplate == null) {
             throw new IllegalStateException("jdbcTemplate is null");
         }
@@ -52,13 +52,13 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         BookManagerImpl bookManager = new BookManagerImpl();
-        bookManager.setDataSource(dataSource);
+        bookManager.setSources(dataSource);
         if (bookManager.getBookById(lease.getBook().getId()) == null) {
             throw new IllegalEntityException("Book is not in db");
         }
 
         CustomerManagerImpl customerManager = new CustomerManagerImpl();
-        customerManager.setDataSource(dataSource);
+        customerManager.setSources(dataSource);
         if (customerManager.getCustomerById(lease.getCustomer().getId()) == null) {
             throw new IllegalEntityException("Customer is not in db");
         }
@@ -137,7 +137,7 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         BookManagerImpl bookManager = new BookManagerImpl();
-        bookManager.setDataSource(dataSource);
+        bookManager.setSources(dataSource);
         if (bookManager.getBookById(lease.getBook().getId()) == null) {
             throw new IllegalEntityException("Book is not in db");
         }
@@ -147,7 +147,7 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         CustomerManagerImpl customerManager = new CustomerManagerImpl();
-        customerManager.setDataSource(dataSource);
+        customerManager.setSources(dataSource);
         if (customerManager.getCustomerById(lease.getCustomer().getId()) == null) {
             throw new IllegalEntityException("Customer is not in db");
         }
@@ -310,9 +310,9 @@ public class LeaseManagerImpl implements LeaseManager {
         public Lease mapRow(ResultSet rs, int rowNum) throws SQLException {
             Lease lease = new Lease();
             BookManagerImpl bookManager = new BookManagerImpl();
-            bookManager.setDataSource(dataSource);
+            bookManager.setSources(dataSource);
             CustomerManagerImpl customerManager = new CustomerManagerImpl();
-            customerManager.setDataSource(dataSource);
+            customerManager.setSources(dataSource);
 
             lease.setId(rs.getLong("id"));
 

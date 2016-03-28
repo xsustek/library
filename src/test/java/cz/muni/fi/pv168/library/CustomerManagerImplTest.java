@@ -42,7 +42,7 @@ public class CustomerManagerImplTest {
         DBUtils.executeSqlScript(dataSource, CustomerManager.class.getResource("createTables.sql"));
 
         manager = new CustomerManagerImpl();
-        manager.setDataSource(dataSource);
+        manager.setSources(dataSource);
 
         customer1 = Creator.newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");

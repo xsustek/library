@@ -32,21 +32,21 @@ public class CustomerManagerImpl implements CustomerManager {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
 
-    public void setDataSource(DataSource dataSource) {
+    public void setSources(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("CUSTOMERS")
                 .usingGeneratedKeyColumns("ID");
     }
 
-    public void checkDataSource() {
+    public void checkSources() {
         if (jdbcTemplate == null) {
             throw new IllegalStateException("Data source is not set");
         }
     }
 
     public void createCustomer(Customer customer) {
-        checkDataSource();
+        checkSources();
         validate(customer);
 
         if (customer.getId() != null) {
@@ -72,7 +72,7 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public Customer getCustomerById(Long id) {
-        checkDataSource();
+        checkSources();
 
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -98,7 +98,7 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public List<Customer> findAllCustomers() {
-        checkDataSource();
+        checkSources();
 
         String sql = "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS";
         try {
@@ -112,7 +112,7 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public void updateCustomer(Customer customer) {
-        checkDataSource();
+        checkSources();
         validate(customer);
 
         if (customer.getId() == null) {
@@ -136,7 +136,7 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public void deleteCustomer(Customer customer) {
-        checkDataSource();
+        checkSources();
 
         if (customer == null) {
             throw new IllegalArgumentException("customer is null");

@@ -32,21 +32,21 @@ public class BookManagerImpl implements BookManager {
     private SimpleJdbcInsert insertBook;
 
 
-    public void setDataSource(DataSource dataSource) {
+    public void setSources(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         insertBook = new SimpleJdbcInsert(dataSource)
                 .withTableName("BOOKS")
                 .usingGeneratedKeyColumns("ID");
     }
 
-    private void checkDataSource() {
+    private void checkSources() {
         if (jdbcTemplate == null) {
             throw new IllegalStateException("Data source is not set");
         }
     }
 
     public void createBook(Book book) {
-        checkDataSource();
+        checkSources();
         validate(book);
 
         if (jdbcTemplate == null) {
@@ -114,7 +114,7 @@ public class BookManagerImpl implements BookManager {
 
     public Book getBookById(Long id) {
 
-        checkDataSource();
+        checkSources();
 
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -138,7 +138,7 @@ public class BookManagerImpl implements BookManager {
 
     public List<Book> findAllBooks() {
 
-        checkDataSource();
+        checkSources();
 
         String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS";
         try {
@@ -152,7 +152,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void updateBook(Book book) {
-        checkDataSource();
+        checkSources();
         validate(book);
 
         if (book.getId() == null) {
@@ -178,7 +178,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void deleteBook(Book book) {
-        checkDataSource();
+        checkSources();
 
         if (book == null) {
             throw new IllegalArgumentException("book is null");
@@ -201,7 +201,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public List<Book> findBookByAuthor(String author) {
-        checkDataSource();
+        checkSources();
 
         if (author == null) {
             throw new IllegalArgumentException("author is null");
@@ -218,7 +218,7 @@ public class BookManagerImpl implements BookManager {
 
     public List<Book> findBookByTitle(String title) {
 
-        checkDataSource();
+        checkSources();
 
         if (title == null) {
             throw new IllegalArgumentException("title is null");

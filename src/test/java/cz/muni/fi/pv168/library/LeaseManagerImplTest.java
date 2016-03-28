@@ -43,9 +43,9 @@ public class LeaseManagerImplTest {
         leaseManager = new LeaseManagerImpl();
         leaseManager.setSources(dataSource);
         bookManager = new BookManagerImpl();
-        bookManager.setDataSource(dataSource);
+        bookManager.setSources(dataSource);
         customerManager = new CustomerManagerImpl();
-        customerManager.setDataSource(dataSource);
+        customerManager.setSources(dataSource);
 
         prepareTestData();
     }
