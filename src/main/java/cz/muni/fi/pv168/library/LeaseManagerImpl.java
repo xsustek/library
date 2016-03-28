@@ -59,7 +59,7 @@ public class LeaseManagerImpl implements LeaseManager {
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
-                        "INSERT INTO LEASES(CUSTOMER_ID, BOOK_ID, ENDTIME, REAL_END_TIME) VALUES (?, ?, ?, ?)",
+                        "INSERT INTO LEASES(CUSTOMER_ID, BOOK_ID, END_TIME, REAL_END_TIME) VALUES (?, ?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, lease.getCustomer().getId());
             statement.setLong(2, lease.getBook().getId());
@@ -284,7 +284,9 @@ public class LeaseManagerImpl implements LeaseManager {
     private Lease resultSetToLease(ResultSet rs) throws SQLException {
         Lease lease = new Lease();
         BookManager bookManager = new BookManagerImpl();
+        ((BookManagerImpl) bookManager).setDataSource(dataSource);
         CustomerManager customerManager = new CustomerManagerImpl();
+        ((CustomerManagerImpl) customerManager).setDataSource(dataSource);
 
         lease.setId(rs.getLong("id"));
 
@@ -295,7 +297,10 @@ public class LeaseManagerImpl implements LeaseManager {
         lease.setCustomer(customer);
 
         lease.setEndTime(new java.util.Date(rs.getDate("end_time").getTime()));
-        lease.setRealEndTime(new java.util.Date(rs.getDate("real_end_time").getTime()));
+
+        Date real_end_time = rs.getDate("real_end_time");
+        lease.setRealEndTime(real_end_time != null ?
+                new java.util.Date(real_end_time.getTime()) : null);
 
         return lease;
     }

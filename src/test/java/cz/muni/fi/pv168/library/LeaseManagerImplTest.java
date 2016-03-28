@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.DBUtils;
-import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ValidationException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
@@ -74,7 +73,7 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(null);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createLeaseWithNonExistingId() {
         leaseManager.createLease(leaseNotInDB);
     }
@@ -145,11 +144,11 @@ public class LeaseManagerImplTest {
         customerManager.createCustomer(c1);
         customerManager.createCustomer(c2);
 
-        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Capek");
-        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Capek");
-        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Julius");
+        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
+        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
+        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Michal Julius");
         bookWithNullId.setId(null);
-        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Zivotny");
+        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Jozef Zivotny");
         bookNotInDB.setId(5L);
 
         bookManager.createBook(b1);
