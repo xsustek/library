@@ -30,6 +30,7 @@ public class BookManagerImplTest {
         dataSource = prepareDataSource();
         DBUtils.executeSqlScript(dataSource, BookManager.class.getResource("createTables.sql"));
 
+
         manager = new BookManagerImpl();
         manager.setDataSource(dataSource);
         rur = Creator.newBook("R.U.R", 80, new GregorianCalendar(1920, 2, 5).getTime(), "Karel Capek");
@@ -224,10 +225,6 @@ public class BookManagerImplTest {
         assertEquals("pages value is not equal", expected.getPages(), actual.getPages());
     }
 
-    private static Comparator<Book> idComparator = new Comparator<Book>() {
-        public int compare(Book o1, Book o2) {
-            return o1.getId().compareTo(o2.getId());
-        }
-    };
+    private static Comparator<Book> idComparator = (o1, o2) -> o1.getId().compareTo(o2.getId());
 
 }
