@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="JdbcTemplate">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_derby_derbyclient_10_11_1_1.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library.iml" afterPath="$PROJECT_DIR$/library.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" afterPath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" />
     </list>
     <ignored path="Books Rental.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,18 +61,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LeaseManagerImplTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2914">
-              <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BookManagerImplTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -84,6 +68,26 @@
               <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeaseManagerImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2250">
+              <caret line="345" column="0" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1459179340087" expanded="true" signature="1973:2058" placeholder="INSERT INTO LEASES... " />
+                <marker date="1459179340087" expanded="true" signature="3139:3220" placeholder="SELECT ID, B... LEASES" />
+                <marker date="1459179340087" expanded="true" signature="4379:4447" placeholder="SELECT ID, B... LEASES" />
+                <marker date="1459179340087" expanded="true" signature="5696:5825" placeholder="UPDATE LEASE... " />
+                <marker date="1459179340087" expanded="true" signature="6929:6960" placeholder="DELETE FROM " />
+                <marker date="1459179340087" expanded="true" signature="7845:7972" placeholder="SELECT ID, B... LEASES" />
+                <marker date="1459179340087" expanded="true" signature="8614:8750" placeholder="SELECT ID, B... LEASES" />
+                <marker date="1459179340087" expanded="true" signature="9544:9667" placeholder="SELECT ID, B... LEASES" />
               </folding>
             </state>
           </provider>
@@ -99,23 +103,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomerManagerImpl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomerManagerImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1814">
-              <caret line="122" column="36" selection-start-line="122" selection-start-column="36" selection-end-line="122" selection-end-column="36" />
+            <state relative-caret-position="494">
+              <caret line="90" column="83" selection-start-line="90" selection-start-column="83" selection-end-line="90" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1459198243970" expanded="true" signature="2593:2656" placeholder="SELECT ID,NA... CUSTOMERS" />
-                <marker date="1459198243970" expanded="true" signature="3167:3217" placeholder="SELECT ID,NA... CUSTOMERS" />
-                <marker date="1459198243970" expanded="true" signature="3783:3856" placeholder="UPDATE CUSTO... " />
-                <marker date="1459198243970" expanded="true" signature="4717:4751" placeholder="DELETE FROM " />
+                <marker date="1459198667281" expanded="true" signature="2664:2727" placeholder="SELECT ID,NA... CUSTOMERS" />
+                <marker date="1459198667281" expanded="true" signature="3508:3558" placeholder="SELECT ID,NA... CUSTOMERS" />
+                <marker date="1459198667281" expanded="true" signature="4124:4197" placeholder="UPDATE CUSTO... " />
+                <marker date="1459198667281" expanded="true" signature="5058:5092" placeholder="DELETE FROM " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="591">
@@ -148,15 +152,15 @@
       <file leaf-file-name="BookManagerImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2499">
-              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+            <state relative-caret-position="471">
+              <caret line="130" column="79" selection-start-line="130" selection-start-column="79" selection-end-line="130" selection-end-column="79" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1459198243985" expanded="true" signature="3928:3994" placeholder="SELECT ID,TI... BOOKS" />
-                <marker date="1459198243985" expanded="true" signature="4511:4564" placeholder="SELECT ID,TI... BOOKS" />
-                <marker date="1459198243985" expanded="true" signature="5098:5178" placeholder="UPDATE BOOKS... " />
-                <marker date="1459198243985" expanded="true" signature="6025:6055" placeholder="DELETE FROM " />
-                <marker date="1459198243985" expanded="true" signature="7512:7590" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459198667295" expanded="true" signature="3999:4065" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459198667295" expanded="true" signature="4848:4901" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459198667295" expanded="true" signature="5435:5515" placeholder="UPDATE BOOKS... " />
+                <marker date="1459198667295" expanded="true" signature="6362:6392" placeholder="DELETE FROM " />
+                <marker date="1459198667295" expanded="true" signature="7849:7927" placeholder="SELECT ID,TI... BOOKS" />
               </folding>
             </state>
           </provider>
@@ -225,9 +229,9 @@
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring.xml" />
         <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -1088,7 +1092,7 @@
       <workItem from="1459112180903" duration="3380000" />
       <workItem from="1459159641688" duration="7979000" />
       <workItem from="1459179616047" duration="735000" />
-      <workItem from="1459180906955" duration="16495000" />
+      <workItem from="1459180906955" duration="16891000" />
     </task>
     <task id="LOCAL-00001" summary="Vytvoreny priecinok test, trieda CustomManagerImplTest">
       <created>1457779488538</created>
@@ -1202,7 +1206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1459189441812</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="JdbcTemplate">
+      <created>1459198295774</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1459198295774</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1238,7 +1249,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82613000" />
+    <option name="totallyTimeSpent" value="83009000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1552,24 +1563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="345" column="0" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1459179340087" expanded="true" signature="1973:2058" placeholder="INSERT INTO LEASES... " />
-            <marker date="1459179340087" expanded="true" signature="3139:3220" placeholder="SELECT ID, B... LEASES" />
-            <marker date="1459179340087" expanded="true" signature="4379:4447" placeholder="SELECT ID, B... LEASES" />
-            <marker date="1459179340087" expanded="true" signature="5696:5825" placeholder="UPDATE LEASE... " />
-            <marker date="1459179340087" expanded="true" signature="6929:6960" placeholder="DELETE FROM " />
-            <marker date="1459179340087" expanded="true" signature="7845:7972" placeholder="SELECT ID, B... LEASES" />
-            <marker date="1459179340087" expanded="true" signature="8614:8750" placeholder="SELECT ID, B... LEASES" />
-            <marker date="1459179340087" expanded="true" signature="9544:9667" placeholder="SELECT ID, B... LEASES" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2914">
@@ -1593,16 +1586,6 @@
         <state relative-caret-position="154">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1630,40 +1613,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2499">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        <state relative-caret-position="591">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1459198243985" expanded="true" signature="3928:3994" placeholder="SELECT ID,TI... BOOKS" />
-            <marker date="1459198243985" expanded="true" signature="4511:4564" placeholder="SELECT ID,TI... BOOKS" />
-            <marker date="1459198243985" expanded="true" signature="5098:5178" placeholder="UPDATE BOOKS... " />
-            <marker date="1459198243985" expanded="true" signature="6025:6055" placeholder="DELETE FROM " />
-            <marker date="1459198243985" expanded="true" signature="7512:7590" placeholder="SELECT ID,TI... BOOKS" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2250">
+          <caret line="345" column="0" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1459179340087" expanded="true" signature="1973:2058" placeholder="INSERT INTO LEASES... " />
+            <marker date="1459179340087" expanded="true" signature="3139:3220" placeholder="SELECT ID, B... LEASES" />
+            <marker date="1459179340087" expanded="true" signature="4379:4447" placeholder="SELECT ID, B... LEASES" />
+            <marker date="1459179340087" expanded="true" signature="5696:5825" placeholder="UPDATE LEASE... " />
+            <marker date="1459179340087" expanded="true" signature="6929:6960" placeholder="DELETE FROM " />
+            <marker date="1459179340087" expanded="true" signature="7845:7972" placeholder="SELECT ID, B... LEASES" />
+            <marker date="1459179340087" expanded="true" signature="8614:8750" placeholder="SELECT ID, B... LEASES" />
+            <marker date="1459179340087" expanded="true" signature="9544:9667" placeholder="SELECT ID, B... LEASES" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="130" column="79" selection-start-line="130" selection-start-column="79" selection-end-line="130" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1459198667295" expanded="true" signature="3999:4065" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459198667295" expanded="true" signature="4848:4901" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459198667295" expanded="true" signature="5435:5515" placeholder="UPDATE BOOKS... " />
+            <marker date="1459198667295" expanded="true" signature="6362:6392" placeholder="DELETE FROM " />
+            <marker date="1459198667295" expanded="true" signature="7849:7927" placeholder="SELECT ID,TI... BOOKS" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1814">
-          <caret line="122" column="36" selection-start-line="122" selection-start-column="36" selection-end-line="122" selection-end-column="36" />
+        <state relative-caret-position="494">
+          <caret line="90" column="83" selection-start-line="90" selection-start-column="83" selection-end-line="90" selection-end-column="83" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1459198243970" expanded="true" signature="2593:2656" placeholder="SELECT ID,NA... CUSTOMERS" />
-            <marker date="1459198243970" expanded="true" signature="3167:3217" placeholder="SELECT ID,NA... CUSTOMERS" />
-            <marker date="1459198243970" expanded="true" signature="3783:3856" placeholder="UPDATE CUSTO... " />
-            <marker date="1459198243970" expanded="true" signature="4717:4751" placeholder="DELETE FROM " />
+            <marker date="1459198667281" expanded="true" signature="2664:2727" placeholder="SELECT ID,NA... CUSTOMERS" />
+            <marker date="1459198667281" expanded="true" signature="3508:3558" placeholder="SELECT ID,NA... CUSTOMERS" />
+            <marker date="1459198667281" expanded="true" signature="4124:4197" placeholder="UPDATE CUSTO... " />
+            <marker date="1459198667281" expanded="true" signature="5058:5092" placeholder="DELETE FROM " />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="591">
-          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>

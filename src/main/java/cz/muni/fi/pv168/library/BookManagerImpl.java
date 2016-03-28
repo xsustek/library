@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -124,6 +125,10 @@ public class BookManagerImpl implements BookManager {
             return jdbcTemplate.queryForObject(sql, new Long[]{id}, new bookMapper());
         } catch (EmptyResultDataAccessException ex) {
             return null;
+        } catch (IncorrectResultSizeDataAccessException e) {
+            throw new ServiceFailureException(
+                    "Internal error: More entities with the same id found "
+                            + "(source id: " + id + ", found " + findAllBooks());
         } catch (DataAccessException ex) {
             String msg = "Error when getting book with id = " + id + " from DB";
             logger.log(Level.SEVERE, msg, ex);

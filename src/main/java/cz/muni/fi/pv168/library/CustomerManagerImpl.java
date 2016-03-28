@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -84,6 +85,10 @@ public class CustomerManagerImpl implements CustomerManager {
 
         } catch (EmptyResultDataAccessException ex) {
             return null;
+        } catch (IncorrectResultSizeDataAccessException e) {
+            throw new ServiceFailureException(
+                    "Internal error: More entities with the same id found "
+                            + "(source id: " + id + ", found " + findAllCustomers());
         } catch (DataAccessException e) {
             String msg = "Error when getting customer from DB";
             logger.log(Level.SEVERE, msg, e);
