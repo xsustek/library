@@ -37,7 +37,7 @@ public class LeaseManagerImpl implements LeaseManager {
         validate(lease);
 
         if (lease.getId() != null) {
-            throw new IllegalArgumentException("lease id is already set");
+            throw new IllegalEntityException("lease id is already set");
         }
 
         BookManagerImpl bookManager = new BookManagerImpl();

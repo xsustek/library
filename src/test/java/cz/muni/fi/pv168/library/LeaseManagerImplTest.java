@@ -136,12 +136,26 @@ public class LeaseManagerImplTest {
 
     @Test
     public void createLeaseWithLentBook() {
-        l1.setEndTime(null);
+        l1.setRealEndTime(null);
         leaseManager.createLease(l1);
 
         l2.setBook(l1.getBook());
         expectedException.expect(ServiceFailureException.class);
         leaseManager.createLease(l2);
+    }
+
+    @Test
+    public void createLeaseWithAvailableBook() {
+        l1.setRealEndTime(null);
+        leaseManager.createLease(l1);
+
+        l1.setRealEndTime(new GregorianCalendar(2016, 1, 4).getTime());
+        leaseManager.updateLease(l1);
+
+        l2.setBook(l1.getBook());
+        leaseManager.createLease(l2);
+
+        assertTrue(leaseManager.findAllLeases().size() == 2);
     }
 
     @Test
@@ -161,9 +175,107 @@ public class LeaseManagerImplTest {
         assertDeepEquals(expected, retrieved);
     }
 
+    @Test
+    public void updateCustomer() {
+        leaseManager.createLease(l1);
+        leaseManager.createLease(l2);
+
+        Long l1Id = l1.getId();
+
+        l1.setRealEndTime(new GregorianCalendar(2016, 1, 4).getTime());
+        leaseManager.updateLease(l1);
+
+        l1 = leaseManager.getLeaseById(l1Id);
+
+        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getBook(), is(equalTo(b1)));
+        assertThat(l1.getCustomer(), is(equalTo(c1)));
+        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+
+        l1.setBook(b2);
+        leaseManager.updateLease(l1);
+
+        l1 = leaseManager.getLeaseById(l1Id);
+
+        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getBook(), is(equalTo(b2)));
+        assertThat(l1.getCustomer(), is(equalTo(c1)));
+        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+
+        l1.setCustomer(c2);
+        leaseManager.updateLease(l1);
+
+        l1 = leaseManager.getLeaseById(l1Id);
+
+        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getBook(), is(equalTo(b2)));
+        assertThat(l1.getCustomer(), is(equalTo(c2)));
+        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+
+        l1.setEndTime(new GregorianCalendar(2015, 1, 4).getTime());
+        leaseManager.updateLease(l1);
+
+        l1 = leaseManager.getLeaseById(l1Id);
+
+        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getBook(), is(equalTo(b2)));
+        assertThat(l1.getCustomer(), is(equalTo(c2)));
+        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2015, 1, 4).getTime())));
+
+        assertDeepEquals(l1, leaseManager.getLeaseById(l1Id));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void updateLeaseWithNull() {
         leaseManager.updateLease(null);
+    }
+
+    @Test
+    public void updateLeaseWithNullBook() {
+        leaseManager.createLease(l1);
+        l1.setBook(null);
+
+        expectedException.expect(ValidationException.class);
+        leaseManager.updateLease(l1);
+    }
+
+    @Test
+    public void updateLeaseWithNullCustomer() {
+        leaseManager.createLease(l1);
+        l1.setCustomer(null);
+
+        expectedException.expect(ValidationException.class);
+        leaseManager.updateLease(l1);
+    }
+
+    @Test(expected = IllegalEntityException.class)
+    public void updateLeaseWithNonExistingId() {
+        leaseManager.updateLease(leaseNotInDB);
+    }
+
+    @Test(expected = IllegalEntityException.class)
+    public void updateLeaseWithNullId() {
+        leaseManager.updateLease(leaseWithNullId);
+    }
+
+    @Test
+    public void updateLeaseWithNullBookId() {
+        leaseManager.createLease(l1);
+
+        l1.getBook().setId(null);
+
+        expectedException.expect(ValidationException.class);
+        leaseManager.updateLease(l1);
+    }
+
+    @Test
+    public void updateLeaseWithNullCustomerId() {
+        leaseManager.createLease(l1);
+
+        l1.setCustomer(null);
+
+        expectedException.expect(ValidationException.class);
+        leaseManager.updateLease(l1);
     }
 
     @Test(expected = IllegalArgumentException.class)
