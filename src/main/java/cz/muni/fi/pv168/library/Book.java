@@ -9,9 +9,9 @@ import java.util.Objects;
 public class Book {
     private Long id;
     private String title;
+    private String author;
     private int pages;
     private Date releaseYear;
-    private String author;
 
     public Book() {
     }

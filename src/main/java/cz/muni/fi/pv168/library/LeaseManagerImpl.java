@@ -52,6 +52,10 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("Customer is not in db");
         }
 
+        if (!isBookAvailable(lease.getBook())) {
+            throw new ServiceFailureException("Book is already lent");
+        }
+
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
@@ -294,6 +298,22 @@ public class LeaseManagerImpl implements LeaseManager {
         lease.setRealEndTime(new java.util.Date(rs.getDate("real_end_time").getTime()));
 
         return lease;
+    }
+
+    private boolean isBookAvailable(Book book) {
+        List<Lease> list = findLeasesForBook(book);
+
+        if (list.isEmpty()) {
+            return true;
+        }
+
+        for (Lease l : list) {
+            if (l.getRealEndTime() == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void validate(Lease lease) {
