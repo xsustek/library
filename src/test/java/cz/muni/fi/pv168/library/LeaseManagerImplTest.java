@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
+import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
@@ -12,12 +13,10 @@ import org.junit.rules.ExpectedException;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Robert Duriancik, 445363
@@ -119,6 +118,49 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(l1);
     }
 
+    @Test
+    public void createLeaseWithBookNotInDB() {
+        l1.setBook(bookNotInDB);
+
+        expectedException.expect(IllegalEntityException.class);
+        leaseManager.createLease(l1);
+    }
+
+    @Test
+    public void createLeaseWithCustomerNotInDB() {
+        l1.setCustomer(customerNotInDB);
+
+        expectedException.expect(IllegalEntityException.class);
+        leaseManager.createLease(l1);
+    }
+
+    @Test
+    public void createLeaseWithLentBook() {
+        l1.setEndTime(null);
+        leaseManager.createLease(l1);
+
+        l2.setBook(l1.getBook());
+        expectedException.expect(ServiceFailureException.class);
+        leaseManager.createLease(l2);
+    }
+
+    @Test
+    public void findAllLeases() {
+        assertTrue(leaseManager.findAllLeases().isEmpty());
+
+        leaseManager.createLease(l1);
+        leaseManager.createLease(l2);
+
+        List<Lease> expected = Arrays.asList(l1, l2);
+        List<Lease> retrieved = leaseManager.findAllLeases();
+
+        Collections.sort(expected, idComparator);
+        Collections.sort(retrieved, idComparator);
+
+        assertEquals(expected, retrieved);
+        assertDeepEquals(expected, retrieved);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void updateLeaseWithNull() {
         leaseManager.updateLease(null);
@@ -127,6 +169,20 @@ public class LeaseManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void deleteLeaseWithNull() {
         leaseManager.deleteLease(null);
+    }
+
+    @Test
+    public void deleteCustomer() {
+        leaseManager.createLease(l1);
+        leaseManager.createLease(l2);
+
+        assertNotNull(leaseManager.getLeaseById(l1.getId()));
+        assertNotNull(leaseManager.getLeaseById(l2.getId()));
+
+        leaseManager.deleteLease(l1);
+
+        assertNull(leaseManager.getLeaseById(l1.getId()));
+        assertNotNull(leaseManager.getLeaseById(l2.getId()));
     }
 
     private void prepareTestData() {
@@ -145,11 +201,11 @@ public class LeaseManagerImplTest {
         customerManager.createCustomer(c1);
         customerManager.createCustomer(c2);
 
-        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Capek");
-        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Capek");
-        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Julius");
+        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
+        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
+        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Michal Julius");
         bookWithNullId.setId(null);
-        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Zivotny");
+        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Jozef Zivotny");
         bookNotInDB.setId(5L);
 
         bookManager.createBook(b1);
@@ -188,4 +244,10 @@ public class LeaseManagerImplTest {
             assertDeepEquals(lease1, lease2);
         }
     }
+
+    private static Comparator<Lease> idComparator = new Comparator<Lease>() {
+        public int compare(Lease o1, Lease o2) {
+            return o1.getId().compareTo(o2.getId());
+        }
+    };
 }
