@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- * Created by Milan on 26.02.2016.
+ * Created by Milan Šůstek on 26.02.2016.
  */
 public class CustomerManagerImpl implements CustomerManager {
 
