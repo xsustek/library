@@ -20,8 +20,10 @@ import static org.junit.Assert.assertThat;
  */
 public class BookManagerImplTest {
     private BookManagerImpl manager;
-    private Book book;
+
     private DataSource dataSource;
+
+    private Book rur, valkaSMloky, boureMecu;
 
     @Before
     public void setUp() throws SQLException {
@@ -30,7 +32,9 @@ public class BookManagerImplTest {
 
         manager = new BookManagerImpl();
         manager.setDataSource(dataSource);
-        book = Creator.newBook("Pejsek a kocicka", 87, new GregorianCalendar(1978, 8, 5).getTime(), "Karel Capek");
+        rur = Creator.newBook("R.U.R", 80, new GregorianCalendar(1920, 2, 5).getTime(), "Karel Capek");
+        valkaSMloky = Creator.newBook("Valka s mloky", 97, new GregorianCalendar(1936, 9, 2).getTime(), "Karel Capek");
+        boureMecu = Creator.newBook("Boure mecu", 97, new GregorianCalendar(2011, 9, 2).getTime(), "George Martin");
     }
 
     private static DataSource prepareDataSource() throws SQLException {
@@ -47,9 +51,9 @@ public class BookManagerImplTest {
 
     @Test
     public void createBook() {
-        manager.createBook(book);
+        manager.createBook(rur);
 
-        assertThat("Book has null id", book.getId(), is(not(equalTo(null))));
+        assertThat("Book has null id", rur.getId(), is(not(equalTo(null))));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -59,61 +63,60 @@ public class BookManagerImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithWrongTitle() {
-        book.setTitle(null);
-        manager.createBook(book);
+        rur.setTitle(null);
+        manager.createBook(rur);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithZeroPages() {
-        book.setPages(0);
-        manager.createBook(book);
+        rur.setPages(0);
+        manager.createBook(rur);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithNegativePages() {
-        book.setPages(-2);
-        manager.createBook(book);
+        rur.setPages(-2);
+        manager.createBook(rur);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithWrongDate() {
-        book.setReleaseYear(null);
-        manager.createBook(book);
+        rur.setReleaseYear(null);
+        manager.createBook(rur);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithNullAuthor() {
-        book.setAuthor(null);
-        manager.createBook(book);
+        rur.setAuthor(null);
+        manager.createBook(rur);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createBookWithWrongAuthor() {
-        book.setAuthor("1234567");
-        manager.createBook(book);
+        rur.setAuthor("1234567");
+        manager.createBook(rur);
     }
 
     @Test
     public void loadBook() {
-        manager.createBook(book);
-        Book loaded = manager.getBookById(book.getId());
+        manager.createBook(rur);
+        Book loaded = manager.getBookById(rur.getId());
 
-        assertThat("Loaded book differ from the saved one", book, is(equalTo(loaded)));
-        assertThat("Loaded book is same instance", book, is(not(sameInstance(loaded))));
-        assertDeepEquals(book, loaded);
+        assertThat("Loaded book differ from the saved one", rur, is(equalTo(loaded)));
+        assertThat("Loaded book is same instance", rur, is(not(sameInstance(loaded))));
+        assertDeepEquals(rur, loaded);
     }
 
     @Test
     public void loadAllBook() {
-        Book book1 = newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
-        Book book2 = newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
 
-        manager.createBook(book);
-        manager.createBook(book1);
-        manager.createBook(book2);
+
+        manager.createBook(boureMecu);
+        manager.createBook(rur);
+        manager.createBook(valkaSMloky);
 
         List<Book> retrieved = manager.findAllBooks();
-        List<Book> expected = Arrays.asList(book, book1, book2);
+        List<Book> expected = Arrays.asList(boureMecu, rur, valkaSMloky);
 
         Collections.sort(retrieved, idComparator);
         Collections.sort(expected, idComparator);
@@ -124,82 +127,86 @@ public class BookManagerImplTest {
 
     @Test
     public void updateBookTitle() {
-        manager.createBook(book);
+        manager.createBook(rur);
 
-        book.setTitle("Jaja a Paja");
-        manager.updateBook(book);
+        rur.setTitle("Jaja a Paja");
+        manager.updateBook(rur);
 
-        Book retrieved = manager.getBookById(book.getId());
+        Book retrieved = manager.getBookById(rur.getId());
 
-        assertThat("Title is not changed", book.getTitle(), is(equalTo(retrieved.getTitle())));
-        assertThat(book.getPages(), is(equalTo(retrieved.getPages())));
-        assertThat(book.getAuthor(), is(equalTo(retrieved.getAuthor())));
-        assertThat(book.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
+        assertThat("Title is not changed", rur.getTitle(), is(equalTo(retrieved.getTitle())));
+        assertThat(rur.getPages(), is(equalTo(retrieved.getPages())));
+        assertThat(rur.getAuthor(), is(equalTo(retrieved.getAuthor())));
+        assertThat(rur.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
     }
 
     @Test
     public void updateBookAuthor() {
-        manager.createBook(book);
+        manager.createBook(rur);
 
-        book.setAuthor("Petr Zelenka");
-        manager.updateBook(book);
+        rur.setAuthor("Petr Zelenka");
+        manager.updateBook(rur);
 
-        Book retrieved = manager.getBookById(book.getId());
+        Book retrieved = manager.getBookById(rur.getId());
 
-        assertThat(book.getTitle(), is(equalTo(retrieved.getTitle())));
-        assertThat(book.getPages(), is(equalTo(retrieved.getPages())));
-        assertThat("Author is not changed", book.getAuthor(), is(equalTo(retrieved.getAuthor())));
-        assertThat(book.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
+        assertThat(rur.getTitle(), is(equalTo(retrieved.getTitle())));
+        assertThat(rur.getPages(), is(equalTo(retrieved.getPages())));
+        assertThat("Author is not changed", rur.getAuthor(), is(equalTo(retrieved.getAuthor())));
+        assertThat(rur.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
     }
 
     @Test
     public void updateBookPages() {
-        manager.createBook(book);
+        manager.createBook(rur);
 
-        book.setPages(100);
-        manager.updateBook(book);
+        rur.setPages(100);
+        manager.updateBook(rur);
 
-        Book retrieved = manager.getBookById(book.getId());
+        Book retrieved = manager.getBookById(rur.getId());
 
-        assertThat(book.getTitle(), is(equalTo(retrieved.getTitle())));
-        assertThat("Pages is not changed", book.getPages(), is(equalTo(retrieved.getPages())));
-        assertThat(book.getAuthor(), is(equalTo(retrieved.getAuthor())));
-        assertThat(book.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
+        assertThat(rur.getTitle(), is(equalTo(retrieved.getTitle())));
+        assertThat("Pages is not changed", rur.getPages(), is(equalTo(retrieved.getPages())));
+        assertThat(rur.getAuthor(), is(equalTo(retrieved.getAuthor())));
+        assertThat(rur.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
     }
 
     @Test
     public void updateBookDate() {
-        manager.createBook(book);
+        manager.createBook(rur);
 
-        book.setReleaseYear(new GregorianCalendar(1999, 9, 9).getTime());
-        manager.updateBook(book);
+        rur.setReleaseYear(new GregorianCalendar(1999, 9, 9).getTime());
+        manager.updateBook(rur);
 
-        Book retrieved = manager.getBookById(book.getId());
+        Book retrieved = manager.getBookById(rur.getId());
 
-        assertThat(book.getTitle(), is(equalTo(retrieved.getTitle())));
-        assertThat(book.getPages(), is(equalTo(retrieved.getPages())));
-        assertThat(book.getAuthor(), is(equalTo(retrieved.getAuthor())));
-        assertThat("Date is not changed", book.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
+        assertThat(rur.getTitle(), is(equalTo(retrieved.getTitle())));
+        assertThat(rur.getPages(), is(equalTo(retrieved.getPages())));
+        assertThat(rur.getAuthor(), is(equalTo(retrieved.getAuthor())));
+        assertThat("Date is not changed", rur.getReleaseYear(), is(equalTo(retrieved.getReleaseYear())));
     }
 
     @Test
     public void deleteBook() {
-        manager.createBook(book);
-        manager.deleteBook(book);
+        manager.createBook(rur);
+        manager.deleteBook(rur);
 
         List<Book> retrieved = manager.findAllBooks();
         assertThat(retrieved.size(), is(equalTo(0)));
     }
 
+    @Test
+    public void findByAuthor() {
+        manager.createBook(rur);
+        manager.createBook(valkaSMloky);
+        manager.createBook(boureMecu);
 
-    public Book newBook(String title, int pages, Date releaseYear, String author) {
-        Book b = new Book();
-        b.setTitle(title);
-        b.setPages(pages);
-        b.setReleaseYear(releaseYear);
-        b.setAuthor(author);
-        return b;
+        List<Book> retrieved = manager.findBookByAuthor("Karel Capek");
+
+        assertDeepEquals(Arrays.asList(rur, valkaSMloky), retrieved);
+
+
     }
+
 
     private void assertDeepEquals(List<Book> expectedList, List<Book> actualList) {
         for (int i = 0; i < expectedList.size(); i++) {
