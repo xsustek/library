@@ -4,10 +4,16 @@ import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,20 +26,25 @@ public class LeaseManagerImpl implements LeaseManager {
     private static final Logger logger = Logger.getLogger(
             LeaseManagerImpl.class.getName());
 
-    private DataSource dataSource;
+    private static DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
-    public void setDataSource(DataSource dataSource) {
+    public void setSources(DataSource dataSource) {
         this.dataSource = dataSource;
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void checkDataSource() {
+    public void checkSources() {
+        if (jdbcTemplate == null) {
+            throw new IllegalStateException("jdbcTemplate is null");
+        }
         if (dataSource == null) {
             throw new IllegalStateException("Data source is not set");
         }
     }
 
     public void createLease(Lease lease) {
-        checkDataSource();
+        checkSources();
         validate(lease);
 
         if (lease.getId() != null) {
@@ -52,26 +63,26 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("Customer is not in db");
         }
 
-        if (!isBookAvailable(lease.getBook())) {
+        if (!isBookAvailable(lease.getBook(), false, lease.getId())) {
             throw new ServiceFailureException("Book is already lent");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "INSERT INTO LEASES(CUSTOMER_ID, BOOK_ID, END_TIME, REAL_END_TIME) VALUES (?, ?, ?, ?)",
-                        Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, lease.getCustomer().getId());
-            statement.setLong(2, lease.getBook().getId());
-            statement.setDate(3, toSqlDate(lease.getEndTime()));
-            statement.setDate(4, toSqlDate(lease.getRealEndTime()));
+        String sql = "INSERT INTO LEASES(CUSTOMER_ID, BOOK_ID, END_TIME, REAL_END_TIME) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-            int count = statement.executeUpdate();
+        try {
+            int count = jdbcTemplate.update(connection -> {
+                PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                st.setLong(1, lease.getCustomer().getId());
+                st.setLong(2, lease.getBook().getId());
+                st.setDate(3, toSqlDate(lease.getEndTime()));
+                st.setDate(4, toSqlDate(lease.getRealEndTime()));
+                return st;
+            }, keyHolder);
+
+            lease.setId(keyHolder.getKey().longValue());
             DBUtils.checkUpdatesCount(count, lease, true);
-
-            Long id = DBUtils.getId(statement.getGeneratedKeys());
-            lease.setId(id);
-        } catch (SQLException e) {
+        } catch (DataAccessException e) {
             String msg = "Error when inserting lease into db";
             logger.log(Level.SEVERE, msg, e);
             throw new ServiceFailureException(msg, e);
@@ -79,51 +90,38 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public Lease getLeaseById(Long id) {
-        checkDataSource();
+        checkSources();
 
         if (id == null) {
             throw new IllegalArgumentException("id is null");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME FROM LEASES WHERE ID = ?",
-                        Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
+        String sql = "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME FROM LEASES WHERE ID = ?";
 
-            if (rs.next()) {
-                Lease lease = resultSetToLease(rs);
-
-                if (rs.next()) {
-                    throw new ServiceFailureException(
-                            "Internal error: More entities with the same id found "
-                                    + "(source id: " + id + ", found " + findAllLeases()
-                                    + " and " + resultSetToLease(rs));
-                }
-
-                return lease;
-            } else {
-                return null;
-            }
-        } catch (SQLException ex) {
+        try {
+            return jdbcTemplate.queryForObject(sql, new Long[]{id}, leaseMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        } catch (IncorrectResultSizeDataAccessException e) {
+            throw new ServiceFailureException(
+                    "Internal error: More entities with the same id found "
+                            + "(source id: " + id + ", found " + findAllLeases());
+        } catch (DataAccessException ex) {
             String msg = "Error when getting lease with id = " + id + " from DB";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
+
     }
 
     public List<Lease> findAllLeases() {
-        checkDataSource();
+        checkSources();
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME FROM LEASES")) {
-            ResultSet rs = statement.executeQuery();
-            return resultSetToList(rs);
-        } catch (SQLException ex) {
+        String sql = "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME FROM LEASES";
+
+        try {
+            return jdbcTemplate.query(sql, leaseMapper);
+        } catch (DataAccessException ex) {
             String msg = "Error when getting all leases from DB";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -131,7 +129,7 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public void updateLease(Lease lease) {
-        checkDataSource();
+        checkSources();
         validate(lease);
 
         if (lease.getId() == null) {
@@ -144,27 +142,29 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("Book is not in db");
         }
 
+        if (!isBookAvailable(lease.getBook(), true, lease.getId())) {
+            throw new ServiceFailureException("Book is already lent");
+        }
+
         CustomerManagerImpl customerManager = new CustomerManagerImpl();
         customerManager.setDataSource(dataSource);
         if (customerManager.getCustomerById(lease.getCustomer().getId()) == null) {
             throw new IllegalEntityException("Customer is not in db");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "UPDATE LEASES SET BOOK_ID = ?, CUSTOMER_ID = ?, END_TIME = ?, REAL_END_TIME = ?" +
-                                " WHERE ID = ?")) {
+        String sql = "UPDATE LEASES SET BOOK_ID = ?, CUSTOMER_ID = ?, END_TIME = ?, REAL_END_TIME = ?" +
+                " WHERE ID = ?";
 
-            statement.setLong(1, lease.getBook().getId());
-            statement.setLong(2, lease.getCustomer().getId());
-            statement.setDate(3, toSqlDate(lease.getEndTime()));
-            statement.setDate(4, toSqlDate(lease.getRealEndTime()));
-            statement.setLong(5, lease.getId());
+        try {
+            int count = jdbcTemplate.update(sql,
+                    lease.getBook().getId(),
+                    lease.getCustomer().getId(),
+                    toSqlDate(lease.getEndTime()),
+                    toSqlDate(lease.getRealEndTime()),
+                    lease.getId());
 
-            int count = statement.executeUpdate();
             DBUtils.checkUpdatesCount(count, lease, false);
-        } catch (SQLException ex) {
+        } catch (DataAccessException ex) {
             String msg = "Error when updating lease in the db";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -172,7 +172,7 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public void deleteLease(Lease lease) {
-        checkDataSource();
+        checkSources();
 
         if (lease == null) {
             throw new IllegalArgumentException("lease is null");
@@ -182,16 +182,13 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("lease id is null");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "DELETE FROM LEASES WHERE ID = ?")) {
+        String sql = "DELETE FROM LEASES WHERE ID = ?";
 
-            statement.setLong(1, lease.getId());
-
-            int count = statement.executeUpdate();
+        try {
+            int count = jdbcTemplate.update(sql,
+                    lease.getId());
             DBUtils.checkUpdatesCount(count, lease, false);
-        } catch (SQLException ex) {
+        } catch (DataAccessException ex) {
             String msg = "Error when deleting lease from the db";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -199,7 +196,7 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public List<Lease> findLeasesForCustomer(Customer customer) {
-        checkDataSource();
+        checkSources();
 
         if (customer == null) {
             throw new IllegalArgumentException("customer is null");
@@ -209,15 +206,12 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("customer id is null");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
-                                "FROM LEASES WHERE CUSTOMER_ID = ?")) {
-            statement.setLong(1, customer.getId());
-            ResultSet rs = statement.executeQuery();
-            return resultSetToList(rs);
-        } catch (SQLException ex) {
+        String sql = "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
+                "FROM LEASES WHERE CUSTOMER_ID = ?";
+
+        try {
+            return jdbcTemplate.query(sql, leaseMapper, customer.getId());
+        } catch (DataAccessException ex) {
             String msg = "Error when getting leases for customer " + customer + " from DB";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -225,16 +219,14 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public List<Lease> findExpiredLeases() {
-        checkDataSource();
+        checkSources();
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
-                                "FROM LEASES WHERE REAL_END_TIME > END_TIME")) {
-            ResultSet rs = statement.executeQuery();
-            return resultSetToList(rs);
-        } catch (SQLException ex) {
+        String sql = "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
+                "FROM LEASES WHERE REAL_END_TIME > END_TIME";
+
+        try {
+            return jdbcTemplate.query(sql, leaseMapper);
+        } catch (DataAccessException ex) {
             String msg = "Error when getting expired leases from DB";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -242,7 +234,7 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     public List<Lease> findLeasesForBook(Book book) {
-        checkDataSource();
+        checkSources();
 
         if (book == null) {
             throw new IllegalArgumentException("book is null");
@@ -252,15 +244,12 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new IllegalEntityException("book's id is null");
         }
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(
-                        "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
-                                "FROM LEASES WHERE BOOK_ID = ?")) {
-            statement.setLong(1, book.getId());
-            ResultSet rs = statement.executeQuery();
-            return resultSetToList(rs);
-        } catch (SQLException ex) {
+        String sql = "SELECT ID, BOOK_ID, CUSTOMER_ID, END_TIME, REAL_END_TIME " +
+                "FROM LEASES WHERE BOOK_ID = ?";
+
+        try {
+            return jdbcTemplate.query(sql, leaseMapper, book.getId());
+        } catch (DataAccessException ex) {
             String msg = "Error when getting leases for book " + book + " from DB";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
@@ -271,41 +260,7 @@ public class LeaseManagerImpl implements LeaseManager {
         return date == null ? null : new Date(date.getTime());
     }
 
-    private List<Lease> resultSetToList(ResultSet rs) throws SQLException {
-        List<Lease> list = new ArrayList<>();
-
-        while (rs.next()) {
-            list.add(resultSetToLease(rs));
-        }
-
-        return list;
-    }
-
-    private Lease resultSetToLease(ResultSet rs) throws SQLException {
-        Lease lease = new Lease();
-        BookManager bookManager = new BookManagerImpl();
-        ((BookManagerImpl) bookManager).setDataSource(dataSource);
-        CustomerManager customerManager = new CustomerManagerImpl();
-        ((CustomerManagerImpl) customerManager).setDataSource(dataSource);
-
-        lease.setId(rs.getLong("id"));
-
-        Book book = bookManager.getBookById(rs.getLong("book_id"));
-        lease.setBook(book);
-
-        Customer customer = customerManager.getCustomerById(rs.getLong("customer_id"));
-        lease.setCustomer(customer);
-
-        lease.setEndTime(new java.util.Date(rs.getDate("end_time").getTime()));
-
-        Date real_end_time = rs.getDate("real_end_time");
-        lease.setRealEndTime(real_end_time != null ?
-                new java.util.Date(real_end_time.getTime()) : null);
-
-        return lease;
-    }
-
-    private boolean isBookAvailable(Book book) {
+    private boolean isBookAvailable(Book book, boolean update, Long id) {
         List<Lease> list = findLeasesForBook(book);
 
         if (list.isEmpty()) {
@@ -314,6 +269,9 @@ public class LeaseManagerImpl implements LeaseManager {
 
         for (Lease l : list) {
             if (l.getRealEndTime() == null) {
+                if (update && l.getId() == id) {
+                    continue;
+                }
                 return false;
             }
         }
@@ -346,4 +304,32 @@ public class LeaseManagerImpl implements LeaseManager {
             throw new ValidationException("lease's end time is null");
         }
     }
+
+    private static RowMapper<Lease> leaseMapper = new RowMapper<Lease>() {
+        @Override
+        public Lease mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Lease lease = new Lease();
+            BookManagerImpl bookManager = new BookManagerImpl();
+            bookManager.setDataSource(dataSource);
+            CustomerManagerImpl customerManager = new CustomerManagerImpl();
+            customerManager.setDataSource(dataSource);
+
+            lease.setId(rs.getLong("id"));
+
+            Book book = bookManager.getBookById(rs.getLong("book_id"));
+            lease.setBook(book);
+
+            Customer customer = customerManager.getCustomerById(rs.getLong("customer_id"));
+            lease.setCustomer(customer);
+
+            lease.setEndTime(new java.util.Date(rs.getDate("end_time").getTime()));
+
+            Date real_end_time = rs.getDate("real_end_time");
+            lease.setRealEndTime(real_end_time != null ?
+                    new java.util.Date(real_end_time.getTime()) : null);
+
+            return lease;
+        }
+    };
+
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.IllegalEntityException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -28,14 +29,14 @@ public class BookManagerImpl implements BookManager {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    private void checkDataSource() {
+    private void checkSources() {
         if (dataSource == null) {
             throw new IllegalStateException("Data source is not set");
         }
     }
 
     public void createBook(Book book) {
-        checkDataSource();
+        checkSources();
         validate(book);
 
         if (jdbcTemplate == null) {
@@ -50,7 +51,7 @@ public class BookManagerImpl implements BookManager {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement statement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, book.getTitle());
             statement.setInt(2, book.getPages());
             statement.setDate(3, new Date(book.getReleaseYear().getTime()));
@@ -144,7 +145,7 @@ public class BookManagerImpl implements BookManager {
 
     public Book getBookById(Long id) {
 
-        checkDataSource();
+        checkSources();
 
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -152,8 +153,11 @@ public class BookManagerImpl implements BookManager {
 
         String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS WHERE ID = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Long[]{id}, new bookMapper());
-
+        try {
+            return jdbcTemplate.queryForObject(sql, new Long[]{id}, new bookMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
 
         /*
 
@@ -189,7 +193,7 @@ public class BookManagerImpl implements BookManager {
 
     public List<Book> findAllBooks() {
 
-        checkDataSource();
+        checkSources();
 
         String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS";
 
@@ -224,7 +228,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void updateBook(Book book) {
-        checkDataSource();
+        checkSources();
         validate(book);
 
         if (book.getId() == null) {
@@ -265,7 +269,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void deleteBook(Book book) {
-        checkDataSource();
+        checkSources();
 
         if (book == null) {
             throw new IllegalArgumentException("book is null");
@@ -296,7 +300,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public List<Book> findBookByAuthor(String author) {
-        checkDataSource();
+        checkSources();
 
         if (author == null) {
             throw new IllegalArgumentException("author is null");
@@ -322,7 +326,7 @@ public class BookManagerImpl implements BookManager {
 
     public List<Book> findBookByTitle(String title) {
 
-        checkDataSource();
+        checkSources();
 
         if (title == null) {
             throw new IllegalArgumentException("title is null");

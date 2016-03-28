@@ -41,7 +41,7 @@ public class LeaseManagerImplTest {
         DBUtils.executeSqlScript(dataSource, LeaseManager.class.getResource("createTables.sql"));
 
         leaseManager = new LeaseManagerImpl();
-        leaseManager.setDataSource(dataSource);
+        leaseManager.setSources(dataSource);
         bookManager = new BookManagerImpl();
         bookManager.setDataSource(dataSource);
         customerManager = new CustomerManagerImpl();
@@ -73,7 +73,7 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalEntityException.class)
     public void createLeaseWithNonExistingId() {
         leaseManager.createLease(leaseNotInDB);
     }
@@ -176,7 +176,7 @@ public class LeaseManagerImplTest {
     }
 
     @Test
-    public void updateCustomer() {
+    public void updateLease() {
         leaseManager.createLease(l1);
         leaseManager.createLease(l2);
 
@@ -278,13 +278,34 @@ public class LeaseManagerImplTest {
         leaseManager.updateLease(l1);
     }
 
+    @Test
+    public void updateLeaseWithNullEndTime() {
+        leaseManager.createLease(l1);
+
+        l1.setEndTime(null);
+
+        expectedException.expect(ValidationException.class);
+        leaseManager.updateLease(l1);
+    }
+
+    @Test
+    public void updateLeaseWithLentBook() {
+        leaseManager.createLease(l1);
+        l1.setRealEndTime(null);
+        leaseManager.createLease(l2);
+
+        l2.setBook(l1.getBook());
+        expectedException.expect(ServiceFailureException.class);
+        leaseManager.updateLease(l2);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void deleteLeaseWithNull() {
         leaseManager.deleteLease(null);
     }
 
     @Test
-    public void deleteCustomer() {
+    public void deleteLease() {
         leaseManager.createLease(l1);
         leaseManager.createLease(l2);
 
@@ -295,6 +316,77 @@ public class LeaseManagerImplTest {
 
         assertNull(leaseManager.getLeaseById(l1.getId()));
         assertNotNull(leaseManager.getLeaseById(l2.getId()));
+    }
+
+    @Test(expected = IllegalEntityException.class)
+    public void deleteLeaseNotInDB() {
+        leaseManager.deleteLease(leaseNotInDB);
+    }
+
+    @Test(expected = IllegalEntityException.class)
+    public void deleteLeaseWithNulId() {
+        leaseManager.deleteLease(leaseWithNullId);
+    }
+
+    @Test
+    public void findLeasesForCustomer() {
+        leaseManager.createLease(l1);
+        l2.setCustomer(l1.getCustomer());
+        leaseManager.createLease(l2);
+
+        List<Lease> loadedLeases = leaseManager.findLeasesForCustomer(l1.getCustomer());
+        List<Lease> lease = java.util.Arrays.asList(l1, l2);
+
+        assertTrue(loadedLeases.size() == 2);
+
+        Collections.sort(loadedLeases, idComparator);
+        Collections.sort(lease, idComparator);
+
+        assertEquals(loadedLeases, lease);
+        assertDeepEquals(loadedLeases, lease);
+
+    }
+
+    @Test
+    public void findLeasesForCustomerWithoutLeases() {
+        List<Lease> leases = leaseManager.findLeasesForCustomer(c1);
+
+        assertTrue(leases.isEmpty());
+    }
+
+    @Test
+    public void findExpiredLeases() {
+        l1.setEndTime(new GregorianCalendar(2016, 1, 4).getTime());
+        l2.setEndTime(new GregorianCalendar(2015, 2, 8).getTime());
+
+        leaseManager.createLease(l1);
+        leaseManager.createLease(l2);
+
+        l1.setRealEndTime(new GregorianCalendar(2016, 3, 4).getTime());
+        l2.setRealEndTime(new GregorianCalendar(2015, 1, 8).getTime());
+
+        leaseManager.updateLease(l1);
+        leaseManager.updateLease(l2);
+
+        List<Lease> expired = leaseManager.findExpiredLeases();
+
+        assertTrue(expired.size() == 1);
+        assertThat(expired.get(0), is(equalTo(l1)));
+        assertDeepEquals(expired.get(0), l1);
+    }
+
+    @Test
+    public void findLeaseForBook() {
+        leaseManager.createLease(l1);
+        leaseManager.createLease(l2);
+
+        List<Lease> loadedLeases = leaseManager.findLeasesForBook(l1.getBook());
+        List<Lease> lease = Collections.singletonList(l1);
+
+        assertTrue(loadedLeases.size() == 1);
+
+        assertEquals(loadedLeases, lease);
+        assertDeepEquals(loadedLeases, lease);
     }
 
     private void prepareTestData() {
