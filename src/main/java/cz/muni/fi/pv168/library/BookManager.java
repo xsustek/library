@@ -16,8 +16,8 @@ public interface BookManager {
 
     void deleteBook(Book book);
 
-    List<Book> findBookByAuthor();
+    List<Book> findBookByAuthor(String author);
 
-    List<Book> findBookByTitle();
+    List<Book> findBookByTitle(String title);
 
 }
