@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="Creator trieda">
+    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="testy">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library.iml" afterPath="$PROJECT_DIR$/library.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" afterPath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java" afterPath="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java" />
     </list>
     <ignored path="Books Rental.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,40 +42,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LeaseManagerImplTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="75" column="45" selection-start-line="75" selection-start-column="45" selection-end-line="75" selection-end-column="45" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2391#2392#0" expanded="true" />
-                <element signature="e#2445#2446#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Lease.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Lease.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="912">
-              <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExpectedException.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/rules/ExpectedException.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DBUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/DBUtils.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -89,9 +55,13 @@
       <file leaf-file-name="BookManagerImplTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="214">
+              <caret line="202" column="71" selection-start-line="202" selection-start-column="71" selection-end-line="202" selection-end-column="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7429#7430#0" expanded="true" />
+                <element signature="e#7492#7493#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -99,17 +69,55 @@
       <file leaf-file-name="BookManagerImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+            <state relative-caret-position="3372">
+              <caret line="310" column="39" selection-start-line="310" selection-start-column="39" selection-end-line="310" selection-end-column="39" />
               <folding>
-                <marker date="1459182659984" expanded="true" signature="1244:1318" placeholder="INSERT INTO BOOKS... " />
-                <marker date="1459182659984" expanded="true" signature="3553:3619" placeholder="SELECT ID,TI... BOOKS" />
-                <marker date="1459182659984" expanded="true" signature="4670:4723" placeholder="SELECT ID,TI... BOOKS" />
-                <marker date="1459182659984" expanded="true" signature="5643:5723" placeholder="UPDATE BOOKS... " />
-                <marker date="1459182659984" expanded="true" signature="6756:6786" placeholder="DELETE FROM " />
-                <marker date="1459182659984" expanded="true" signature="7525:7595" placeholder="SELECT ID,TI... BOOKS" />
-                <marker date="1459182659984" expanded="true" signature="8253:8322" placeholder="SELECT ID,TI... BOOKS" />
+                <element signature="imports" expanded="true" />
+                <marker date="1459189355595" expanded="true" signature="1563:1637" placeholder="INSERT INTO BOOKS... " />
+                <marker date="1459189355595" expanded="true" signature="2519:2593" placeholder="INSERT INTO BOOKS... " />
+                <marker date="1459189355595" expanded="true" signature="5222:5288" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="5564:5630" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="6539:6592" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="6837:6890" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="7670:7750" placeholder="UPDATE BOOKS... " />
+                <marker date="1459189355595" expanded="true" signature="8145:8225" placeholder="UPDATE BOOKS... " />
+                <marker date="1459189355595" expanded="true" signature="9118:9148" placeholder="DELETE FROM " />
+                <marker date="1459189355595" expanded="true" signature="9386:9416" placeholder="DELETE FROM " />
+                <marker date="1459189355595" expanded="true" signature="10221:10291" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="11013:11082" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="11471:11530" placeholder="SELECT ID,TI... BOOKS" />
+                <marker date="1459189355595" expanded="true" signature="11471:11549" placeholder="SELECT ID,TI... BOOKS" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="18" column="45" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReflectiveCallable.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="619">
+              <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -175,6 +183,12 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Milan Šůstek &lt;milan.sustek@gmail.com&gt;" />
+        <option value="M" />
+      </list>
+    </option>
     <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -209,7 +223,6 @@
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/ServiceFailureException.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Customer.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Lease.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/createTables.sql" />
         <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/dropTables.sql" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/DBUtils.java" />
@@ -220,6 +233,8 @@
         <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/CustomerManagerImplTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
       </list>
     </option>
@@ -467,6 +482,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1143" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="last.edited.regexp" value="George Raymond Richard Martin" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -481,56 +497,6 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.BookManagerImplTest">
-    <configuration default="false" name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="cz.muni.fi.pv168.common.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.book_rental.Test" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="Books Rental" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="CustomerManagerImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="cz.muni.fi.pv168.common.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-        <pattern>
-          <option name="PATTERN" value="cz.muni.fi.pv168.library.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="library" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="cz.muni.fi.pv168.library" />
-      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.CustomerManagerImplTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
     <configuration default="false" name="cz.muni.fi.pv168.library in library" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -557,32 +523,6 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="LeaseManagerImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="cz.muni.fi.pv168.library.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="library" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="cz.muni.fi.pv168.library" />
-      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.LeaseManagerImplTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
     <configuration default="false" name="BookManagerImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -597,6 +537,84 @@
       <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.BookManagerImplTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="BookManagerImplTest.createBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.muni.fi.pv168.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="library" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.muni.fi.pv168.library" />
+      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.BookManagerImplTest" />
+      <option name="METHOD_NAME" value="createBook" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="BookManagerImplTest.loadBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.muni.fi.pv168.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="library" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.muni.fi.pv168.library" />
+      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.BookManagerImplTest" />
+      <option name="METHOD_NAME" value="loadBook" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="BookManagerImplTest.findByAuthor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.muni.fi.pv168.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="library" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.muni.fi.pv168.library" />
+      <option name="MAIN_CLASS_NAME" value="cz.muni.fi.pv168.library.BookManagerImplTest" />
+      <option name="METHOD_NAME" value="findByAuthor" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -1033,19 +1051,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Application.Test" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.CustomerManagerImplTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.cz.muni.fi.pv168.library in library" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.LeaseManagerImplTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.cz.muni.fi.pv168.library in library" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.createBook" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.loadBook" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.findByAuthor" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.cz.muni.fi.pv168.library in library" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.LeaseManagerImplTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.CustomerManagerImplTest" />
-        <item index="4" class="java.lang.String" itemvalue="Application.Test" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.findByAuthor" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.loadBook" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.BookManagerImplTest.createBook" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.cz.muni.fi.pv168.library in library" />
       </list>
     </recent_temporary>
   </component>
@@ -1078,7 +1096,7 @@
       <workItem from="1459112180903" duration="3380000" />
       <workItem from="1459159641688" duration="7979000" />
       <workItem from="1459179616047" duration="735000" />
-      <workItem from="1459180906955" duration="1806000" />
+      <workItem from="1459180906955" duration="7639000" />
     </task>
     <task id="LOCAL-00001" summary="Vytvoreny priecinok test, trieda CustomManagerImplTest">
       <created>1457779488538</created>
@@ -1178,43 +1196,50 @@
       <option name="project" value="LOCAL" />
       <updated>1459165827448</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="testy">
+      <created>1459182754388</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1459182754388</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BookManagerImplTest - 2016.03.28 at 18h 11m 13s.xml">
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 04m 41s.xml">
       <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BookManagerImplTest - 2016.03.28 at 18h 29m 21s.xml">
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 06m 27s.xml">
       <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BookManagerImplTest - 2016.03.28 at 18h 31m 04s.xml">
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 08m 26s.xml">
       <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CustomerManagerImplTest - 2016.03.27 at 14h 27m 20s.xml">
-      <configuration name="CustomerManagerImplTest" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 09m 46s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CustomerManagerImplTest - 2016.03.27 at 14h 28m 07s.xml">
-      <configuration name="CustomerManagerImplTest" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 11m 20s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CustomerManagerImplTest - 2016.03.27 at 14h 28m 23s.xml">
-      <configuration name="CustomerManagerImplTest" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 12m 59s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="LeaseManagerImplTest - 2016.03.28 at 12h 38m 56s.xml">
-      <configuration name="LeaseManagerImplTest" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 19m 26s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="LeaseManagerImplTest - 2016.03.28 at 12h 39m 50s.xml">
-      <configuration name="LeaseManagerImplTest" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 20m 13s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="cz_muni_fi_pv168_library_in_library - 2016.03.28 at 18h 02m 01s.xml">
-      <configuration name="cz.muni.fi.pv168.library in library" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 22m 40s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="cz_muni_fi_pv168_library_in_library - 2016.03.28 at 18h 03m 46s.xml">
-      <configuration name="cz.muni.fi.pv168.library in library" configurationId="JUnit" />
+    <history-entry file="BookManagerImplTest - 2016.03.28 at 20h 22m 50s.xml">
+      <configuration name="BookManagerImplTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67924000" />
+    <option name="totallyTimeSpent" value="73757000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1231,14 +1256,15 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2081545" sideWeight="0.484375" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20750293" sideWeight="0.484375" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24034335" sideWeight="0.5064034" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14087513" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45955452" sideWeight="0.49359658" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33997655" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25268242" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1247,7 +1273,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1284,13 +1310,14 @@
     <MESSAGE value="dalse upravy, scripty cez DBUtils" />
     <MESSAGE value="LeaseManagerImpl hotovy" />
     <MESSAGE value="Creator trieda" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creator trieda" />
+    <MESSAGE value="testy" />
+    <option name="LAST_COMMIT_MESSAGE" value="testy" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1299,13 +1326,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Lease.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1424,14 +1444,6 @@
     <entry file="file://$PROJECT_DIR$/src/test/resources/cz.muni.fi.pv168.library/DROP_TABLES.sql" />
     <entry file="file://$PROJECT_DIR$/target/classes/cz.muni.fi.pv168.library/DROP_TABLES.sql" />
     <entry file="file://$PROJECT_DIR$/target/classes/cz.muni.fi.pv168.library/CREATE_TABLES.sql" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/createTables.sql" />
     <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/createTables.sql" />
     <entry file="file://$PROJECT_DIR$/target/classes/cz/muni/fi/pv168/library/createTables.sql">
@@ -1493,7 +1505,7 @@
         <state relative-caret-position="5874">
           <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1502,14 +1514,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
           <caret line="21" column="2" selection-start-line="21" selection-start-column="2" selection-end-line="21" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1576,14 +1580,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/DBUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1914">
-          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/ValidationException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -1592,26 +1588,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/DBUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1914">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="45" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="214">
+          <caret line="202" column="71" selection-start-line="202" selection-start-column="71" selection-end-line="202" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7429#7430#0" expanded="true" />
+            <element signature="e#7492#7493#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+        <state relative-caret-position="3372">
+          <caret line="310" column="39" selection-start-line="310" selection-start-column="39" selection-end-line="310" selection-end-column="39" />
           <folding>
-            <marker date="1459182659984" expanded="true" signature="1244:1318" placeholder="INSERT INTO BOOKS... " />
-            <marker date="1459182659984" expanded="true" signature="3553:3619" placeholder="SELECT ID,TI... BOOKS" />
-            <marker date="1459182659984" expanded="true" signature="4670:4723" placeholder="SELECT ID,TI... BOOKS" />
-            <marker date="1459182659984" expanded="true" signature="5643:5723" placeholder="UPDATE BOOKS... " />
-            <marker date="1459182659984" expanded="true" signature="6756:6786" placeholder="DELETE FROM " />
-            <marker date="1459182659984" expanded="true" signature="7525:7595" placeholder="SELECT ID,TI... BOOKS" />
-            <marker date="1459182659984" expanded="true" signature="8253:8322" placeholder="SELECT ID,TI... BOOKS" />
+            <element signature="imports" expanded="true" />
+            <marker date="1459189355595" expanded="true" signature="1563:1637" placeholder="INSERT INTO BOOKS... " />
+            <marker date="1459189355595" expanded="true" signature="2519:2593" placeholder="INSERT INTO BOOKS... " />
+            <marker date="1459189355595" expanded="true" signature="5222:5288" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="5564:5630" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="6539:6592" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="6837:6890" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="7670:7750" placeholder="UPDATE BOOKS... " />
+            <marker date="1459189355595" expanded="true" signature="8145:8225" placeholder="UPDATE BOOKS... " />
+            <marker date="1459189355595" expanded="true" signature="9118:9148" placeholder="DELETE FROM " />
+            <marker date="1459189355595" expanded="true" signature="9386:9416" placeholder="DELETE FROM " />
+            <marker date="1459189355595" expanded="true" signature="10221:10291" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="11013:11082" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="11471:11530" placeholder="SELECT ID,TI... BOOKS" />
+            <marker date="1459189355595" expanded="true" signature="11471:11549" placeholder="SELECT ID,TI... BOOKS" />
           </folding>
         </state>
       </provider>
