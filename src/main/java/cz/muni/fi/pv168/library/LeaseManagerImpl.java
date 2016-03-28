@@ -13,7 +13,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -305,31 +307,28 @@ public class LeaseManagerImpl implements LeaseManager {
         }
     }
 
-    private static RowMapper<Lease> leaseMapper = new RowMapper<Lease>() {
-        @Override
-        public Lease mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Lease lease = new Lease();
-            BookManagerImpl bookManager = new BookManagerImpl();
-            bookManager.setSources(dataSource);
-            CustomerManagerImpl customerManager = new CustomerManagerImpl();
-            customerManager.setSources(dataSource);
+    private static RowMapper<Lease> leaseMapper = (rs, rowNum) -> {
+        Lease lease = new Lease();
+        BookManagerImpl bookManager = new BookManagerImpl();
+        bookManager.setSources(dataSource);
+        CustomerManagerImpl customerManager = new CustomerManagerImpl();
+        customerManager.setSources(dataSource);
 
-            lease.setId(rs.getLong("id"));
+        lease.setId(rs.getLong("id"));
 
-            Book book = bookManager.getBookById(rs.getLong("book_id"));
-            lease.setBook(book);
+        Book book = bookManager.getBookById(rs.getLong("book_id"));
+        lease.setBook(book);
 
-            Customer customer = customerManager.getCustomerById(rs.getLong("customer_id"));
-            lease.setCustomer(customer);
+        Customer customer = customerManager.getCustomerById(rs.getLong("customer_id"));
+        lease.setCustomer(customer);
 
-            lease.setEndTime(new java.util.Date(rs.getDate("end_time").getTime()));
+        lease.setEndTime(new java.util.Date(rs.getDate("end_time").getTime()));
 
-            Date real_end_time = rs.getDate("real_end_time");
-            lease.setRealEndTime(real_end_time != null ?
-                    new java.util.Date(real_end_time.getTime()) : null);
+        Date real_end_time = rs.getDate("real_end_time");
+        lease.setRealEndTime(real_end_time != null ?
+                new java.util.Date(real_end_time.getTime()) : null);
 
-            return lease;
-        }
+        return lease;
     };
 
 }
