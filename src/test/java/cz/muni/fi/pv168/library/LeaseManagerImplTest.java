@@ -73,7 +73,7 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(null);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createLeaseWithNonExistingId() {
         leaseManager.createLease(leaseNotInDB);
     }

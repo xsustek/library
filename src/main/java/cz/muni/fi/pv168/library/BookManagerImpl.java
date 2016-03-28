@@ -69,7 +69,7 @@ public class BookManagerImpl implements BookManager {
         if (book.getAuthor() == null) {
             throw new IllegalArgumentException("author is null");
         }
-        if (!book.getAuthor().matches("^[A-Z][a-z]* [A-Z][a-z]*$")) {
+        if (!book.getAuthor().matches("^[A-Z][a-z]*( ?[A-Z][a-z]*)* [A-Z][a-z]*$")) {
             throw new IllegalArgumentException("bad author");
         }
         if (book.getPages() < 1) {

@@ -34,7 +34,7 @@ public class BookManagerImplTest {
         manager.setDataSource(dataSource);
         rur = Creator.newBook("R.U.R", 80, new GregorianCalendar(1920, 2, 5).getTime(), "Karel Capek");
         valkaSMloky = Creator.newBook("Valka s mloky", 97, new GregorianCalendar(1936, 9, 2).getTime(), "Karel Capek");
-        boureMecu = Creator.newBook("Boure mecu", 97, new GregorianCalendar(2011, 9, 2).getTime(), "George Martin");
+        boureMecu = Creator.newBook("Boure mecu", 97, new GregorianCalendar(2011, 9, 2).getTime(), "George Raymond Richard Martin");
     }
 
     private static DataSource prepareDataSource() throws SQLException {
