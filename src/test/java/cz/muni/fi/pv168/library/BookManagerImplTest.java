@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.DBUtils;
+import cz.muni.fi.pv168.common.ValidationException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -68,13 +69,13 @@ public class BookManagerImplTest {
         manager.createBook(rur);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void createBookWithZeroPages() {
         rur.setPages(0);
         manager.createBook(rur);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void createBookWithNegativePages() {
         rur.setPages(-2);
         manager.createBook(rur);
@@ -92,7 +93,7 @@ public class BookManagerImplTest {
         manager.createBook(rur);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void createBookWithWrongAuthor() {
         rur.setAuthor("1234567");
         manager.createBook(rur);

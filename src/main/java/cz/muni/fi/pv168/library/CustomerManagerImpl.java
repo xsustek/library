@@ -10,12 +10,14 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,15 +54,18 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer.getId() != null) {
             throw new IllegalEntityException("customer id is already set");
         }
-
+        String sql = "INSERT INTO CUSTOMERS (NAME, ADDRESS, PHONE_NUMBER) VALUES (?, ?, ?)";
         try {
-            KeyHolder keyHolder = jdbcInsert.executeAndReturnKeyHolder(new HashMap<String, Object>() {
-                {
-                    put("NAME", customer.getName());
-                    put("ADDRESS", customer.getAddress());
-                    put("PHONE_NUMBER", customer.getPhoneNumber());
-                }
-            });
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, customer.getName());
+                statement.setString(2, customer.getAddress());
+                statement.setString(3, customer.getPhoneNumber());
+                return statement;
+            }, keyHolder);
+
+            customer.setId(keyHolder.getKey().longValue());
 
             customer.setId(keyHolder.getKey().longValue());
         } catch (DataAccessException e) {

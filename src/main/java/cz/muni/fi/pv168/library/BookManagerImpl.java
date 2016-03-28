@@ -9,13 +9,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.sql.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,14 +28,10 @@ public class BookManagerImpl implements BookManager {
             BookManagerImpl.class.getName());
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert insertBook;
 
 
     public void setSources(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        insertBook = new SimpleJdbcInsert(dataSource)
-                .withTableName("BOOKS")
-                .usingGeneratedKeyColumns("ID");
     }
 
     private void checkSources() {
@@ -57,17 +51,19 @@ public class BookManagerImpl implements BookManager {
         if (book.getId() != null) {
             throw new IllegalEntityException("book id is already set");
         }
+        String sql = "INSERT INTO BOOKS (TITLE, PAGES, RELEASE_YEAR, AUTHOR) VALUES (?, ?, ?, ?)";
         try {
-            KeyHolder id = insertBook.executeAndReturnKeyHolder(new HashMap<String, Object>() {
-                {
-                    put("TITLE", book.getTitle());
-                    put("PAGES", book.getPages());
-                    put("RELEASE_YEAR", book.getReleaseYear());
-                    put("AUTHOR", book.getAuthor());
-                }
-            });
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, book.getTitle());
+                statement.setInt(2, book.getPages());
+                statement.setDate(3, new Date(book.getReleaseYear().getTime()));
+                statement.setString(4, book.getAuthor());
+                return statement;
+            }, keyHolder);
 
-            book.setId(id.getKey().longValue());
+            book.setId(keyHolder.getKey().longValue());
 
         } catch (DataAccessException e) {
             String msg = "Error when inserting book into db";
