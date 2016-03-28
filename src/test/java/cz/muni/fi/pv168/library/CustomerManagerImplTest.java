@@ -44,9 +44,9 @@ public class CustomerManagerImplTest {
         manager = new CustomerManagerImpl();
         manager.setDataSource(dataSource);
 
-        customer1 = newCustomer("Jozef Mrkva",
+        customer1 = Creator.newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
-        customer2 = newCustomer("Ján Otrok",
+        customer2 = Creator.newCustomer("Ján Otrok",
                 "Obchodná 9, 613 05 Albertov", "+420915687932");
     }
 
@@ -300,15 +300,6 @@ public class CustomerManagerImplTest {
         customer1.setId(customer1.getId() + 1);
         expectedException.expect(IllegalEntityException.class);
         manager.deleteCustomer(customer1);
-    }
-
-    private static Customer newCustomer(String name, String address, String phoneNumber) {
-        Customer customer = new Customer();
-        customer.setName(name);
-        customer.setAddress(address);
-        customer.setPhoneNumber(phoneNumber);
-
-        return customer;
     }
 
     private void assertDeepEquals(Customer expected, Customer actual) {
