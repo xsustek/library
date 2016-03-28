@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.library;
 import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
+import cz.muni.fi.pv168.common.ValidationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -84,10 +85,10 @@ public class BookManagerImpl implements BookManager {
             throw new IllegalArgumentException("author is null");
         }
         if (!book.getAuthor().matches("^[A-Z][a-z]*( ?[A-Z][a-z]*)* [A-Z][a-z]*$")) {
-            throw new IllegalArgumentException("bad author");
+            throw new ValidationException("bad author");
         }
         if (book.getPages() < 1) {
-            throw new IllegalArgumentException("pages is less then 1");
+            throw new ValidationException("pages is less then 1");
         }
         if (book.getTitle() == null) {
             throw new IllegalArgumentException("title is null");
