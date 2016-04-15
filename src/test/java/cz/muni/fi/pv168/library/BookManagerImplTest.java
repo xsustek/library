@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
  * Created by Milan on 15.03.2016.
  */
 public class BookManagerImplTest {
+
     private BookManagerImpl manager;
 
     private DataSource dataSource;

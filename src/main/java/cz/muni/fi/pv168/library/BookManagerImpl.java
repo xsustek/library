@@ -13,7 +13,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,14 +23,12 @@ import java.util.logging.Logger;
 /**
  * Created by Milan on 26.02.2016.
  */
-
 public class BookManagerImpl implements BookManager {
 
     private static final Logger logger = Logger.getLogger(
             BookManagerImpl.class.getName());
 
     private JdbcTemplate jdbcTemplate;
-
 
     public void setSources(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -41,20 +41,19 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void createBook(Book book) {
+
         checkSources();
         validate(book);
-
-        if (jdbcTemplate == null) {
-            throw new IllegalStateException("jdbcTemplate is null");
-        }
 
         if (book.getId() != null) {
             throw new IllegalEntityException("book id is already set");
         }
+
         String sql = "INSERT INTO BOOKS (TITLE, PAGES, RELEASE_YEAR, AUTHOR) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
         try {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(connection -> {
+            int count = jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, book.getTitle());
                 statement.setInt(2, book.getPages());
@@ -63,8 +62,8 @@ public class BookManagerImpl implements BookManager {
                 return statement;
             }, keyHolder);
 
+            DBUtils.checkUpdatesCount(count, book, true);
             book.setId(keyHolder.getKey().longValue());
-
         } catch (DataAccessException e) {
             String msg = "Error when inserting book into db";
             logger.log(Level.SEVERE, msg, e);
@@ -95,18 +94,15 @@ public class BookManagerImpl implements BookManager {
 
     }
 
-    private static final class bookMapper implements RowMapper<Book> {
-        @Override
-        public Book mapRow(ResultSet resultSet, int i) throws SQLException {
-            Book book = new Book();
-            book.setId(resultSet.getLong("id"));
-            book.setTitle(resultSet.getString("title"));
-            book.setPages(resultSet.getInt("pages"));
-            book.setReleaseYear(resultSet.getDate("release_year"));
-            book.setAuthor(resultSet.getString("author"));
-            return book;
-        }
-    }
+    private RowMapper<Book> bookMapper = (resultSet, i) -> {
+        Book book = new Book();
+        book.setId(resultSet.getLong("id"));
+        book.setTitle(resultSet.getString("title"));
+        book.setPages(resultSet.getInt("pages"));
+        book.setReleaseYear(resultSet.getDate("release_year"));
+        book.setAuthor(resultSet.getString("author"));
+        return book;
+    };
 
 
     public Book getBookById(Long id) {
@@ -117,9 +113,8 @@ public class BookManagerImpl implements BookManager {
             throw new IllegalArgumentException("id is null");
         }
 
-        String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS WHERE ID = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, new Long[]{id}, new bookMapper());
+            return jdbcTemplate.queryForObject("SELECT * FROM BOOKS WHERE ID = ?", bookMapper, id);
         } catch (EmptyResultDataAccessException ex) {
             return null;
         } catch (IncorrectResultSizeDataAccessException e) {
@@ -137,10 +132,8 @@ public class BookManagerImpl implements BookManager {
 
         checkSources();
 
-        String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS";
         try {
-            return jdbcTemplate.query(sql, new bookMapper());
-
+            return jdbcTemplate.query("SELECT * FROM BOOKS", bookMapper);
         } catch (DataAccessException ex) {
             String msg = "Error when getting all books from DB";
             logger.log(Level.SEVERE, msg, ex);
@@ -149,6 +142,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void updateBook(Book book) {
+
         checkSources();
         validate(book);
 
@@ -175,18 +169,16 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void deleteBook(Book book) {
-        checkSources();
 
-        if (book == null) {
-            throw new IllegalArgumentException("book is null");
-        }
+        checkSources();
+        validate(book);
+
         if (book.getId() == null) {
             throw new IllegalEntityException("book id is null");
         }
 
-        String sql = "DELETE FROM BOOKS WHERE ID = ?";
         try {
-            int count = jdbcTemplate.update(sql, book.getId());
+            int count = jdbcTemplate.update("DELETE FROM BOOKS WHERE ID = ?", book.getId());
 
             DBUtils.checkUpdatesCount(count, book, false);
         } catch (DataAccessException ex) {
@@ -203,6 +195,7 @@ public class BookManagerImpl implements BookManager {
         if (author == null) {
             throw new IllegalArgumentException("author is null");
         }
+
         try {
             return getBooks(author, "AUTHOR");
         } catch (DataAccessException ex) {
@@ -220,9 +213,9 @@ public class BookManagerImpl implements BookManager {
         if (title == null) {
             throw new IllegalArgumentException("title is null");
         }
+
         try {
             return getBooks(title, "TITLE");
-
         } catch (DataAccessException ex) {
             String msg = "Error when getting book with title = " + title + " from DB";
             logger.log(Level.SEVERE, msg, ex);
@@ -231,9 +224,9 @@ public class BookManagerImpl implements BookManager {
     }
 
     private List<Book> getBooks(String string, String findBy) {
-        String sql = "SELECT ID,TITLE,PAGES,RELEASE_YEAR, AUTHOR FROM BOOKS WHERE " + findBy + " = ?";
+        String sql = "SELECT * FROM BOOKS WHERE " + findBy + " = ?";
 
-        return jdbcTemplate.query(sql, new String[]{string}, new bookMapper());
+        return jdbcTemplate.query(sql, bookMapper, string);
     }
 
 }

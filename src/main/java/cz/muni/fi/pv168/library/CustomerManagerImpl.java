@@ -9,14 +9,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,13 +29,9 @@ public class CustomerManagerImpl implements CustomerManager {
             CustomerManagerImpl.class.getName());
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert jdbcInsert;
 
     public void setSources(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("CUSTOMERS")
-                .usingGeneratedKeyColumns("ID");
     }
 
     public void checkSources() {
@@ -54,10 +47,12 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer.getId() != null) {
             throw new IllegalEntityException("customer id is already set");
         }
+
         String sql = "INSERT INTO CUSTOMERS (NAME, ADDRESS, PHONE_NUMBER) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
         try {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(connection -> {
+            int count = jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, customer.getName());
                 statement.setString(2, customer.getAddress());
@@ -65,8 +60,7 @@ public class CustomerManagerImpl implements CustomerManager {
                 return statement;
             }, keyHolder);
 
-            customer.setId(keyHolder.getKey().longValue());
-
+            DBUtils.checkUpdatesCount(count, customer, true);
             customer.setId(keyHolder.getKey().longValue());
         } catch (DataAccessException e) {
             String msg = "Error when inserting customer into db";
@@ -83,11 +77,8 @@ public class CustomerManagerImpl implements CustomerManager {
             throw new IllegalArgumentException("id is null");
         }
 
-        String sql = "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS WHERE ID = ?";
-
         try {
-            return jdbcTemplate.queryForObject(sql, new Long[]{id}, new customerMapper());
-
+            return jdbcTemplate.queryForObject("SELECT * FROM CUSTOMERS WHERE ID = ?", customerMapper, id);
         } catch (EmptyResultDataAccessException ex) {
             return null;
         } catch (IncorrectResultSizeDataAccessException e) {
@@ -105,9 +96,8 @@ public class CustomerManagerImpl implements CustomerManager {
     public List<Customer> findAllCustomers() {
         checkSources();
 
-        String sql = "SELECT ID,NAME,ADDRESS,PHONE_NUMBER FROM CUSTOMERS";
         try {
-            return jdbcTemplate.query(sql, new customerMapper());
+            return jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerMapper);
         } catch (DataAccessException ex) {
             String msg = "Error when getting all customers from DB";
             logger.log(Level.SEVERE, msg, ex);
@@ -131,6 +121,7 @@ public class CustomerManagerImpl implements CustomerManager {
                     customer.getAddress(),
                     customer.getPhoneNumber(),
                     customer.getId());
+
             DBUtils.checkUpdatesCount(count, customer, false);
         } catch (DataAccessException ex) {
             String msg = "Error when updating customer in the db";
@@ -142,17 +133,14 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public void deleteCustomer(Customer customer) {
         checkSources();
+        validate(customer);
 
-        if (customer == null) {
-            throw new IllegalArgumentException("customer is null");
-        }
         if (customer.getId() == null) {
             throw new IllegalEntityException("customer id is null");
         }
 
-        String sql = "DELETE FROM CUSTOMERS WHERE ID = ?";
         try {
-            int count = jdbcTemplate.update(sql, customer.getId());
+            int count = jdbcTemplate.update("DELETE FROM CUSTOMERS WHERE ID = ?", customer.getId());
             DBUtils.checkUpdatesCount(count, customer, false);
         } catch (DataAccessException ex) {
             String msg = "Error when deleting customer from the db";
@@ -162,18 +150,14 @@ public class CustomerManagerImpl implements CustomerManager {
 
     }
 
-    private static final class customerMapper implements RowMapper<Customer> {
-
-        @Override
-        public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
-            Customer customer = new Customer();
-            customer.setId(resultSet.getLong("id"));
-            customer.setName(resultSet.getString("name"));
-            customer.setAddress(resultSet.getString("address"));
-            customer.setPhoneNumber(resultSet.getString("phone_number"));
-            return customer;
-        }
-    }
+    private RowMapper<Customer> customerMapper = (resultSet, i) -> {
+        Customer customer = new Customer();
+        customer.setId(resultSet.getLong("id"));
+        customer.setName(resultSet.getString("name"));
+        customer.setAddress(resultSet.getString("address"));
+        customer.setPhoneNumber(resultSet.getString("phone_number"));
+        return customer;
+    };
 
     private void validate(Customer customer) throws IllegalArgumentException {
         if (customer == null) {

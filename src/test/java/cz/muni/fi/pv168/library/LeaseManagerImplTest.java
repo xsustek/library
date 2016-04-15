@@ -41,12 +41,13 @@ public class LeaseManagerImplTest {
         DBUtils.executeSqlScript(dataSource, LeaseManager.class.getResource("createTables.sql"));
 
         leaseManager = new LeaseManagerImpl();
-        leaseManager.setSources(dataSource);
         bookManager = new BookManagerImpl();
         bookManager.setSources(dataSource);
         customerManager = new CustomerManagerImpl();
         customerManager.setSources(dataSource);
-
+        leaseManager.setBookManager(bookManager);
+        leaseManager.setCustomerManager(customerManager);
+        leaseManager.setSources(dataSource);
         prepareTestData();
     }
 
@@ -96,7 +97,7 @@ public class LeaseManagerImplTest {
 
     @Test
     public void createLeaseWithNullBookId() {
-        l1.getBook().setId(null);
+        l1.setBook(bookWithNullId);
 
         expectedException.expect(ValidationException.class);
         leaseManager.createLease(l1);
@@ -104,7 +105,7 @@ public class LeaseManagerImplTest {
 
     @Test
     public void createLeaseWithNullCustomerId() {
-        l1.getCustomer().setId(null);
+        l1.setCustomer(customerWithNullId);
 
         expectedException.expect(ValidationException.class);
         leaseManager.createLease(l1);
@@ -262,7 +263,7 @@ public class LeaseManagerImplTest {
     public void updateLeaseWithNullBookId() {
         leaseManager.createLease(l1);
 
-        l1.getBook().setId(null);
+        l1.setBook(bookWithNullId);
 
         expectedException.expect(ValidationException.class);
         leaseManager.updateLease(l1);
@@ -272,7 +273,7 @@ public class LeaseManagerImplTest {
     public void updateLeaseWithNullCustomerId() {
         leaseManager.createLease(l1);
 
-        l1.setCustomer(null);
+        l1.setCustomer(customerWithNullId);
 
         expectedException.expect(ValidationException.class);
         leaseManager.updateLease(l1);
