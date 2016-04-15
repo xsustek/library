@@ -1,16 +1,17 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ValidationException;
-import org.apache.derby.jdbc.EmbeddedDataSource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,10 +25,13 @@ import static org.junit.Assert.*;
 /**
  * Created by Robert Duriancik on 12.3.2016.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringTestConfig.class})
+@Transactional
 public class CustomerManagerImplTest {
 
-    private CustomerManagerImpl manager;
-    private DataSource dataSource;
+    @Autowired
+    private CustomerManager manager;
 
     private Customer customer1;
     private Customer customer2;
@@ -38,21 +42,10 @@ public class CustomerManagerImplTest {
 
     @Before
     public void setUp() throws SQLException {
-        dataSource = prepareDataSource();
-        DBUtils.executeSqlScript(dataSource, CustomerManager.class.getResource("createTables.sql"));
-
-        manager = new CustomerManagerImpl();
-        manager.setSources(dataSource);
-
         customer1 = Creator.newCustomer("Jozef Mrkva",
                 "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
         customer2 = Creator.newCustomer("Ján Otrok",
                 "Obchodná 9, 613 05 Albertov", "+420915687932");
-    }
-
-    @After
-    public void tearDown() throws SQLException {
-        DBUtils.executeSqlScript(dataSource, CustomerManager.class.getResource("dropTables.sql"));
     }
 
     @Test
@@ -324,10 +317,4 @@ public class CustomerManagerImplTest {
         }
     };
 
-    private static DataSource prepareDataSource() throws SQLException {
-        EmbeddedDataSource ds = new EmbeddedDataSource();
-        ds.setDatabaseName("memory:customermgr-test");
-        ds.setCreateDatabase("create");
-        return ds;
-    }
 }

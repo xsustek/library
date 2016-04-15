@@ -1,13 +1,14 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.ValidationException;
-import org.apache.derby.jdbc.EmbeddedDataSource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -19,37 +20,21 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by Milan on 15.03.2016.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringTestConfig.class})
+@Transactional
 public class BookManagerImplTest {
 
-    private BookManagerImpl manager;
-
-    private DataSource dataSource;
+    @Autowired
+    private BookManager manager;
 
     private Book rur, valkaSMloky, boureMecu;
 
     @Before
     public void setUp() throws SQLException {
-        dataSource = prepareDataSource();
-        DBUtils.executeSqlScript(dataSource, BookManager.class.getResource("createTables.sql"));
-
-
-        manager = new BookManagerImpl();
-        manager.setSources(dataSource);
         rur = Creator.newBook("R.U.R", 80, new GregorianCalendar(1920, 2, 5).getTime(), "Karel Capek");
         valkaSMloky = Creator.newBook("Valka s mloky", 97, new GregorianCalendar(1936, 9, 2).getTime(), "Karel Capek");
         boureMecu = Creator.newBook("Boure mecu", 97, new GregorianCalendar(2011, 9, 2).getTime(), "George Raymond Richard Martin");
-    }
-
-    private static DataSource prepareDataSource() throws SQLException {
-        EmbeddedDataSource ds = new EmbeddedDataSource();
-        ds.setDatabaseName("memory:bookmgr-test");
-        ds.setCreateDatabase("create");
-        return ds;
-    }
-
-    @After
-    public void tearDown() throws SQLException {
-        DBUtils.executeSqlScript(dataSource, BookManager.class.getResource("dropTables.sql"));
     }
 
     @Test

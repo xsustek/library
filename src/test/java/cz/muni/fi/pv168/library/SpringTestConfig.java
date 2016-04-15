@@ -22,7 +22,7 @@ public class SpringTestConfig {
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(DERBY)
-                .addScript("classpath:createTables.sql")
+                .addScript("classpath:cz/muni/fi/pv168/library/createTables.sql")
                 .build();
     }
 

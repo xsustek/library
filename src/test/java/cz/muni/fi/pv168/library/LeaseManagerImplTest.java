@@ -1,17 +1,18 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
-import org.apache.derby.jdbc.EmbeddedDataSource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -21,12 +22,17 @@ import static org.junit.Assert.*;
 /**
  * @author Robert Duriancik, 445363
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringTestConfig.class})
+@Transactional
 public class LeaseManagerImplTest {
 
-    private LeaseManagerImpl leaseManager;
-    private BookManagerImpl bookManager;
-    private CustomerManagerImpl customerManager;
-    private DataSource dataSource;
+    @Autowired
+    private LeaseManager leaseManager;
+    @Autowired
+    private BookManager bookManager;
+    @Autowired
+    private CustomerManager customerManager;
 
     private Customer c1, c2, customerWithNullId, customerNotInDB;
     private Book b1, b2, bookWithNullId, bookNotInDB;
@@ -37,23 +43,37 @@ public class LeaseManagerImplTest {
 
     @Before
     public void setUp() throws SQLException {
-        dataSource = prepareDataSource();
-        DBUtils.executeSqlScript(dataSource, LeaseManager.class.getResource("createTables.sql"));
+        c1 = Creator.newCustomer("Jozef Mrkva",
+                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
+        c2 = Creator.newCustomer("Ján Otrok",
+                "Obchodná 9, 613 05 Albertov", "+420915687932");
+        customerWithNullId = Creator.newCustomer("Patrik Stary",
+                "Mestska 5, 621 58 Domov", "+420976325876");
+        customerWithNullId.setId(null);
+        customerNotInDB = Creator.newCustomer("John Travolt",
+                "Slavna 10, 985 26 Celebritno", "+420987635214");
+        customerNotInDB.setId(5L);
 
-        leaseManager = new LeaseManagerImpl();
-        bookManager = new BookManagerImpl();
-        bookManager.setSources(dataSource);
-        customerManager = new CustomerManagerImpl();
-        customerManager.setSources(dataSource);
-        leaseManager.setBookManager(bookManager);
-        leaseManager.setCustomerManager(customerManager);
-        leaseManager.setSources(dataSource);
-        prepareTestData();
-    }
+        customerManager.createCustomer(c1);
+        customerManager.createCustomer(c2);
 
-    @After
-    public void tearDown() throws SQLException {
-        DBUtils.executeSqlScript(dataSource, LeaseManager.class.getResource("dropTables.sql"));
+        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
+        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
+        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Michal Julius");
+        bookWithNullId.setId(null);
+        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Jozef Zivotny");
+        bookNotInDB.setId(5L);
+
+        bookManager.createBook(b1);
+        bookManager.createBook(b2);
+
+        l1 = Creator.newLease(b1, c1, new GregorianCalendar(2016, 1, 4).getTime(), null);
+        l2 = Creator.newLease(b2, c2, new GregorianCalendar(2016, 1, 1).getTime(),
+                new GregorianCalendar(2016, 1, 1).getTime());
+        leaseWithNullId = Creator.newLease(b1, c2, new GregorianCalendar(2016, 12, 7).getTime(), null);
+        leaseWithNullId.setId(null);
+        leaseNotInDB = Creator.newLease(b2, c1, new GregorianCalendar(2016, 3, 3).getTime(), null);
+        leaseNotInDB.setId(5L);
     }
 
     @Test
@@ -388,49 +408,6 @@ public class LeaseManagerImplTest {
 
         assertEquals(loadedLeases, lease);
         assertDeepEquals(loadedLeases, lease);
-    }
-
-    private void prepareTestData() {
-
-        c1 = Creator.newCustomer("Jozef Mrkva",
-                "Botanická 68a, 602 00 Brno-Královo Pole", "+420905867953");
-        c2 = Creator.newCustomer("Ján Otrok",
-                "Obchodná 9, 613 05 Albertov", "+420915687932");
-        customerWithNullId = Creator.newCustomer("Patrik Stary",
-                "Mestska 5, 621 58 Domov", "+420976325876");
-        customerWithNullId.setId(null);
-        customerNotInDB = Creator.newCustomer("John Travolt",
-                "Slavna 10, 985 26 Celebritno", "+420987635214");
-        customerNotInDB.setId(5L);
-
-        customerManager.createCustomer(c1);
-        customerManager.createCustomer(c2);
-
-        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
-        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
-        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Michal Julius");
-        bookWithNullId.setId(null);
-        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Jozef Zivotny");
-        bookNotInDB.setId(5L);
-
-        bookManager.createBook(b1);
-        bookManager.createBook(b2);
-
-        l1 = Creator.newLease(b1, c1, new GregorianCalendar(2016, 1, 4).getTime(), null);
-        l2 = Creator.newLease(b2, c2, new GregorianCalendar(2016, 1, 1).getTime(),
-                new GregorianCalendar(2016, 1, 1).getTime());
-        leaseWithNullId = Creator.newLease(b1, c2, new GregorianCalendar(2016, 12, 7).getTime(), null);
-        leaseWithNullId.setId(null);
-        leaseNotInDB = Creator.newLease(b2, c1, new GregorianCalendar(2016, 3, 3).getTime(), null);
-        leaseNotInDB.setId(5L);
-
-    }
-
-    private static DataSource prepareDataSource() throws SQLException {
-        EmbeddedDataSource ds = new EmbeddedDataSource();
-        ds.setDatabaseName("memory:leasemgr-test");
-        ds.setCreateDatabase("create");
-        return ds;
     }
 
     private void assertDeepEquals(Lease expected, Lease actual) {
