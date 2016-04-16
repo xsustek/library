@@ -21,4 +21,5 @@ public interface LeaseManager {
     List<Lease> findExpiredLeases();
 
     List<Lease> findLeasesForBook(Book book);
+
 }

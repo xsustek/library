@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:myconf.properties")
+@PropertySource("classpath:cz/muni/fi/pv168/library/myconf.properties")
 public class SpringConfig {
 
     @Autowired
