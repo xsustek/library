@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  * @author Robert Duriancik, 445363
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringTestConfig.class})
+@ContextConfiguration("classpath:cz/muni/fi/pv168/library/spring-test-config.xml")
 @Transactional
 public class LeaseManagerImplTest {
 

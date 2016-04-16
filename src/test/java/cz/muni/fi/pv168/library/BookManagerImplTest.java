@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
  * Created by Milan on 15.03.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringTestConfig.class})
+@ContextConfiguration("classpath:cz/muni/fi/pv168/library/spring-test-config.xml")
 @Transactional
 public class BookManagerImplTest {
 
@@ -194,7 +194,6 @@ public class BookManagerImplTest {
 
 
     }
-
 
     private void assertDeepEquals(List<Book> expectedList, List<Book> actualList) {
         for (int i = 0; i < expectedList.size(); i++) {

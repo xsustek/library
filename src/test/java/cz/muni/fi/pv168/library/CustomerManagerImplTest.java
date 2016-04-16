@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
  * Created by Robert Duriancik on 12.3.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringTestConfig.class})
+@ContextConfiguration("classpath:cz/muni/fi/pv168/library/spring-test-config.xml")
 @Transactional
 public class CustomerManagerImplTest {
 

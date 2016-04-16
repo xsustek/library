@@ -1,8 +1,7 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.SpringConfig;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
@@ -13,7 +12,9 @@ import java.util.List;
  */
 public class mainDemo {
     public static void main(String[] args) throws SQLException {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                mainDemo.class.getResource("spring-config.xml").toString());
+
         BookManager bookManager = ctx.getBean(BookManager.class);
         CustomerManager customerManager = ctx.getBean(CustomerManager.class);
         LeaseManager leaseManager = ctx.getBean(LeaseManager.class);

@@ -6,6 +6,9 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-test-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-test-config.xml</file>
         </fileset>
       </configuration>
     </facet>
