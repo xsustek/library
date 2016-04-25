@@ -106,6 +106,22 @@ public class CustomerManagerImpl implements CustomerManager {
 
     }
 
+    public List<Customer> findCustomerByName(String name) {
+        checkSources();
+
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid customer's name");
+        }
+
+        try {
+            return jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE NAME = ?", customerMapper, name);
+        } catch (DataAccessException ex) {
+            String msg = "Error when getting customer with name = " + name + " from DB";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+    }
+
     public void updateCustomer(Customer customer) {
         checkSources();
         validate(customer);

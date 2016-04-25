@@ -12,6 +12,8 @@ public interface CustomerManager {
 
     List<Customer> findAllCustomers();
 
+    List<Customer> findCustomerByName(String name);
+
     void updateCustomer(Customer customer);
 
     void deleteCustomer(Customer customer);
