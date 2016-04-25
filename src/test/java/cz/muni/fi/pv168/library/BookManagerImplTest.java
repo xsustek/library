@@ -10,7 +10,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
@@ -32,9 +36,9 @@ public class BookManagerImplTest {
 
     @Before
     public void setUp() throws SQLException {
-        rur = Creator.newBook("R.U.R", 80, new GregorianCalendar(1920, 2, 5).getTime(), "Karel Capek");
-        valkaSMloky = Creator.newBook("Valka s mloky", 97, new GregorianCalendar(1936, 9, 2).getTime(), "Karel Capek");
-        boureMecu = Creator.newBook("Boure mecu", 97, new GregorianCalendar(2011, 9, 2).getTime(), "George Raymond Richard Martin");
+        rur = Creator.newBook("R.U.R", 80, LocalDate.of(1920, 2, 5), "Karel Capek");
+        valkaSMloky = Creator.newBook("Valka s mloky", 97, LocalDate.of(1936, 9, 2), "Karel Capek");
+        boureMecu = Creator.newBook("Boure mecu", 97, LocalDate.of(2011, 9, 2), "George Raymond Richard Martin");
     }
 
     @Test
@@ -162,7 +166,7 @@ public class BookManagerImplTest {
     public void updateBookDate() {
         manager.createBook(rur);
 
-        rur.setReleaseYear(new GregorianCalendar(1999, 9, 9).getTime());
+        rur.setReleaseYear(LocalDate.of(1999, 9, 9));
         manager.updateBook(rur);
 
         Book retrieved = manager.getBookById(rur.getId());

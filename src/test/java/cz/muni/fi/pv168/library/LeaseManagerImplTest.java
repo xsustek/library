@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.IllegalEntityException;
-import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.ValidationException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,7 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -57,22 +60,21 @@ public class LeaseManagerImplTest {
         customerManager.createCustomer(c1);
         customerManager.createCustomer(c2);
 
-        b1 = Creator.newBook("Jaja a Paja", 80, new GregorianCalendar(1998, 8, 5).getTime(), "Karel Capek");
-        b2 = Creator.newBook("Kosek a Bosek", 97, new GregorianCalendar(1968, 8, 5).getTime(), "Karel Capek");
-        bookWithNullId = Creator.newBook("Stary otec", 120, new GregorianCalendar(1990, 30, 5).getTime(), "Michal Julius");
+        b1 = Creator.newBook("Jaja a Paja", 80, LocalDate.of(1998, 8, 5), "Karel Capek");
+        b2 = Creator.newBook("Kosek a Bosek", 97, LocalDate.of(1968, 8, 5), "Karel Capek");
+        bookWithNullId = Creator.newBook("Stary otec", 120, LocalDate.of(1990, 7, 5), "Michal Julius");
         bookWithNullId.setId(null);
-        bookNotInDB = Creator.newBook("Milionar", 200, new GregorianCalendar(2000, 24, 3).getTime(), "Jozef Zivotny");
+        bookNotInDB = Creator.newBook("Milionar", 200, LocalDate.of(2000, 8, 3), "Jozef Zivotny");
         bookNotInDB.setId(5L);
 
         bookManager.createBook(b1);
         bookManager.createBook(b2);
 
-        l1 = Creator.newLease(b1, c1, new GregorianCalendar(2016, 1, 4).getTime(), null);
-        l2 = Creator.newLease(b2, c2, new GregorianCalendar(2016, 1, 1).getTime(),
-                new GregorianCalendar(2016, 1, 1).getTime());
-        leaseWithNullId = Creator.newLease(b1, c2, new GregorianCalendar(2016, 12, 7).getTime(), null);
+        l1 = Creator.newLease(b1, c1, LocalDate.of(2016, 1, 4), null);
+        l2 = Creator.newLease(b2, c2, LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 1));
+        leaseWithNullId = Creator.newLease(b1, c2, LocalDate.of(2016, 12, 7), null);
         leaseWithNullId.setId(null);
-        leaseNotInDB = Creator.newLease(b2, c1, new GregorianCalendar(2016, 3, 3).getTime(), null);
+        leaseNotInDB = Creator.newLease(b2, c1, LocalDate.of(2016, 3, 3), null);
         leaseNotInDB.setId(5L);
     }
 
@@ -161,7 +163,7 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(l1);
 
         l2.setBook(l1.getBook());
-        expectedException.expect(ServiceFailureException.class);
+        expectedException.expect(ValidationException.class);
         leaseManager.createLease(l2);
     }
 
@@ -170,7 +172,7 @@ public class LeaseManagerImplTest {
         l1.setRealEndTime(null);
         leaseManager.createLease(l1);
 
-        l1.setRealEndTime(new GregorianCalendar(2016, 1, 4).getTime());
+        l1.setRealEndTime(LocalDate.of(2016, 1, 4));
         leaseManager.updateLease(l1);
 
         l2.setBook(l1.getBook());
@@ -203,45 +205,45 @@ public class LeaseManagerImplTest {
 
         Long l1Id = l1.getId();
 
-        l1.setRealEndTime(new GregorianCalendar(2016, 1, 4).getTime());
+        l1.setRealEndTime(LocalDate.of(2016, 1, 4));
         leaseManager.updateLease(l1);
 
         l1 = leaseManager.getLeaseById(l1Id);
 
-        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getRealEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
         assertThat(l1.getBook(), is(equalTo(b1)));
         assertThat(l1.getCustomer(), is(equalTo(c1)));
-        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
 
         l1.setBook(b2);
         leaseManager.updateLease(l1);
 
         l1 = leaseManager.getLeaseById(l1Id);
 
-        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getRealEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
         assertThat(l1.getBook(), is(equalTo(b2)));
         assertThat(l1.getCustomer(), is(equalTo(c1)));
-        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
 
         l1.setCustomer(c2);
         leaseManager.updateLease(l1);
 
         l1 = leaseManager.getLeaseById(l1Id);
 
-        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getRealEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
         assertThat(l1.getBook(), is(equalTo(b2)));
         assertThat(l1.getCustomer(), is(equalTo(c2)));
-        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
 
-        l1.setEndTime(new GregorianCalendar(2015, 1, 4).getTime());
+        l1.setEndTime(LocalDate.of(2015, 1, 4));
         leaseManager.updateLease(l1);
 
         l1 = leaseManager.getLeaseById(l1Id);
 
-        assertThat(l1.getRealEndTime(), is(equalTo(new GregorianCalendar(2016, 1, 4).getTime())));
+        assertThat(l1.getRealEndTime(), is(equalTo(LocalDate.of(2016, 1, 4))));
         assertThat(l1.getBook(), is(equalTo(b2)));
         assertThat(l1.getCustomer(), is(equalTo(c2)));
-        assertThat(l1.getEndTime(), is(equalTo(new GregorianCalendar(2015, 1, 4).getTime())));
+        assertThat(l1.getEndTime(), is(equalTo(LocalDate.of(2015, 1, 4))));
 
         assertDeepEquals(l1, leaseManager.getLeaseById(l1Id));
     }
@@ -316,8 +318,16 @@ public class LeaseManagerImplTest {
         leaseManager.createLease(l2);
 
         l2.setBook(l1.getBook());
-        expectedException.expect(ServiceFailureException.class);
+        expectedException.expect(ValidationException.class);
         leaseManager.updateLease(l2);
+    }
+
+    @Test
+    public void updateSameLeaseWithLentBook() {
+        l1.setRealEndTime(null);
+        leaseManager.createLease(l1);
+
+        leaseManager.updateLease(l1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -377,14 +387,14 @@ public class LeaseManagerImplTest {
 
     @Test
     public void findExpiredLeases() {
-        l1.setEndTime(new GregorianCalendar(2016, 1, 4).getTime());
-        l2.setEndTime(new GregorianCalendar(2015, 2, 8).getTime());
+        l1.setEndTime(LocalDate.of(2016, 1, 4));
+        l2.setEndTime(LocalDate.of(2015, 2, 8));
 
         leaseManager.createLease(l1);
         leaseManager.createLease(l2);
 
-        l1.setRealEndTime(new GregorianCalendar(2016, 3, 4).getTime());
-        l2.setRealEndTime(new GregorianCalendar(2015, 1, 8).getTime());
+        l1.setRealEndTime(LocalDate.of(2016, 3, 4));
+        l2.setRealEndTime(LocalDate.of(2015, 1, 8));
 
         leaseManager.updateLease(l1);
         leaseManager.updateLease(l2);

@@ -46,7 +46,7 @@ public class BookManagerImpl implements BookManager {
         validate(book);
 
         if (book.getId() != null) {
-            throw new IllegalEntityException("book id is already set");
+            throw new IllegalEntityException("Book id is already set");
         }
 
         String sql = "INSERT INTO BOOKS (TITLE, PAGES, RELEASE_YEAR, AUTHOR) VALUES (?, ?, ?, ?)";
@@ -57,7 +57,7 @@ public class BookManagerImpl implements BookManager {
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, book.getTitle());
                 statement.setInt(2, book.getPages());
-                statement.setDate(3, new Date(book.getReleaseYear().getTime()));
+                statement.setDate(3, toSqlDate(book.getReleaseYear()));
                 statement.setString(4, book.getAuthor());
                 return statement;
             }, keyHolder);
@@ -74,22 +74,22 @@ public class BookManagerImpl implements BookManager {
 
     private void validate(Book book) throws IllegalArgumentException {
         if (book == null) {
-            throw new IllegalArgumentException("book is null");
+            throw new IllegalArgumentException("Book is null");
         }
-        if (book.getAuthor() == null) {
-            throw new IllegalArgumentException("author is null");
+        if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
+            throw new IllegalArgumentException("Author is null or empty");
         }
         if (!book.getAuthor().matches("^[A-Z][a-z]*( ?[A-Z][a-z]*)* [A-Z][a-z]*$")) {
-            throw new ValidationException("bad author");
+            throw new ValidationException("Invalid author format");
         }
         if (book.getPages() < 1) {
-            throw new ValidationException("pages is less then 1");
+            throw new ValidationException("Pages is less then 1");
         }
-        if (book.getTitle() == null) {
-            throw new IllegalArgumentException("title is null");
+        if (book.getTitle() == null || book.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title is null or empty");
         }
         if (book.getReleaseYear() == null) {
-            throw new IllegalArgumentException("date is null");
+            throw new IllegalArgumentException("Date is null");
         }
 
     }
@@ -99,7 +99,7 @@ public class BookManagerImpl implements BookManager {
         book.setId(resultSet.getLong("id"));
         book.setTitle(resultSet.getString("title"));
         book.setPages(resultSet.getInt("pages"));
-        book.setReleaseYear(resultSet.getDate("release_year"));
+        book.setReleaseYear(toLocalDate(resultSet.getDate("release_year")));
         book.setAuthor(resultSet.getString("author"));
         return book;
     };
@@ -110,7 +110,7 @@ public class BookManagerImpl implements BookManager {
         checkSources();
 
         if (id == null) {
-            throw new IllegalArgumentException("id is null");
+            throw new IllegalArgumentException("Id is null");
         }
 
         try {
@@ -147,7 +147,7 @@ public class BookManagerImpl implements BookManager {
         validate(book);
 
         if (book.getId() == null) {
-            throw new IllegalEntityException("book id is null");
+            throw new IllegalEntityException("Book id is null");
         }
 
         String sql = "UPDATE BOOKS SET TITLE = ?, PAGES = ?, RELEASE_YEAR = ?, AUTHOR = ? WHERE ID = ?";
@@ -155,7 +155,7 @@ public class BookManagerImpl implements BookManager {
             int count = jdbcTemplate.update(sql,
                     book.getTitle(),
                     book.getPages(),
-                    book.getReleaseYear(),
+                    toSqlDate(book.getReleaseYear()),
                     book.getAuthor(),
                     book.getId());
 
@@ -174,7 +174,7 @@ public class BookManagerImpl implements BookManager {
         validate(book);
 
         if (book.getId() == null) {
-            throw new IllegalEntityException("book id is null");
+            throw new IllegalEntityException("Book id is null");
         }
 
         try {
@@ -193,7 +193,7 @@ public class BookManagerImpl implements BookManager {
         checkSources();
 
         if (author == null) {
-            throw new IllegalArgumentException("author is null");
+            throw new IllegalArgumentException("Author is null");
         }
 
         try {
@@ -207,11 +207,10 @@ public class BookManagerImpl implements BookManager {
     }
 
     public List<Book> findBookByTitle(String title) {
-
         checkSources();
 
         if (title == null) {
-            throw new IllegalArgumentException("title is null");
+            throw new IllegalArgumentException("Title is null");
         }
 
         try {
@@ -227,6 +226,14 @@ public class BookManagerImpl implements BookManager {
         String sql = "SELECT * FROM BOOKS WHERE " + findBy + " = ?";
 
         return jdbcTemplate.query(sql, bookMapper, string);
+    }
+
+    private Date toSqlDate(java.time.LocalDate date) {
+        return date == null ? null : Date.valueOf(date);
+    }
+
+    private java.time.LocalDate toLocalDate(Date date) {
+        return date != null ? date.toLocalDate() : null;
     }
 
 }

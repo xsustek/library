@@ -63,7 +63,7 @@ public class LeaseManagerImpl implements LeaseManager {
         validate(lease);
 
         if (lease.getId() != null) {
-            throw new IllegalEntityException("lease id is already set");
+            throw new IllegalEntityException("Lease id is already set");
         }
 
         if (bookManager.getBookById(lease.getBook().getId()) == null) {
@@ -75,7 +75,7 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         if (!isBookAvailable(lease.getBook(), false, lease.getId())) {
-            throw new ServiceFailureException("Book is already lent");
+            throw new ValidationException("Book is already lent");
         }
 
         String sql = "INSERT INTO LEASES(CUSTOMER_ID, BOOK_ID, END_TIME, REAL_END_TIME) VALUES (?, ?, ?, ?)";
@@ -104,7 +104,7 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         if (id == null) {
-            throw new IllegalArgumentException("id is null");
+            throw new IllegalArgumentException("Id is null");
         }
 
         try {
@@ -126,10 +126,8 @@ public class LeaseManagerImpl implements LeaseManager {
     public List<Lease> findAllLeases() {
         checkSources();
 
-        String sql = "SELECT * FROM LEASES";
-
         try {
-            return jdbcTemplate.query(sql, leaseMapper);
+            return jdbcTemplate.query("SELECT * FROM LEASES", leaseMapper);
         } catch (DataAccessException ex) {
             String msg = "Error when getting all leases from DB";
             logger.log(Level.SEVERE, msg, ex);
@@ -142,7 +140,7 @@ public class LeaseManagerImpl implements LeaseManager {
         validate(lease);
 
         if (lease.getId() == null) {
-            throw new IllegalEntityException("lease id is null");
+            throw new IllegalEntityException("Lease id is null");
         }
 
         if (bookManager.getBookById(lease.getBook().getId()) == null) {
@@ -150,7 +148,7 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         if (!isBookAvailable(lease.getBook(), true, lease.getId())) {
-            throw new ServiceFailureException("Book is already lent");
+            throw new ValidationException("Book is already lent");
         }
 
         if (customerManager.getCustomerById(lease.getCustomer().getId()) == null) {
@@ -181,7 +179,7 @@ public class LeaseManagerImpl implements LeaseManager {
         validate(lease);
 
         if (lease.getId() == null) {
-            throw new IllegalEntityException("lease id is null");
+            throw new IllegalEntityException("Lease id is null");
         }
 
         try {
@@ -199,11 +197,11 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         if (customer == null) {
-            throw new IllegalArgumentException("customer is null");
+            throw new IllegalArgumentException("Customer is null");
         }
 
         if (customer.getId() == null) {
-            throw new IllegalEntityException("customer id is null");
+            throw new IllegalEntityException("Customer id is null");
         }
 
         try {
@@ -233,11 +231,11 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         if (book == null) {
-            throw new IllegalArgumentException("book is null");
+            throw new IllegalArgumentException("Book is null");
         }
 
         if (book.getId() == null) {
-            throw new IllegalEntityException("book's id is null");
+            throw new IllegalEntityException("Book's id is null");
         }
 
         try {
@@ -250,12 +248,12 @@ public class LeaseManagerImpl implements LeaseManager {
         }
     }
 
-    private Date toSqlDate(java.util.Date date) {
-        return date == null ? null : new Date(date.getTime());
+    private Date toSqlDate(java.time.LocalDate date) {
+        return date == null ? null : Date.valueOf(date);
     }
 
-    private java.util.Date toUtilDate(Date date) {
-        return date != null ? new java.util.Date(date.getTime()) : null;
+    private java.time.LocalDate toLocalDate(Date date) {
+        return date != null ? date.toLocalDate() : null;
     }
 
     private boolean isBookAvailable(Book book, boolean update, Long id) {
@@ -267,7 +265,7 @@ public class LeaseManagerImpl implements LeaseManager {
 
         for (Lease l : list) {
             if (l.getRealEndTime() == null) {
-                if (update && l.getId() == id) {
+                if (update && l.getId().equals(id)) {
                     return true;
                 }
 
@@ -280,27 +278,27 @@ public class LeaseManagerImpl implements LeaseManager {
 
     private void validate(Lease lease) {
         if (lease == null) {
-            throw new IllegalArgumentException("lease is null");
+            throw new IllegalArgumentException("Lease is null");
         }
 
         if (lease.getBook() == null) {
-            throw new ValidationException("lease's book is null");
+            throw new ValidationException("Lease's book is null");
         }
 
         if (lease.getBook().getId() == null) {
-            throw new ValidationException("lease's book's id is null");
+            throw new ValidationException("Lease's book's id is null");
         }
 
         if (lease.getCustomer() == null) {
-            throw new ValidationException("lease's customer is null");
+            throw new ValidationException("Lease's customer is null");
         }
 
         if (lease.getCustomer().getId() == null) {
-            throw new ValidationException("lease's customer's id is null");
+            throw new ValidationException("Lease's customer's id is null");
         }
 
         if (lease.getEndTime() == null) {
-            throw new ValidationException("lease's end time is null");
+            throw new ValidationException("Lease's end time is null");
         }
     }
 
@@ -313,9 +311,9 @@ public class LeaseManagerImpl implements LeaseManager {
 
         lease.setCustomer(customerManager.getCustomerById(rs.getLong("customer_id")));
 
-        lease.setEndTime(toUtilDate(rs.getDate("end_time")));
+        lease.setEndTime(toLocalDate(rs.getDate("end_time")));
 
-        lease.setRealEndTime(toUtilDate(rs.getDate("real_end_time")));
+        lease.setRealEndTime(toLocalDate(rs.getDate("real_end_time")));
 
         return lease;
     };

@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.library;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -9,19 +9,19 @@ import java.util.Objects;
 public class Lease {
 
     private Long id;
-    private Date endTime;
+    private LocalDate endTime;
     private Customer customer;
     private Book book;
-    private Date realEndTime;
+    private LocalDate realEndTime;
 
     public Lease() {
     }
 
-    public Date getRealEndTime() {
+    public LocalDate getRealEndTime() {
         return realEndTime;
     }
 
-    public void setRealEndTime(Date realEndTime) {
+    public void setRealEndTime(LocalDate realEndTime) {
         this.realEndTime = realEndTime;
     }
 
@@ -33,11 +33,11 @@ public class Lease {
         this.id = id;
     }
 
-    public Date getEndTime() {
+    public LocalDate getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 

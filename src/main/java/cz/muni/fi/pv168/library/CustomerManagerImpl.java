@@ -45,7 +45,7 @@ public class CustomerManagerImpl implements CustomerManager {
         validate(customer);
 
         if (customer.getId() != null) {
-            throw new IllegalEntityException("customer id is already set");
+            throw new IllegalEntityException("Customer id is already set");
         }
 
         String sql = "INSERT INTO CUSTOMERS (NAME, ADDRESS, PHONE_NUMBER) VALUES (?, ?, ?)";
@@ -74,7 +74,7 @@ public class CustomerManagerImpl implements CustomerManager {
         checkSources();
 
         if (id == null) {
-            throw new IllegalArgumentException("id is null");
+            throw new IllegalArgumentException("Id is null");
         }
 
         try {
@@ -111,7 +111,7 @@ public class CustomerManagerImpl implements CustomerManager {
         validate(customer);
 
         if (customer.getId() == null) {
-            throw new IllegalEntityException("customer id is null");
+            throw new IllegalEntityException("Customer id is null");
         }
 
         String sql = "UPDATE CUSTOMERS SET NAME = ?, ADDRESS = ?, PHONE_NUMBER = ? WHERE ID = ?";
@@ -136,7 +136,7 @@ public class CustomerManagerImpl implements CustomerManager {
         validate(customer);
 
         if (customer.getId() == null) {
-            throw new IllegalEntityException("customer id is null");
+            throw new IllegalEntityException("Customer id is null");
         }
 
         try {
@@ -169,11 +169,13 @@ public class CustomerManagerImpl implements CustomerManager {
         }
 
         if (!isValidAddress(customer.getAddress())) {
-            throw new ValidationException("Invalid customer's address");
+            throw new ValidationException("Invalid customer's address. Valid address " +
+                    "format \"streetName buildingNumber, postalCode city\'");
         }
 
         if (!isValidPhoneNumber(customer.getPhoneNumber())) {
-            throw new ValidationException("Invalid customer's phone number");
+            throw new ValidationException("Invalid customer's phone number. Valid phone" +
+                    " number format \"+xxxxxxxxxxxx\"");
         }
     }
 

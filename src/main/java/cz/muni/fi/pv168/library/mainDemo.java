@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -29,13 +29,13 @@ public class mainDemo {
         book.setAuthor("Richard Hrdy");
         book.setTitle("Skuska databaz");
         book.setPages(400);
-        book.setReleaseYear(new GregorianCalendar(2014, 2, 14).getTime());
+        book.setReleaseYear(LocalDate.of(1995, 10, 30));
         bookManager.createBook(book);
 
         Lease lease = new Lease();
         lease.setBook(book);
         lease.setCustomer(customer);
-        lease.setEndTime(new GregorianCalendar(2016, 17, 4).getTime());
+        lease.setEndTime(LocalDate.of(2016, 4, 17));
         leaseManager.createLease(lease);
 
         //deleteTestData(customerManager, bookManager, leaseManager);

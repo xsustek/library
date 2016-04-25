@@ -23,14 +23,16 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="Books Rental" />
-        <module name="library" />
         <module name="Library" />
+        <module name="library-GUI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Books Rental" target="1.7" />
       <module name="library" target="1.8" />
       <module name="Library" target="1.8" />
+      <module name="library-GUI" target="1.8" />
+      <module name="library-web" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

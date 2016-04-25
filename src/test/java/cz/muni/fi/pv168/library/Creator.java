@@ -1,12 +1,12 @@
 package cz.muni.fi.pv168.library;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by robert on 27.3.2016.
  */
 public class Creator {
-    protected static Lease newLease(Book book, Customer customer, Date endTime, Date realEndTime) {
+    protected static Lease newLease(Book book, Customer customer, LocalDate endTime, LocalDate realEndTime) {
         Lease lease = new Lease();
         lease.setBook(book);
         lease.setCustomer(customer);
@@ -25,7 +25,7 @@ public class Creator {
         return customer;
     }
 
-    protected static Book newBook(String title, int pages, Date releaseYear, String author) {
+    protected static Book newBook(String title, int pages, LocalDate releaseYear, String author) {
         Book b = new Book();
         b.setTitle(title);
         b.setPages(pages);
