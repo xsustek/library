@@ -29,6 +29,10 @@ public class LibraryManager {
     private JPanel booksTab;
     private JScrollPane jsCustomer;
     private JScrollPane jsBook;
+    private JButton searchButton;
+    private JTextField textField1;
+    private JButton button1;
+    private JTextField textField2;
 
     public static void main(String[] args) {
         initFrame();
