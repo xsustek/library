@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.library;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -11,7 +10,7 @@ public class Book {
     private String title;
     private String author;
     private int pages;
-    private LocalDate releaseYear;
+    private int releaseYear;
 
     public Book() {
     }
@@ -32,11 +31,11 @@ public class Book {
         this.pages = pages;
     }
 
-    public LocalDate getReleaseYear() {
+    public int getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(LocalDate releaseYear) {
+    public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
     }
 

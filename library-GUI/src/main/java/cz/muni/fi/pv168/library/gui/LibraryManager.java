@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
+
 import javax.swing.*;
 
 /**
@@ -11,7 +13,6 @@ public class LibraryManager {
     private JButton btAddLease;
     private JButton btUpdateLease;
     private JButton btDeleteLease;
-    private JButton btFindLease;
     private JButton btAddBook;
     private JButton btDeleteBook;
     private JButton btFindBook;
@@ -29,10 +30,10 @@ public class LibraryManager {
     private JPanel booksTab;
     private JScrollPane jsCustomer;
     private JScrollPane jsBook;
-    private JButton searchButton;
     private JTextField textField1;
-    private JButton button1;
+    private JButton findButton;
     private JTextField textField2;
+    private JTextField textField3;
 
     public static void main(String[] args) {
         initFrame();
@@ -41,22 +42,7 @@ public class LibraryManager {
     private static void initFrame() {
         JFrame frame = new JFrame("LibraryManager");
 
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("GTK+".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (UnsupportedLookAndFeelException ex) {
 
-        } catch (InstantiationException ex) {
-
-        } catch (ClassNotFoundException ex) {
-
-        } catch (IllegalAccessException ex) {
-
-        }
 
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,4 +50,7 @@ public class LibraryManager {
         frame.setVisible(true);
     }
 
+    private void createUIComponents() {
+        leaseTable = new JTable(new LeasesTableModel());
+    }
 }

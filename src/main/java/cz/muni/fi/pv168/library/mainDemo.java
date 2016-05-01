@@ -29,7 +29,7 @@ public class mainDemo {
         book.setAuthor("Richard Hrdy");
         book.setTitle("Skuska databaz");
         book.setPages(400);
-        book.setReleaseYear(LocalDate.of(1995, 10, 30));
+        book.setReleaseYear(1995);
         bookManager.createBook(book);
 
         Lease lease = new Lease();

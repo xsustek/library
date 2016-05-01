@@ -11,5 +11,18 @@
 
     <artifactId>library-GUI</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jdatepicker</groupId>
+            <artifactId>jdatepicker</artifactId>
+            <version>1.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.muni.fi.pv168</groupId>
+            <artifactId>seminar_project</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

@@ -25,7 +25,7 @@ public class Creator {
         return customer;
     }
 
-    protected static Book newBook(String title, int pages, LocalDate releaseYear, String author) {
+    protected static Book newBook(String title, int pages, int releaseYear, String author) {
         Book b = new Book();
         b.setTitle(title);
         b.setPages(pages);

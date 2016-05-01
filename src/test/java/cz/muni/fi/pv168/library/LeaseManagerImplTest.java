@@ -60,11 +60,11 @@ public class LeaseManagerImplTest {
         customerManager.createCustomer(c1);
         customerManager.createCustomer(c2);
 
-        b1 = Creator.newBook("Jaja a Paja", 80, LocalDate.of(1998, 8, 5), "Karel Capek");
-        b2 = Creator.newBook("Kosek a Bosek", 97, LocalDate.of(1968, 8, 5), "Karel Capek");
-        bookWithNullId = Creator.newBook("Stary otec", 120, LocalDate.of(1990, 7, 5), "Michal Julius");
+        b1 = Creator.newBook("Jaja a Paja", 80, 1998, "Karel Capek");
+        b2 = Creator.newBook("Kosek a Bosek", 97, 1968, "Karel Capek");
+        bookWithNullId = Creator.newBook("Stary otec", 120, 1990, "Michal Julius");
         bookWithNullId.setId(null);
-        bookNotInDB = Creator.newBook("Milionar", 200, LocalDate.of(2000, 8, 3), "Jozef Zivotny");
+        bookNotInDB = Creator.newBook("Milionar", 200, 2000, "Jozef Zivotny");
         bookNotInDB.setId(5L);
 
         bookManager.createBook(b1);

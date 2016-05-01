@@ -40,20 +40,20 @@
           <text value="Real end time"/>
         </properties>
       </component>
-      <component id="ad12e" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="ad12e" class="javax.swing.JButton" binding="updateButton" default-binding="true">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Update"/>
         </properties>
       </component>
-      <component id="237a0" class="javax.swing.JButton" binding="button2" default-binding="true">
+      <component id="237a0" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Cancel"/>
         </properties>
       </component>
       <component id="4dc5f" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
@@ -68,19 +68,15 @@
         </constraints>
         <properties/>
       </component>
-      <component id="b9ab4" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="7323e" class="org.jdatepicker.impl.JDatePickerImpl" binding="JDatePickerImpl1" default-binding="true">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
+          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="14b02" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="fddbd" class="org.jdatepicker.impl.JDatePickerImpl" binding="JDatePickerImpl2" default-binding="true">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
+          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>

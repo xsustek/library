@@ -13,7 +13,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -41,7 +40,6 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void createBook(Book book) {
-
         checkSources();
         validate(book);
 
@@ -57,7 +55,7 @@ public class BookManagerImpl implements BookManager {
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, book.getTitle());
                 statement.setInt(2, book.getPages());
-                statement.setDate(3, toSqlDate(book.getReleaseYear()));
+                statement.setInt(3, book.getReleaseYear());
                 statement.setString(4, book.getAuthor());
                 return statement;
             }, keyHolder);
@@ -88,8 +86,8 @@ public class BookManagerImpl implements BookManager {
         if (book.getTitle() == null || book.getTitle().isEmpty()) {
             throw new IllegalArgumentException("Title is null or empty");
         }
-        if (book.getReleaseYear() == null) {
-            throw new IllegalArgumentException("Date is null");
+        if (book.getReleaseYear() < 0) {
+            throw new ValidationException("Date is less than zero");
         }
 
     }
@@ -99,14 +97,13 @@ public class BookManagerImpl implements BookManager {
         book.setId(resultSet.getLong("id"));
         book.setTitle(resultSet.getString("title"));
         book.setPages(resultSet.getInt("pages"));
-        book.setReleaseYear(toLocalDate(resultSet.getDate("release_year")));
+        book.setReleaseYear(resultSet.getInt("release_year"));
         book.setAuthor(resultSet.getString("author"));
         return book;
     };
 
 
     public Book getBookById(Long id) {
-
         checkSources();
 
         if (id == null) {
@@ -129,7 +126,6 @@ public class BookManagerImpl implements BookManager {
     }
 
     public List<Book> findAllBooks() {
-
         checkSources();
 
         try {
@@ -142,7 +138,6 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void updateBook(Book book) {
-
         checkSources();
         validate(book);
 
@@ -155,7 +150,7 @@ public class BookManagerImpl implements BookManager {
             int count = jdbcTemplate.update(sql,
                     book.getTitle(),
                     book.getPages(),
-                    toSqlDate(book.getReleaseYear()),
+                    book.getReleaseYear(),
                     book.getAuthor(),
                     book.getId());
 
@@ -169,7 +164,6 @@ public class BookManagerImpl implements BookManager {
     }
 
     public void deleteBook(Book book) {
-
         checkSources();
         validate(book);
 
@@ -226,14 +220,6 @@ public class BookManagerImpl implements BookManager {
         String sql = "SELECT * FROM BOOKS WHERE " + findBy + " = ?";
 
         return jdbcTemplate.query(sql, bookMapper, string);
-    }
-
-    private Date toSqlDate(java.time.LocalDate date) {
-        return date == null ? null : Date.valueOf(date);
-    }
-
-    private java.time.LocalDate toLocalDate(Date date) {
-        return date != null ? date.toLocalDate() : null;
     }
 
 }

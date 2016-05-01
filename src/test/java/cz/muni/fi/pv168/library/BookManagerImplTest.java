@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,9 +35,9 @@ public class BookManagerImplTest {
 
     @Before
     public void setUp() throws SQLException {
-        rur = Creator.newBook("R.U.R", 80, LocalDate.of(1920, 2, 5), "Karel Capek");
-        valkaSMloky = Creator.newBook("Valka s mloky", 97, LocalDate.of(1936, 9, 2), "Karel Capek");
-        boureMecu = Creator.newBook("Boure mecu", 97, LocalDate.of(2011, 9, 2), "George Raymond Richard Martin");
+        rur = Creator.newBook("R.U.R", 80, 1920, "Karel Capek");
+        valkaSMloky = Creator.newBook("Valka s mloky", 97, 1936, "Karel Capek");
+        boureMecu = Creator.newBook("Boure mecu", 97, 2011, "George Raymond Richard Martin");
     }
 
     @Test
@@ -71,9 +70,9 @@ public class BookManagerImplTest {
         manager.createBook(rur);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void createBookWithWrongDate() {
-        rur.setReleaseYear(null);
+        rur.setReleaseYear(-5);
         manager.createBook(rur);
     }
 
@@ -166,7 +165,7 @@ public class BookManagerImplTest {
     public void updateBookDate() {
         manager.createBook(rur);
 
-        rur.setReleaseYear(LocalDate.of(1999, 9, 9));
+        rur.setReleaseYear(1999);
         manager.updateBook(rur);
 
         Book retrieved = manager.getBookById(rur.getId());
