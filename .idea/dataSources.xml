@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="301162140">
+  <component name="DataSourceManagerImpl" format="xml" hash="3518704442">
     <data-source source="LOCAL" name="Derby (Remote) - libraryDB@localhost" uuid="7ea429f5-3f8e-420e-b9bc-c2fb0d630e1b">
       <driver-ref>derby.remote</driver-ref>
       <synchronize>true</synchronize>

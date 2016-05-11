@@ -13,7 +13,7 @@ import java.util.List;
 public class mainDemo {
     public static void main(String[] args) throws SQLException {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                mainDemo.class.getResource("spring-config.xml").toString());
+                Lease.class.getResource("spring-config.xml").toString());
 
         BookManager bookManager = ctx.getBean(BookManager.class);
         CustomerManager customerManager = ctx.getBean(CustomerManager.class);

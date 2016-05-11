@@ -1,21 +1,27 @@
 package cz.muni.fi.pv168.library.gui.tableModels;
 
+import cz.muni.fi.pv168.library.Book;
+import cz.muni.fi.pv168.library.Customer;
 import cz.muni.fi.pv168.library.Lease;
+import cz.muni.fi.pv168.library.LeaseManager;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 /**
  * Created by robert on 28.4.2016.
  */
 public class LeasesTableModel extends AbstractTableModel {
 
-    private List<Lease> leases = new ArrayList<>();
+    private LeaseManager leaseManager;
+
+    public LeasesTableModel(LeaseManager leaseManager) {
+        this.leaseManager = leaseManager;
+    }
 
     @Override
     public int getRowCount() {
-        return leases.size();
+        return leaseManager.findAllLeases().size();
     }
 
     @Override
@@ -25,7 +31,7 @@ public class LeasesTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Lease lease = leases.get(rowIndex);
+        Lease lease = leaseManager.findAllLeases().get(rowIndex);
 
         switch (columnIndex) {
             case 0:
@@ -59,5 +65,38 @@ public class LeasesTableModel extends AbstractTableModel {
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return Long.class;
+            case 1:
+                return Book.class;
+            case 2:
+                return Customer.class;
+            case 3:
+                return LocalDate.class;
+            case 4:
+                return LocalDate.class;
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
+
+
+    public void addLease(Lease lease) {
+        leaseManager.createLease(lease);
+        int lastRow = leaseManager.findAllLeases().size() - 1;
+        fireTableRowsInserted(lastRow, lastRow);
+    }
+
+    public void deleteLease(int row) {
+
+    }
+
+    public void updateLease(int row) {
+
     }
 }

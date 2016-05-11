@@ -5,6 +5,8 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 
 /**
@@ -18,6 +20,28 @@ public class LeaseAdd {
     private JDatePickerImpl endTimeDatePicker;
     private JPanel leaseAddPanel;
     private JDatePickerImpl realTimeDatePicker;
+
+    public LeaseAdd() {
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+
+    }
+
+    public JPanel getLeaseAddPanel() {
+        return leaseAddPanel;
+    }
 
     private void createUIComponents() {
         Properties p = new Properties();
@@ -34,4 +58,17 @@ public class LeaseAdd {
         realTimeDatePicker = new JDatePickerImpl(realTimeDatePanel, new DateLabelFormatter());
     }
 
+
+    public static void main(String[] args) {
+        initFrame();
+    }
+
+    private static void initFrame() {
+        JFrame frame = new JFrame("LibraryManager");
+
+        frame.setContentPane(new LeaseAdd().leaseAddPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }

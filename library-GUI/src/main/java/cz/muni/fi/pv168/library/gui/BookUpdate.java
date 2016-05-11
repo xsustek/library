@@ -10,6 +10,6 @@ public class BookUpdate {
     private JButton cancelButton;
     private JTextField textField1;
     private JTextField textField2;
-    private JTextField releaseYearTextField;
     private JSpinner pagesSpinner;
+    private JSpinner spinner1;
 }
