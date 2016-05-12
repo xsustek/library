@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.library.gui;
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
+import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,17 +12,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by robert on 21.4.2016.
  */
 public class LibraryManager {
-    private static LeaseManager leaseManager;
-    private static BookManager bookManager;
-    private static CustomerManager customerManager;
-
     private JPanel mainPane;
     private JTabbedPane tabbedPane1;
     private JButton btAddLease;
@@ -49,56 +45,149 @@ public class LibraryManager {
     private JTextField textField3;
     private static JFrame frame;
 
+    private LeaseManager leaseManager;
+    private BookManager bookManager;
+    private CustomerManager customerManager;
+    private LeasesTableModel leasesTableModel;
+    private CustomersTableModel customersTableModel;
+    private BooksTableModel booksTableModel;
+
     public LibraryManager() {
-        btAddLease.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // swingworker
-                JDialog jDialog = new JDialog(frame);
-                jDialog.setContentPane(new LeaseAdd().getLeaseAddPanel());
-                jDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                jDialog.pack();
-                jDialog.setVisible(true);
-                frame.setEnabled(false);
-            }
+        btAddLease.addActionListener(e -> {
+            LeaseAdd leaseAdd = new LeaseAdd(frame, bookManager.findAllBooks(), customerManager.findAllCustomers());
+            leaseAdd.display();
+            new AddLeaseSwingWorker(leaseAdd).execute();
+        });
+
+
+        btAddBook.addActionListener(e -> {
+            BookAdd bookAdd = new BookAdd(frame);
+            bookAdd.display();
+
+            new AddBookSwingWorker(bookAdd).execute();
+
+
+        });
+
+        btAddCustomer.addActionListener(e -> {
+            CustomerAdd customerAdd = new CustomerAdd(frame);
+            customerAdd.display();
+            new AddCustomerSwingWorker(customerAdd).execute();
+
         });
     }
 
     public static void main(String[] args) {
-        initManagers();
-        SwingUtilities.invokeLater(() -> {
-            initFrame();
-        });
-
+        EventQueue.invokeLater(() ->
+                initFrame());
     }
 
     private static void initFrame() {
         frame = new JFrame("LibraryManager");
 
         frame.setContentPane(new LibraryManager().mainPane);
-        frame.setPreferredSize(new Dimension(1000, 500));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
     private void createUIComponents() {
-        leaseTable = new JTable(new LeasesTableModel(leaseManager));
+        initManagers();
+        leasesTableModel = new LeasesTableModel(leaseManager);
+        leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
-        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
+        leaseColumnModel.getColumn(0).setMaxWidth(40);
 
-        TableColumnModel columnModel = leaseTable.getColumnModel();
-        columnModel.getColumn(0).setMaxWidth(40);
+        customersTableModel = new CustomersTableModel(customerManager);
+        customerTable = new JTable(customersTableModel);
+        customerTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        TableColumnModel customerTableModel = customerTable.getColumnModel();
+        customerTableModel.getColumn(0).setMaxWidth(40);
+
+        booksTableModel = new BooksTableModel(bookManager);
+        bookTable = new JTable(booksTableModel);
+        bookTable.setDefaultRenderer(Book.class, new BookCellRender());
+        TableColumnModel bookTableModel = bookTable.getColumnModel();
+        bookTableModel.getColumn(0).setMaxWidth(40);
     }
 
-    private static void initManagers() {
+    private void initManagers() {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                Lease.class.getResource("spring-test-config.xml").toString());
+                Lease.class.getResource("spring-config.xml").toString());
 
         bookManager = ctx.getBean(BookManager.class);
         customerManager = ctx.getBean(CustomerManager.class);
         leaseManager = ctx.getBean(LeaseManager.class);
     }
+
+    private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
+        private final LeaseAdd leaseAdd;
+
+        public AddLeaseSwingWorker(LeaseAdd leaseAdd) {
+            this.leaseAdd = leaseAdd;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Lease lease;
+            if ((lease = leaseAdd.getData()) != null) {
+                leaseManager.createLease(lease);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            leasesTableModel.addedLease();
+        }
+    }
+
+    private class AddBookSwingWorker extends SwingWorker<Void, Void> {
+        private final BookAdd bookAdd;
+
+        public AddBookSwingWorker(BookAdd bookAdd) {
+            this.bookAdd = bookAdd;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Book book;
+            if ((book = bookAdd.getData()) != null) {
+                bookManager.createBook(book);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            booksTableModel.addedBook();
+        }
+    }
+
+    private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
+        private final CustomerAdd customerAdd;
+
+        public AddCustomerSwingWorker(CustomerAdd customerAdd) {
+            this.customerAdd = customerAdd;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Customer customer;
+            if ((customer = customerAdd.getData()) != null) {
+                customerManager.createCustomer(customer);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            customersTableModel.addedCustomer();
+        }
+    }
+
 
 }

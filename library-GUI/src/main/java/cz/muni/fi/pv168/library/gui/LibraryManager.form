@@ -113,7 +113,7 @@
                 <properties/>
                 <border type="etched"/>
                 <children>
-                  <component id="c3744" class="javax.swing.JTable" binding="customerTable">
+                  <component id="c3744" class="javax.swing.JTable" binding="customerTable" custom-create="true">
                     <constraints/>
                     <properties/>
                   </component>
@@ -184,7 +184,7 @@
                 <properties/>
                 <border type="etched"/>
                 <children>
-                  <component id="4733e" class="javax.swing.JTable" binding="bookTable">
+                  <component id="4733e" class="javax.swing.JTable" binding="bookTable" custom-create="true">
                     <constraints/>
                     <properties/>
                   </component>

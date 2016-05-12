@@ -1,12 +1,17 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.library.Book;
+import cz.muni.fi.pv168.library.Customer;
+import cz.muni.fi.pv168.library.Lease;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -20,14 +25,34 @@ public class LeaseAdd {
     private JDatePickerImpl endTimeDatePicker;
     private JPanel leaseAddPanel;
     private JDatePickerImpl realTimeDatePicker;
+    private Lease lease;
+    private JDialog frame;
+    private JFrame parent;
+    private List<Book> books;
+    private List<Customer> customers;
 
-    public LeaseAdd() {
+    public LeaseAdd(JFrame parent, List<Book> books, List<Customer> customers) {
+        this.parent = parent;
+        this.books = books;
+        this.customers = customers;
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        books.forEach(book -> cbBook.addItem(book));
+        customers.forEach(customer -> cbCustomer.addItem(customer));
 
+        addButton.addActionListener(e -> {
+            lease = new Lease();
+            lease.setBook((Book) cbBook.getSelectedItem());
+            lease.setCustomer((Customer) cbCustomer.getSelectedItem());
+
+            Date endTime = (Date) endTimeDatePicker.getModel().getValue();
+            if (endTime != null) {
+                lease.setEndTime(endTime.toLocalDate());
             }
+            Date realEndTime = (Date) realTimeDatePicker.getModel().getValue();
+            if (realEndTime != null) {
+                lease.setRealEndTime(realEndTime.toLocalDate());
+            }
+            frame.dispose();
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -39,8 +64,8 @@ public class LeaseAdd {
 
     }
 
-    public JPanel getLeaseAddPanel() {
-        return leaseAddPanel;
+    public Lease getData() {
+        return lease;
     }
 
     private void createUIComponents() {
@@ -49,25 +74,20 @@ public class LeaseAdd {
         p.put("text.month", "Month");
         p.put("text.year", "Year");
 
-        UtilDateModel endTimeDateModel = new UtilDateModel();
+        SqlDateModel endTimeDateModel = new SqlDateModel();
         JDatePanelImpl endTimeDatePanel = new JDatePanelImpl(endTimeDateModel, p);
         endTimeDatePicker = new JDatePickerImpl(endTimeDatePanel, new DateLabelFormatter());
 
-        UtilDateModel realTimeDateModel = new UtilDateModel();
+        SqlDateModel realTimeDateModel = new SqlDateModel();
         JDatePanelImpl realTimeDatePanel = new JDatePanelImpl(realTimeDateModel, p);
         realTimeDatePicker = new JDatePickerImpl(realTimeDatePanel, new DateLabelFormatter());
     }
 
+    public void display() {
+        frame = new JDialog(parent, true);
 
-    public static void main(String[] args) {
-        initFrame();
-    }
-
-    private static void initFrame() {
-        JFrame frame = new JFrame("LibraryManager");
-
-        frame.setContentPane(new LeaseAdd().leaseAddPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(leaseAddPanel);
+        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

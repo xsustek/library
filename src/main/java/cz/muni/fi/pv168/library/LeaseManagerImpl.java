@@ -127,7 +127,9 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         try {
-            return jdbcTemplate.query("SELECT * FROM LEASES", leaseMapper);
+
+            List<Lease> le = jdbcTemplate.query("SELECT * FROM LEASES", leaseMapper);
+            return le;
         } catch (DataAccessException ex) {
             String msg = "Error when getting all leases from DB";
             logger.log(Level.SEVERE, msg, ex);

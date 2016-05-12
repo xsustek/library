@@ -5,23 +5,28 @@ import cz.muni.fi.pv168.library.Customer;
 import cz.muni.fi.pv168.library.Lease;
 import cz.muni.fi.pv168.library.LeaseManager;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 28.4.2016.
  */
 public class LeasesTableModel extends AbstractTableModel {
 
-    private LeaseManager leaseManager;
+    private LeaseManager manager;
+    private List<Lease> leases;
 
-    public LeasesTableModel(LeaseManager leaseManager) {
-        this.leaseManager = leaseManager;
+    public LeasesTableModel(LeaseManager manager) {
+        this.manager = manager;
+        updateLeases();
     }
 
     @Override
     public int getRowCount() {
-        return leaseManager.findAllLeases().size();
+        return leases != null ? leases.size() : 0;
     }
 
     @Override
@@ -31,7 +36,8 @@ public class LeasesTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Lease lease = leaseManager.findAllLeases().get(rowIndex);
+        if (leases == null) return null;
+        Lease lease = leases.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
@@ -86,9 +92,9 @@ public class LeasesTableModel extends AbstractTableModel {
     }
 
 
-    public void addLease(Lease lease) {
-        leaseManager.createLease(lease);
-        int lastRow = leaseManager.findAllLeases().size() - 1;
+    public void addedLease() {
+        updateLeases();
+        int lastRow = leases.size() - 1;
         fireTableRowsInserted(lastRow, lastRow);
     }
 
@@ -98,5 +104,27 @@ public class LeasesTableModel extends AbstractTableModel {
 
     public void updateLease(int row) {
 
+    }
+
+    private void updateLeases() {
+        GetLeasesSwingWorker sw = new GetLeasesSwingWorker();
+        sw.execute();
+    }
+
+    private class GetLeasesSwingWorker extends SwingWorker<List<Lease>, Void> {
+        @Override
+        protected List<Lease> doInBackground() throws Exception {
+            return manager.findAllLeases();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                leases = get();
+                fireTableDataChanged();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
