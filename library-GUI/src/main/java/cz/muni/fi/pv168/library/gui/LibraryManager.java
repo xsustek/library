@@ -3,7 +3,9 @@ package cz.muni.fi.pv168.library.gui;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
+import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -17,6 +19,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.PatternSyntaxException;
 
@@ -62,13 +65,18 @@ public class LibraryManager {
     private TableRowSorter<CustomersTableModel> customerSorter;
 
 
-    private java.util.List<Lease> leases;
-    private java.util.List<Book> books;
-    private java.util.List<Customer> customers;
+    private List<Lease> leases;
+    private List<Lease> expiredLeases;
+    private List<Book> books;
+    private List<Book> availableBooks;
+    private List<Customer> customers;
 
     public LibraryManager() {
         updateLists();
+        setButtonsListeners();
+    }
 
+    private void setButtonsListeners() {
         btAddLease.addActionListener(e -> {
             LeaseAdd leaseAdd = new LeaseAdd(frame, books, customers);
             leaseAdd.display();
@@ -214,16 +222,24 @@ public class LibraryManager {
     private void updateBooks() {
         GetBooksSwingWorker bSw = new GetBooksSwingWorker();
         bSw.execute();
+        updateAvailableBooks();
+    }
+
+    private void updateAvailableBooks() {
+        GetAvailableBooksSwingWorker aBSw = new GetAvailableBooksSwingWorker();
+        aBSw.execute();
     }
 
     private void updateLeases() {
         GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
         lSw.execute();
+        updateAvailableBooks();
+        updateExpiredLeases();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() ->
-                initFrame());
+    private void updateExpiredLeases() {
+        GetExpiredLeases leases = new GetExpiredLeases();
+        leases.execute();
     }
 
     private static void initFrame() {
@@ -232,7 +248,7 @@ public class LibraryManager {
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setJMenuBar(createMenu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(800, 500));
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -249,22 +265,17 @@ public class LibraryManager {
 
         // Customer Table
         customersTableModel = new CustomersTableModel();
-        customerSorter = new TableRowSorter<>(customersTableModel);
         customerTable = new JTable(customersTableModel);
-        customerTable.setRowSorter(customerSorter);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
         customerColumnModel.getColumn(0).setMaxWidth(40);
 
         // Book Table
         booksTableModel = new BooksTableModel();
-        bookSorter = new TableRowSorter<>(booksTableModel);
         bookTable = new JTable(booksTableModel);
-        bookTable.setRowSorter(bookSorter);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
         bookColumnModel.getColumn(0).setMaxWidth(40);
-
     }
 
     private void initManagers() {
@@ -277,10 +288,10 @@ public class LibraryManager {
     }
 
     private static JMenuBar createMenu() {
-        JMenuBar menubar = new JMenuBar();
-        menubar.add(createLaFMenu());
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createLaFMenu());
 
-        return menubar;
+        return menuBar;
     }
 
     private static JMenu createLaFMenu() {
@@ -303,7 +314,7 @@ public class LibraryManager {
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
         private final Lease lease;
 
-        public AddLeaseSwingWorker(Lease lease) {
+        AddLeaseSwingWorker(Lease lease) {
             this.lease = lease;
         }
 
@@ -328,7 +339,7 @@ public class LibraryManager {
         private Lease leaseToUpdate;
         private int index;
 
-        public UpdateLeaseSwingWorker(Lease leaseToUpdate, int index) {
+        UpdateLeaseSwingWorker(Lease leaseToUpdate, int index) {
             this.leaseToUpdate = leaseToUpdate;
             this.index = index;
         }
@@ -354,7 +365,7 @@ public class LibraryManager {
         private Lease lease;
         private int index;
 
-        public DeleteLeaseSwingWorker(Lease lease, int index) {
+        DeleteLeaseSwingWorker(Lease lease, int index) {
             this.lease = lease;
             this.index = index;
         }
@@ -378,7 +389,7 @@ public class LibraryManager {
     private class AddBookSwingWorker extends SwingWorker<Void, Void> {
         private final Book book;
 
-        public AddBookSwingWorker(Book book) {
+        AddBookSwingWorker(Book book) {
             this.book = book;
         }
 
@@ -402,7 +413,7 @@ public class LibraryManager {
         private Book book;
         private int index;
 
-        public UpdateBookSwingWorker(Book book, int index) {
+        UpdateBookSwingWorker(Book book, int index) {
             this.book = book;
             this.index = index;
         }
@@ -427,7 +438,7 @@ public class LibraryManager {
         private Book book;
         private int row;
 
-        public DeleteBookSwingWorker(Book book, int row) {
+        DeleteBookSwingWorker(Book book, int row) {
             this.book = book;
             this.row = row;
         }
@@ -456,7 +467,7 @@ public class LibraryManager {
     private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
         private final Customer customer;
 
-        public AddCustomerSwingWorker(Customer customer) {
+        AddCustomerSwingWorker(Customer customer) {
             this.customer = customer;
         }
 
@@ -480,7 +491,7 @@ public class LibraryManager {
         private final Customer customer;
         private final int index;
 
-        public UpdateCustomerSwingWorker(Customer customer, int index) {
+        UpdateCustomerSwingWorker(Customer customer, int index) {
             this.customer = customer;
             this.index = index;
         }
@@ -505,7 +516,7 @@ public class LibraryManager {
         private Customer customer;
         private int row;
 
-        public DeleteCustomerSwingWorker(Customer customer, int row) {
+        DeleteCustomerSwingWorker(Customer customer, int row) {
             this.customer = customer;
             this.row = row;
         }
@@ -579,8 +590,49 @@ public class LibraryManager {
             try {
                 leases = get();
                 leasesTableModel.setLeases(leases);
-                leasesTableModel.fireTableStructureChanged();
+                leasesTableModel.fireTableDataChanged();
             } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class GetAvailableBooksSwingWorker extends SwingWorker<java.util.List<Book>, Void> {
+
+        @Override
+        protected void done() {
+            try {
+                availableBooks = get();
+                booksTableModel.setAvailableBooks(availableBooks);
+                booksTableModel.fireTableDataChanged();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected List<Book> doInBackground() throws Exception {
+            return bookManager.findAvailableBooks();
+        }
+    }
+
+    private class GetExpiredLeases extends SwingWorker<List<Lease>, Void> {
+        @Override
+        protected List<Lease> doInBackground() throws Exception {
+            return leaseManager.findExpiredLeases();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                expiredLeases = get();
+                leasesTableModel.setExpiredLeases(expiredLeases);
+                leasesTableModel.fireTableDataChanged();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
                 e.printStackTrace();
             }
         }

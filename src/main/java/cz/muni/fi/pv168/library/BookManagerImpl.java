@@ -4,6 +4,8 @@ import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -16,16 +18,15 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by Milan on 26.02.2016.
  */
 public class BookManagerImpl implements BookManager {
 
-    private static final Logger logger = Logger.getLogger(
-            BookManagerImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(
+            BookManagerImpl.class);
 
     private JdbcTemplate jdbcTemplate;
 
@@ -62,9 +63,11 @@ public class BookManagerImpl implements BookManager {
 
             DBUtils.checkUpdatesCount(count, book, true);
             book.setId(keyHolder.getKey().longValue());
+
+            logger.debug("{} was added", book.toString());
         } catch (DataAccessException e) {
             String msg = "Error when inserting book into db";
-            logger.log(Level.SEVERE, msg, e);
+            logger.error(msg, e);
             throw new ServiceFailureException(msg, e);
         }
 
@@ -89,7 +92,11 @@ public class BookManagerImpl implements BookManager {
         }
 
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM BOOKS WHERE ID = ?", bookMapper, id);
+            Book book = jdbcTemplate.queryForObject("SELECT * FROM BOOKS WHERE ID = ?", bookMapper, id);
+
+            logger.debug("{} was returned", book.toString());
+
+            return book;
         } catch (EmptyResultDataAccessException ex) {
             return null;
         } catch (IncorrectResultSizeDataAccessException e) {
@@ -98,7 +105,7 @@ public class BookManagerImpl implements BookManager {
                             + "(source id: " + id + ", found " + findAllBooks());
         } catch (DataAccessException ex) {
             String msg = "Error when getting book with id = " + id + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -107,10 +114,14 @@ public class BookManagerImpl implements BookManager {
         checkSources();
 
         try {
-            return jdbcTemplate.query("SELECT * FROM BOOKS", bookMapper);
+            List<Book> books = jdbcTemplate.query("SELECT * FROM BOOKS", bookMapper);
+
+            logger.debug("{} books were returned", books.size());
+
+            return books;
         } catch (DataAccessException ex) {
             String msg = "Error when getting all books from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -133,9 +144,11 @@ public class BookManagerImpl implements BookManager {
                     book.getId());
 
             DBUtils.checkUpdatesCount(count, book, false);
+
+            logger.debug("{} was updated", book.toString());
         } catch (DataAccessException ex) {
             String msg = "Error when updating book in the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -153,9 +166,11 @@ public class BookManagerImpl implements BookManager {
             int count = jdbcTemplate.update("DELETE FROM BOOKS WHERE ID = ?", book.getId());
 
             DBUtils.checkUpdatesCount(count, book, false);
+
+            logger.debug("{} was deleted", book.toString());
         } catch (DataAccessException ex) {
             String msg = "Error when deleting book from the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -169,10 +184,14 @@ public class BookManagerImpl implements BookManager {
         }
 
         try {
-            return getBooks(author, "AUTHOR");
+            List<Book> books = getBooks(author, "AUTHOR");
+
+            logger.debug("{} books were returned", books.size());
+
+            return books;
         } catch (DataAccessException ex) {
             String msg = "Error when getting book with author = " + author + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -186,13 +205,34 @@ public class BookManagerImpl implements BookManager {
         }
 
         try {
-            return getBooks(title, "TITLE");
+            List<Book> books = getBooks(title, "TITLE");
+
+            logger.debug("{} books ware returned", books.size());
+
+            return books;
         } catch (DataAccessException ex) {
             String msg = "Error when getting book with title = " + title + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
+
+
+    public List<Book> findAvailableBooks() {
+        checkSources();
+
+        try {
+            String query = "SELECT * FROM BOOKS WHERE ID NOT IN (SELECT ID FROM BOOKS INNER JOIN (SELECT BOOK_ID FROM LEASES WHERE (END_TIME IS NOT NULL) AND REAL_END_TIME IS NULL) AS AVAILABLE ON BOOKS.ID=AVAILABLE.BOOK_ID)";
+            List<Book> books = jdbcTemplate.query(query, bookMapper);
+            logger.debug("{} books was returned", books.size());
+            return books;
+        } catch (DataAccessException ex) {
+            String msg = "Error when getting books from DB";
+            logger.error(msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+    }
+
 
     private List<Book> getBooks(String string, String findBy) {
         String sql = "SELECT * FROM BOOKS WHERE " + findBy + " = ?";

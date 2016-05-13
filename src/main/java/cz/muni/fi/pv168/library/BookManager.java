@@ -20,4 +20,6 @@ public interface BookManager {
 
     List<Book> findBookByTitle(String title);
 
+    List<Book> findAvailableBooks();
+
 }

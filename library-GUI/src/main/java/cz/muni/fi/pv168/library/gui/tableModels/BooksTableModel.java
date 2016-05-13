@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.library.gui.tableModels;
 import cz.muni.fi.pv168.library.Book;
 
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,6 +14,11 @@ import java.util.ResourceBundle;
 public class BooksTableModel extends AbstractTableModel {
     private ResourceBundle bundle;
     private List<Book> books;
+    private List<Book> availableBooks;
+
+    private List<Color> rowColours = new ArrayList<>();
+
+
 
     public BooksTableModel() {
         bundle = ResourceBundle.getBundle("stringValues");
@@ -19,6 +26,11 @@ public class BooksTableModel extends AbstractTableModel {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+        books.forEach(book -> rowColours.add(Color.BLACK));
+    }
+
+    public void setAvailableBooks(List<Book> books) {
+        availableBooks = books;
     }
     @Override
     public int getRowCount() {
@@ -89,9 +101,10 @@ public class BooksTableModel extends AbstractTableModel {
         }
     }
 
-    public void addedBook() {
-        int index = books.size() - 1;
-        fireTableRowsInserted(index, index);
+    public Color getRowColour(int row) {
+        Book book = books.get(row);
+
+        return availableBooks.contains(book) ? Color.WHITE : Color.RED;
     }
 
 }

@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.common.Validator;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -16,16 +17,14 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Milan Šůstek on 26.02.2016.
  */
 public class CustomerManagerImpl implements CustomerManager {
 
-    private static final Logger logger = Logger.getLogger(
-            CustomerManagerImpl.class.getName());
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(
+            CustomerManagerImpl.class);
 
     private JdbcTemplate jdbcTemplate;
 
@@ -61,9 +60,11 @@ public class CustomerManagerImpl implements CustomerManager {
 
             DBUtils.checkUpdatesCount(count, customer, true);
             customer.setId(keyHolder.getKey().longValue());
+
+            logger.debug("{} was added", customer.toString());
         } catch (DataAccessException e) {
             String msg = "Error when inserting customer into db";
-            logger.log(Level.SEVERE, msg, e);
+            logger.error(msg, e);
             throw new ServiceFailureException(msg, e);
         }
 
@@ -77,7 +78,11 @@ public class CustomerManagerImpl implements CustomerManager {
         }
 
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM CUSTOMERS WHERE ID = ?", customerMapper, id);
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM CUSTOMERS WHERE ID = ?", customerMapper, id);
+
+            logger.debug("{} was returned", customer.toString());
+
+            return customer;
         } catch (EmptyResultDataAccessException ex) {
             return null;
         } catch (IncorrectResultSizeDataAccessException e) {
@@ -86,7 +91,7 @@ public class CustomerManagerImpl implements CustomerManager {
                             + "(source id: " + id + ", found " + findAllCustomers());
         } catch (DataAccessException e) {
             String msg = "Error when getting customer from DB";
-            logger.log(Level.SEVERE, msg, e);
+            logger.error(msg, e);
             throw new ServiceFailureException(msg, e);
         }
 
@@ -96,10 +101,14 @@ public class CustomerManagerImpl implements CustomerManager {
         checkSources();
 
         try {
-            return jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerMapper);
+            List<Customer> customers = jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerMapper);
+
+            logger.debug("{} customers were returned", customers.size());
+
+            return customers;
         } catch (DataAccessException ex) {
             String msg = "Error when getting all customers from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -113,10 +122,14 @@ public class CustomerManagerImpl implements CustomerManager {
         }
 
         try {
-            return jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE NAME = ?", customerMapper, name);
+            List<Customer> customers = jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE NAME = ?", customerMapper, name);
+
+            logger.debug("{} customers were returned", customers.size());
+
+            return customers;
         } catch (DataAccessException ex) {
             String msg = "Error when getting customer with name = " + name + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -138,9 +151,11 @@ public class CustomerManagerImpl implements CustomerManager {
                     customer.getId());
 
             DBUtils.checkUpdatesCount(count, customer, false);
+
+            logger.debug("{} was updated", customer.toString());
         } catch (DataAccessException ex) {
             String msg = "Error when updating customer in the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -157,9 +172,11 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             int count = jdbcTemplate.update("DELETE FROM CUSTOMERS WHERE ID = ?", customer.getId());
             DBUtils.checkUpdatesCount(count, customer, false);
+
+            logger.debug("{} was deleted", customer);
         } catch (DataAccessException ex) {
             String msg = "Error when deleting customer from the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 

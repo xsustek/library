@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.library;
 
 import cz.muni.fi.pv168.common.*;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -13,17 +14,16 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Milan on 26.02.2016.
  */
 public class LeaseManagerImpl implements LeaseManager {
 
-    private static final Logger logger = Logger.getLogger(
-            LeaseManagerImpl.class.getName());
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(
+            LeaseManagerImpl.class);
 
     private JdbcTemplate jdbcTemplate;
     private BookManager bookManager;
@@ -90,9 +90,11 @@ public class LeaseManagerImpl implements LeaseManager {
 
             DBUtils.checkUpdatesCount(count, lease, true);
             lease.setId(keyHolder.getKey().longValue());
+
+            logger.debug("{} was added", lease.toString());
         } catch (DataAccessException e) {
             String msg = "Error when inserting lease into db";
-            logger.log(Level.SEVERE, msg, e);
+            logger.error(msg, e);
             throw new ServiceFailureException(msg, e);
         }
     }
@@ -105,7 +107,11 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM LEASES WHERE ID = ?", leaseMapper, id);
+            Lease lease = jdbcTemplate.queryForObject("SELECT * FROM LEASES WHERE ID = ?", leaseMapper, id);
+
+            logger.debug("{} was returned", lease);
+
+            return lease;
         } catch (EmptyResultDataAccessException e) {
             return null;
         } catch (IncorrectResultSizeDataAccessException e) {
@@ -114,7 +120,7 @@ public class LeaseManagerImpl implements LeaseManager {
                             + "(source id: " + id + ", found " + findAllLeases());
         } catch (DataAccessException ex) {
             String msg = "Error when getting lease with id = " + id + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
 
@@ -125,11 +131,14 @@ public class LeaseManagerImpl implements LeaseManager {
 
         try {
 
-            List<Lease> le = jdbcTemplate.query("SELECT * FROM LEASES", leaseMapper);
-            return le;
+            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES", leaseMapper);
+
+            logger.debug("{} leases were returned", leases.size());
+
+            return leases;
         } catch (DataAccessException ex) {
             String msg = "Error when getting all leases from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -166,9 +175,11 @@ public class LeaseManagerImpl implements LeaseManager {
                     lease.getId());
 
             DBUtils.checkUpdatesCount(count, lease, false);
+
+            logger.debug("{} was updated", lease.toString());
         } catch (DataAccessException ex) {
             String msg = "Error when updating lease in the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -185,9 +196,11 @@ public class LeaseManagerImpl implements LeaseManager {
             int count = jdbcTemplate.update("DELETE FROM LEASES WHERE ID = ?",
                     lease.getId());
             DBUtils.checkUpdatesCount(count, lease, false);
+
+            logger.debug("{} was deleted", lease.toString());
         } catch (DataAccessException ex) {
             String msg = "Error when deleting lease from the db";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -204,11 +217,15 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         try {
-            return jdbcTemplate.query("SELECT * FROM LEASES WHERE CUSTOMER_ID = ?",
+            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES WHERE CUSTOMER_ID = ?",
                     leaseMapper, customer.getId());
+
+            logger.debug("{} leases were returned", leases.size());
+
+            return leases;
         } catch (DataAccessException ex) {
             String msg = "Error when getting leases for customer " + customer + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -217,11 +234,16 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         try {
-            return jdbcTemplate.query("SELECT * FROM LEASES WHERE REAL_END_TIME > END_TIME",
+            Date now = Date.valueOf(LocalDate.now());
+            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES WHERE '" + now + "' > END_TIME AND REAL_END_TIME IS NULL",
                     leaseMapper);
+
+            logger.debug("{} expired leases were returned", leases.size());
+
+            return leases;
         } catch (DataAccessException ex) {
             String msg = "Error when getting expired leases from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -238,11 +260,32 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         try {
-            return jdbcTemplate.query("SELECT * FROM LEASES WHERE BOOK_ID = ?",
+            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES WHERE BOOK_ID = ?",
                     leaseMapper, book.getId());
+
+            logger.debug("{} leases were returned", leases.size());
+
+            return leases;
         } catch (DataAccessException ex) {
             String msg = "Error when getting leases for book " + book + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            logger.error(msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+    }
+
+    public boolean isBookAvailable(Book book) {
+        checkSources();
+
+        try {
+            String query = "SELECT * FROM LEASES WHERE BOOK_ID = 101 AND (END_TIME IS NULL OR REAL_END_TIME IS NOT NULL)";
+            List<Lease> leases = jdbcTemplate.query(query, leaseMapper);
+
+            logger.debug("{} leases were returned", leases.size());
+
+            return leases.isEmpty();
+        } catch (DataAccessException ex) {
+            String msg = "Error when getting leases from DB";
+            logger.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         }
     }
@@ -264,11 +307,8 @@ public class LeaseManagerImpl implements LeaseManager {
 
         for (Lease l : list) {
             if (l.getRealEndTime() == null) {
-                if (update && l.getId().equals(id)) {
-                    return true;
-                }
+                return update && l.getId().equals(id);
 
-                return false;
             }
         }
 
