@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.library.gui;
 
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
+import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -53,9 +55,10 @@ public class LibraryManager {
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
 
-    private java.util.List<Lease> leases;
-    private java.util.List<Book> books;
-    private java.util.List<Customer> customers;
+    private List<Lease> leases;
+    private List<Book> books;
+    private List<Book> availableBooks;
+    private List<Customer> customers;
 
     public LibraryManager() {
         updateLists();
@@ -98,9 +101,14 @@ public class LibraryManager {
         // Book Table
         booksTableModel = new BooksTableModel();
         bookTable = new JTable(booksTableModel);
+        bookTable.setDefaultRenderer(String.class, new BooksCellRenderer());
+        bookTable.setDefaultRenderer(Long.class, new BooksCellRenderer());
+        bookTable.setDefaultRenderer(Integer.class, new BooksCellRenderer());
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
         bookColumnModel.getColumn(0).setMaxWidth(40);
+
+
     }
 
     private void initManagers() {
@@ -204,11 +212,18 @@ public class LibraryManager {
     private void updateBooks() {
         GetBooksSwingWorker bSw = new GetBooksSwingWorker();
         bSw.execute();
+        updateAvailableBooks();
+    }
+
+    private void updateAvailableBooks() {
+        GetAvailableBooksSwingWorker aBSw = new GetAvailableBooksSwingWorker();
+        aBSw.execute();
     }
 
     private void updateLeases() {
         GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
         lSw.execute();
+        updateAvailableBooks();
     }
 
 
@@ -517,10 +532,31 @@ public class LibraryManager {
             try {
                 leases = get();
                 leasesTableModel.setLeases(leases);
-                leasesTableModel.fireTableStructureChanged();
+                leasesTableModel.fireTableDataChanged();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class GetAvailableBooksSwingWorker extends SwingWorker<java.util.List<Book>, Void> {
+
+        @Override
+        protected void done() {
+            try {
+                availableBooks = get();
+                booksTableModel.setAvailableBooks(availableBooks);
+                booksTableModel.fireTableDataChanged();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected List<Book> doInBackground() throws Exception {
+            return bookManager.findAvailableBooks();
         }
     }
 

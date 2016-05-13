@@ -22,4 +22,6 @@ public interface LeaseManager {
 
     List<Lease> findLeasesForBook(Book book);
 
+    boolean isBookAvailable(Book book);
+
 }

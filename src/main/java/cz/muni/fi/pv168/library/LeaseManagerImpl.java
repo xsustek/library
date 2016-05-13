@@ -271,6 +271,23 @@ public class LeaseManagerImpl implements LeaseManager {
         }
     }
 
+    public boolean isBookAvailable(Book book) {
+        checkSources();
+
+        try {
+            String query = "SELECT * FROM LEASES WHERE BOOK_ID = 101 AND (END_TIME IS NULL OR REAL_END_TIME IS NOT NULL)";
+            List<Lease> leases = jdbcTemplate.query(query, leaseMapper);
+
+            logger.debug("{} leases were returned", leases.size());
+
+            return leases.isEmpty();
+        } catch (DataAccessException ex) {
+            String msg = "Error when getting leases from DB";
+            logger.error(msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+    }
+
     private Date toSqlDate(java.time.LocalDate date) {
         return date == null ? null : Date.valueOf(date);
     }
@@ -288,11 +305,8 @@ public class LeaseManagerImpl implements LeaseManager {
 
         for (Lease l : list) {
             if (l.getRealEndTime() == null) {
-                if (update && l.getId().equals(id)) {
-                    return true;
-                }
+                return update && l.getId().equals(id);
 
-                return false;
             }
         }
 

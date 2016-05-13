@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="Logging">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BooksCellRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/db.lck" afterPath="$PROJECT_DIR$/data/db.lck" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java" />
     </list>
     <ignored path="Books Rental.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,6 +43,48 @@
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Derby (Embedded) - data" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Derby (Embedded) - data" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="ADMIN" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Derby (Embedded) - data" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="ADMIN" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="BOOKS" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -41,15 +92,132 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LibraryManager.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LibraryManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="74" column="70" selection-start-line="74" selection-start-column="70" selection-end-line="74" selection-end-column="70" />
+            <state relative-caret-position="402">
+              <caret line="105" column="44" selection-start-line="105" selection-start-column="44" selection-end-line="105" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8655#8656#0" expanded="true" />
-                <element signature="e#8697#8698#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BooksCellRenderer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BooksCellRenderer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="484">
+              <caret line="22" column="36" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeaseManagerImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="412">
+              <caret line="273" column="45" selection-start-line="273" selection-start-column="4" selection-end-line="273" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1463176061128" expanded="true" signature="2421:2506" placeholder="INSERT INTO LEASES... " />
+                <marker date="1463176061128" expanded="true" signature="3667:3700" placeholder="SELECT * FRO... LEASES" />
+                <marker date="1463176061128" expanded="true" signature="4514:4534" placeholder="SELECT * FRO... LEASES" />
+                <marker date="1463176061128" expanded="true" signature="5573:5686" placeholder="UPDATE LEASE... " />
+                <marker date="1463176061128" expanded="true" signature="6609:6640" placeholder="DELETE FROM " />
+                <marker date="1463176061128" expanded="true" signature="7408:7450" placeholder="SELECT * FRO... LEASES" />
+                <marker date="1463176061128" expanded="true" signature="7982:8033" placeholder="SELECT * FRO... LEASES" />
+                <marker date="1463176061128" expanded="true" signature="8751:8789" placeholder="SELECT * FRO... LEASES" />
+                <marker date="1463176061128" expanded="true" signature="9287:9379" placeholder="SELECT * FRO... LEASES" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeaseManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookManagerImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="220" column="42" selection-start-line="220" selection-start-column="11" selection-end-line="220" selection-end-column="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1463176627383" expanded="true" signature="1553:1627" placeholder="INSERT INTO BOOKS... " />
+                <marker date="1463176627383" expanded="true" signature="3169:3201" placeholder="SELECT * FRO... BOOKS" />
+                <marker date="1463176627383" expanded="true" signature="4016:4035" placeholder="SELECT * FRO... BOOKS" />
+                <marker date="1463176627383" expanded="true" signature="4598:4678" placeholder="UPDATE BOOKS... " />
+                <marker date="1463176627383" expanded="true" signature="5545:5575" placeholder="DELETE FROM " />
+                <marker date="1463176627383" expanded="true" signature="7227:7423" placeholder="SELECT * FRO... BOOKS" />
+                <marker date="1463176627383" expanded="true" signature="7264:7422" placeholder="SELECT ID FR... BOOKS" />
+                <marker date="1463176627383" expanded="true" signature="7297:7378" placeholder="SELECT BOOK_... LEASES" />
+                <marker date="1463176627383" expanded="true" signature="7885:7929" placeholder="SELECT * FRO... BOOKS" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console_2.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console_2.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="38" selection-start-line="0" selection-start-column="38" selection-end-line="0" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Customer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Customer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookCellRender.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="23" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BooksTableModel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="42">
+              <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
+              <folding>
+                <element signature="e#533#534#0" expanded="true" />
+                <element signature="e#598#599#0" expanded="true" />
+                <element signature="e#792#793#0" expanded="true" />
+                <element signature="e#830#831#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,11 +256,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java" />
-        <option value="dbtable:/7e99bccc/26e26a7e-27f0-4350-8ba2-394317f9993f/APP.LEASES" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/SpringConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-config.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/CustomerManagerImplTest.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-test-config.xml" />
         <option value="$PROJECT_DIR$/library-web/pom.xml" />
         <option value="$PROJECT_DIR$/library-web/src/main/webapp/META-INF/beans.xml" />
@@ -113,7 +276,6 @@
         <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/LeaseManagerImplTest.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/createTables.sql" />
         <option value="$PROJECT_DIR$/library-GUI/pom.xml" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CustomerCellRender.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/mainDemo.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/resources/stringValues_cs_CZ.properties" />
@@ -125,19 +287,25 @@
         <option value="$PROJECT_DIR$/library-GUI/src/main/resources/stringValues.properties" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/LeasesTableModel.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/CustomersTableModel.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console.sql" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/CustomerManagerImpl.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/CustomerManagerImplTest.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console_2.sql" />
         <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BooksCellRenderer.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
       </list>
     </option>
@@ -636,6 +804,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library-GUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tableModels" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1398,7 +1600,7 @@
       <workItem from="1462992337941" duration="1006000" />
       <workItem from="1463075633648" duration="10084000" />
       <workItem from="1463131697492" duration="12566000" />
-      <workItem from="1463167350071" duration="3183000" />
+      <workItem from="1463167350071" duration="10150000" />
     </task>
     <task id="LOCAL-00001" summary="Vytvoreny priecinok test, trieda CustomManagerImplTest">
       <created>1457779488538</created>
@@ -1631,7 +1833,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463170335281</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Logging">
+      <created>1463170546481</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1463170546482</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1667,7 +1876,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="224649000" />
+    <option name="totallyTimeSpent" value="231616000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1683,26 +1892,30 @@
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20708154" sideWeight="0.484375" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34871244" sideWeight="0.5149413" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1456777" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282532" sideWeight="0.49785638" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6236811" sideWeight="0.4850587" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3390558" sideWeight="0.49786553" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18079399" sideWeight="0.49256507" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.125" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.125" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270809" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2063306" sideWeight="0.484375" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282532" sideWeight="0.49785638" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29308325" sideWeight="0.4850587" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3390558" sideWeight="0.49786553" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36576787" sideWeight="0.47758806" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18079399" sideWeight="0.49256507" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16094421" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1711,12 +1924,9 @@
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="102" y="180" width="1720" height="856" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.75965667" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36576787" sideWeight="0.47758806" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20117396" sideWeight="0.50743496" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16094421" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1788,18 +1998,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java</url>
-          <line>296</line>
+          <line>311</line>
           <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java</url>
-          <line>305</line>
+          <line>320</line>
           <properties />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="28" />
+      <option name="time" value="29" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1808,47 +2018,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/BookManagerImplTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="169" column="22" selection-start-line="169" selection-start-column="22" selection-end-line="169" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/rmi/dgc/Lease.java" />
-    <entry file="file://$PROJECT_DIR$/library-GUI/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/dropTables.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/7e99bccc/7ea429f5-3f8e-420e-b9bc-c2fb0d630e1b/ADMIN.BOOKS" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/createTables.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/7e99bccc/7ea429f5-3f8e-420e-b9bc-c2fb0d630e1b/ADMIN.LEASES" />
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/DateLabelFormatter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/s.properties" />
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/sas_sk_SK.properties" />
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/sas_cs_CZ.properties" />
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/sas.properties" />
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/sas_en_EN.properties" />
@@ -1873,11 +2042,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Book.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/myconf.properties" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/cz/muni/fi/pv168/library/spring-config.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -1898,6 +2062,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
       <provider editor-type-id="ResourceBundle">
@@ -1912,14 +2077,6 @@
             <element signature="imports" expanded="false" />
             <marker date="1463143104439" expanded="true" signature="2767:2773" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1949,41 +2106,11 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
       <provider selected="true" editor-type-id="ResourceBundle">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/CustomersTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1028">
-          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="e#409#410#0" expanded="false" />
-            <element signature="e#474#475#0" expanded="false" />
-            <element signature="e#532#533#0" expanded="false" />
-            <element signature="e#574#575#0" expanded="false" />
-            <element signature="e#620#621#0" expanded="false" />
-            <element signature="e#683#684#0" expanded="false" />
-            <element signature="e#732#733#0" expanded="false" />
-            <element signature="e#756#757#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CustomerCellRender.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerAdd.java">
@@ -2005,17 +2132,6 @@
           <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="48" selection-end-column="32" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
@@ -2042,14 +2158,6 @@
             <element signature="e#667#668#0" expanded="true" />
             <element signature="e#713#714#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="924">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2088,20 +2196,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
           <caret line="326" column="25" selection-start-line="326" selection-start-column="25" selection-end-line="326" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -2116,48 +2210,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1354#1355#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="569">
           <caret line="61" column="52" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="28" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1463168874267" expanded="true" signature="1553:1627" placeholder="INSERT INTO BOOKS... " />
-            <marker date="1463168874267" expanded="true" signature="3169:3201" placeholder="SELECT * FRO... BOOKS" />
-            <marker date="1463168874267" expanded="true" signature="4016:4035" placeholder="SELECT * FRO... BOOKS" />
-            <marker date="1463168874267" expanded="true" signature="4598:4678" placeholder="UPDATE BOOKS... " />
-            <marker date="1463168874267" expanded="true" signature="5545:5575" placeholder="DELETE FROM " />
-            <marker date="1463168874267" expanded="true" signature="7201:7245" placeholder="SELECT * FRO... BOOKS" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2177,32 +2234,230 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="268" column="32" selection-start-line="268" selection-start-column="32" selection-end-line="268" selection-end-column="32" />
+        <state relative-caret-position="-462">
+          <caret line="36" column="29" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1463169659697" expanded="true" signature="2421:2506" placeholder="INSERT INTO LEASES... " />
-            <marker date="1463169659697" expanded="true" signature="3667:3700" placeholder="SELECT * FRO... LEASES" />
-            <marker date="1463169659697" expanded="true" signature="4514:4534" placeholder="SELECT * FRO... LEASES" />
-            <marker date="1463169659697" expanded="true" signature="5573:5686" placeholder="UPDATE LEASE... " />
-            <marker date="1463169659697" expanded="true" signature="6609:6640" placeholder="DELETE FROM " />
-            <marker date="1463169659697" expanded="true" signature="7408:7450" placeholder="SELECT * FRO... LEASES" />
-            <marker date="1463169659697" expanded="true" signature="7982:8033" placeholder="SELECT * FRO... LEASES" />
-            <marker date="1463169659697" expanded="true" signature="8751:8789" placeholder="SELECT * FRO... LEASES" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1354#1355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/muni/fi/pv168/library/CustomerManagerImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="313" column="62" selection-start-line="313" selection-start-column="62" selection-end-line="313" selection-end-column="62" />
+          <folding>
+            <element signature="e#9956#9957#0" expanded="false" />
+            <element signature="e#10019#10020#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/service.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Book.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/diagram.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Books Rental.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/DateLabelFormatter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/CustomersTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+          <folding>
+            <element signature="e#409#410#0" expanded="true" />
+            <element signature="e#474#475#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CustomerCellRender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="83" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console_2.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="38" selection-start-line="0" selection-start-column="38" selection-end-line="0" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/Customer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="273" column="45" selection-start-line="273" selection-start-column="4" selection-end-line="273" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1463176061128" expanded="true" signature="2421:2506" placeholder="INSERT INTO LEASES... " />
+            <marker date="1463176061128" expanded="true" signature="3667:3700" placeholder="SELECT * FRO... LEASES" />
+            <marker date="1463176061128" expanded="true" signature="4514:4534" placeholder="SELECT * FRO... LEASES" />
+            <marker date="1463176061128" expanded="true" signature="5573:5686" placeholder="UPDATE LEASE... " />
+            <marker date="1463176061128" expanded="true" signature="6609:6640" placeholder="DELETE FROM " />
+            <marker date="1463176061128" expanded="true" signature="7408:7450" placeholder="SELECT * FRO... LEASES" />
+            <marker date="1463176061128" expanded="true" signature="7982:8033" placeholder="SELECT * FRO... LEASES" />
+            <marker date="1463176061128" expanded="true" signature="8751:8789" placeholder="SELECT * FRO... LEASES" />
+            <marker date="1463176061128" expanded="true" signature="9287:9379" placeholder="SELECT * FRO... LEASES" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/LeaseManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="220" column="42" selection-start-line="220" selection-start-column="11" selection-end-line="220" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1463176627383" expanded="true" signature="1553:1627" placeholder="INSERT INTO BOOKS... " />
+            <marker date="1463176627383" expanded="true" signature="3169:3201" placeholder="SELECT * FRO... BOOKS" />
+            <marker date="1463176627383" expanded="true" signature="4016:4035" placeholder="SELECT * FRO... BOOKS" />
+            <marker date="1463176627383" expanded="true" signature="4598:4678" placeholder="UPDATE BOOKS... " />
+            <marker date="1463176627383" expanded="true" signature="5545:5575" placeholder="DELETE FROM " />
+            <marker date="1463176627383" expanded="true" signature="7227:7423" placeholder="SELECT * FRO... BOOKS" />
+            <marker date="1463176627383" expanded="true" signature="7264:7422" placeholder="SELECT ID FR... BOOKS" />
+            <marker date="1463176627383" expanded="true" signature="7297:7378" placeholder="SELECT BOOK_... LEASES" />
+            <marker date="1463176627383" expanded="true" signature="7885:7929" placeholder="SELECT * FRO... BOOKS" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/library/BookManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="36" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="23" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="74" column="70" selection-start-line="74" selection-start-column="70" selection-end-line="74" selection-end-column="70" />
+        <state relative-caret-position="402">
+          <caret line="105" column="44" selection-start-line="105" selection-start-column="44" selection-end-line="105" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8655#8656#0" expanded="true" />
-            <element signature="e#8697#8698#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
+          <folding>
+            <element signature="e#533#534#0" expanded="true" />
+            <element signature="e#598#599#0" expanded="true" />
+            <element signature="e#792#793#0" expanded="true" />
+            <element signature="e#830#831#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BooksCellRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -217,6 +217,23 @@ public class BookManagerImpl implements BookManager {
         }
     }
 
+
+    public List<Book> findAvailableBooks() {
+        checkSources();
+
+        try {
+            String query = "SELECT * FROM BOOKS WHERE ID NOT IN (SELECT ID FROM BOOKS INNER JOIN (SELECT BOOK_ID FROM LEASES WHERE (END_TIME IS NOT NULL) AND REAL_END_TIME IS NULL) AS AVAILABLE ON BOOKS.ID=AVAILABLE.BOOK_ID)";
+            List<Book> books = jdbcTemplate.query(query, bookMapper);
+            logger.debug("{} books was returned", books.size());
+            return books;
+        } catch (DataAccessException ex) {
+            String msg = "Error when getting books from DB";
+            logger.error(msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        }
+    }
+
+
     private List<Book> getBooks(String string, String findBy) {
         String sql = "SELECT * FROM BOOKS WHERE " + findBy + " = ?";
 
