@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.library.BookManager;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -13,10 +14,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class BooksTableModel extends AbstractTableModel {
     private BookManager manager;
+    private ResourceBundle bundle;
     private List<Book> books;
 
     public BooksTableModel(BookManager bookManager) {
         manager = bookManager;
+        bundle = ResourceBundle.getBundle("stringValues");
         updateBooks();
     }
 
@@ -59,13 +62,13 @@ public class BooksTableModel extends AbstractTableModel {
             case 0:
                 return "Id";
             case 1:
-                return "Title";
+                return bundle.getString("lbTitle");
             case 2:
-                return "Author";
+                return bundle.getString("lbAuthor");
             case 3:
-                return "Pages";
+                return bundle.getString("lbPages");
             case 4:
-                return "ReleaseYear";
+                return bundle.getString("lbReleaseYear");
             default:
                 throw new IndexOutOfBoundsException("columnIndex greater than 4");
         }
