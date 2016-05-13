@@ -10,7 +10,6 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Properties;
@@ -89,8 +88,7 @@ public class LeaseAdd {
 
         dialog.setContentPane(leaseAddPanel);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setMaximumSize(new Dimension(300, 200));
+        dialog.pack();
         dialog.setVisible(true);
-        System.out.print(endTimeDatePicker.getSize().toString());
     }
 }
