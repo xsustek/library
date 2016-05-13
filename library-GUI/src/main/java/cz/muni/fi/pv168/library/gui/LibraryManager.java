@@ -12,8 +12,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
@@ -74,7 +72,7 @@ public class LibraryManager {
 
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setJMenuBar(createMenu());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
@@ -215,10 +213,10 @@ public class LibraryManager {
 
 
     private static JMenuBar createMenu() {
-        JMenuBar menubar = new JMenuBar();
-        menubar.add(createLaFMenu());
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createLaFMenu());
 
-        return menubar;
+        return menuBar;
     }
 
     private static JMenu createLaFMenu() {
@@ -226,15 +224,12 @@ public class LibraryManager {
         for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             JMenuItem item = new JMenuItem(info.getName());
             laf.add(item);
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ev) {
-                    try {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+            item.addActionListener(ev -> {
+                try {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             });
         }
@@ -244,7 +239,7 @@ public class LibraryManager {
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
         private final Lease lease;
 
-        public AddLeaseSwingWorker(Lease lease) {
+        AddLeaseSwingWorker(Lease lease) {
             this.lease = lease;
         }
 
@@ -269,7 +264,7 @@ public class LibraryManager {
         private Lease leaseToUpdate;
         private int index;
 
-        public UpdateLeaseSwingWorker(Lease leaseToUpdate, int index) {
+        UpdateLeaseSwingWorker(Lease leaseToUpdate, int index) {
             this.leaseToUpdate = leaseToUpdate;
             this.index = index;
         }
@@ -295,7 +290,7 @@ public class LibraryManager {
         private Lease lease;
         private int index;
 
-        public DeleteLeaseSwingWorker(Lease lease, int index) {
+        DeleteLeaseSwingWorker(Lease lease, int index) {
             this.lease = lease;
             this.index = index;
         }
@@ -323,7 +318,7 @@ public class LibraryManager {
     private class AddBookSwingWorker extends SwingWorker<Void, Void> {
         private final Book book;
 
-        public AddBookSwingWorker(Book book) {
+        AddBookSwingWorker(Book book) {
             this.book = book;
         }
 
@@ -347,7 +342,7 @@ public class LibraryManager {
         private Book book;
         private int index;
 
-        public UpdateBookSwingWorker(Book book, int index) {
+        UpdateBookSwingWorker(Book book, int index) {
             this.book = book;
             this.index = index;
         }
@@ -372,7 +367,7 @@ public class LibraryManager {
         private Book book;
         private int row;
 
-        public DeleteBookSwingWorker(Book book, int row) {
+        DeleteBookSwingWorker(Book book, int row) {
             this.book = book;
             this.row = row;
         }
@@ -400,7 +395,7 @@ public class LibraryManager {
     private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
         private final Customer customer;
 
-        public AddCustomerSwingWorker(Customer customer) {
+        AddCustomerSwingWorker(Customer customer) {
             this.customer = customer;
         }
 
@@ -424,7 +419,7 @@ public class LibraryManager {
         private final Customer customer;
         private final int index;
 
-        public UpdateCustomerSwingWorker(Customer customer, int index) {
+        UpdateCustomerSwingWorker(Customer customer, int index) {
             this.customer = customer;
             this.index = index;
         }
@@ -449,7 +444,7 @@ public class LibraryManager {
         private Customer customer;
         private int row;
 
-        public DeleteCustomerSwingWorker(Customer customer, int row) {
+        DeleteCustomerSwingWorker(Customer customer, int row) {
             this.customer = customer;
             this.row = row;
         }
