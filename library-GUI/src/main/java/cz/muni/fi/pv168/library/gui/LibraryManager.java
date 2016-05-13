@@ -72,6 +72,40 @@ public class LibraryManager {
     public LibraryManager() {
         updateLists();
         setButtonsListeners();
+
+        tfFindCustomer.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+        });
+
+        tfFindBook.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -153,40 +187,6 @@ public class LibraryManager {
             int selectedRowIndex = customerTable.getSelectedRow();
             if (selectedRowIndex < 0) return;
             new DeleteCustomerSwingWorker(customers.get(selectedRowIndex), selectedRowIndex).execute();
-        });
-
-        tfFindCustomer.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                newCustomerFilter();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                newCustomerFilter();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                newCustomerFilter();
-            }
-        });
-
-        tfFindBook.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                newBookFilter();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                newBookFilter();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                newBookFilter();
-            }
         });
     }
 
