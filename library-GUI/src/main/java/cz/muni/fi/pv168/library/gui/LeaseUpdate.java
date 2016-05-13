@@ -66,7 +66,7 @@ public class LeaseUpdate {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Update Lease", true);
 
         dialog.setContentPane(main);
 

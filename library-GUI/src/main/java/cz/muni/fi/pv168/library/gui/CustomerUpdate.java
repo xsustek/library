@@ -46,7 +46,7 @@ public class CustomerUpdate {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Update Customer", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(main);
 

@@ -29,13 +29,9 @@ public class LeaseAdd {
     private Lease lease;
     private JDialog dialog;
     private JFrame parent;
-    private List<Book> books;
-    private List<Customer> customers;
 
     public LeaseAdd(JFrame parent, List<Book> books, List<Customer> customers) {
         this.parent = parent;
-        this.books = books;
-        this.customers = customers;
 
         books.forEach(book -> cbBook.addItem(book));
         customers.forEach(customer -> cbCustomer.addItem(customer));

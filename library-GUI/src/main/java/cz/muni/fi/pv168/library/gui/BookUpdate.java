@@ -55,7 +55,7 @@ public class BookUpdate {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Update Book", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(main);
 
