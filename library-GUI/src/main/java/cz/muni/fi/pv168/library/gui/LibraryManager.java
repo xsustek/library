@@ -190,7 +190,9 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            leasesTableModel.addedLease();
+            updateLists();
+            leasesTableModel.setLeases(leases);
+            leasesTableModel.fireTableRowsInserted(leases.size() - 1, leases.size() - 1);
         }
     }
 
@@ -212,7 +214,9 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            booksTableModel.addedBook();
+            updateLists();
+            booksTableModel.setBooks(books);
+            booksTableModel.fireTableRowsInserted(books.size() - 1, books.size() - 1);
         }
     }
 
@@ -234,7 +238,9 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            customersTableModel.addedCustomer();
+            updateLists();
+            customersTableModel.setCustomers(customers);
+            customersTableModel.fireTableRowsInserted(customers.size() - 1, customers.size() - 1);
         }
     }
 
