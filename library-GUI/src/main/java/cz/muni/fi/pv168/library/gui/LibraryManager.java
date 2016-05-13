@@ -271,14 +271,18 @@ public class LibraryManager {
 
         // Customer Table
         customersTableModel = new CustomersTableModel();
+        customerSorter = new TableRowSorter<>(customersTableModel);
         customerTable = new JTable(customersTableModel);
+        customerTable.setRowSorter(customerSorter);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
         customerColumnModel.getColumn(0).setMaxWidth(40);
 
         // Book Table
         booksTableModel = new BooksTableModel();
+        bookSorter = new TableRowSorter<>(booksTableModel);
         bookTable = new JTable(booksTableModel);
+        bookTable.setRowSorter(bookSorter);
         bookTable.setDefaultRenderer(String.class, new BooksCellRenderer());
         bookTable.setDefaultRenderer(Long.class, new BooksCellRenderer());
         bookTable.setDefaultRenderer(Integer.class, new BooksCellRenderer());
