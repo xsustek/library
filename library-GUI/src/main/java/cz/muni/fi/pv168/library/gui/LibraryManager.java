@@ -14,6 +14,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 /**
  * Created by robert on 21.4.2016.
@@ -80,6 +81,8 @@ public class LibraryManager {
     }
 
     public static void main(String[] args) {
+
+        Locale.setDefault(new Locale("sk", "SK"));
         EventQueue.invokeLater(() ->
                 initFrame());
     }
