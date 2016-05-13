@@ -68,14 +68,30 @@ public class LibraryManager {
             new AddLeaseSwingWorker(leaseAdd).execute();
         });
 
+        btUpdateLease.addActionListener(e -> {
+            int selectedRowIndex = leaseTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            LeaseUpdate leaseUpdate = new LeaseUpdate(frame, books, customers, leases.get(selectedRowIndex));
+            leaseUpdate.display();
+
+            new UpdateLeaseSwingWorker(leaseUpdate, selectedRowIndex).execute();
+        });
+
 
         btAddBook.addActionListener(e -> {
             BookAdd bookAdd = new BookAdd(frame);
             bookAdd.display();
 
             new AddBookSwingWorker(bookAdd).execute();
+        });
 
+        btUpdateBook.addActionListener(e -> {
+            int selectedRowIndex = bookTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            BookUpdate bookUpdate = new BookUpdate(frame, books.get(selectedRowIndex));
+            bookUpdate.display();
 
+            new UpdateBookSwingWorker(bookUpdate, selectedRowIndex).execute();
         });
 
         btAddCustomer.addActionListener(e -> {
@@ -84,15 +100,36 @@ public class LibraryManager {
             new AddCustomerSwingWorker(customerAdd).execute();
 
         });
+
+        btUpdateCustomer.addActionListener(e -> {
+            int selectedRowIndex = customerTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            CustomerUpdate customerUpdate = new CustomerUpdate(frame, customers.get(selectedRowIndex));
+            customerUpdate.display();
+
+            new UpdateCustomerSwingWorker(customerUpdate, selectedRowIndex).execute();
+        });
     }
 
     private void updateLists() {
-        GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
-        GetBooksSwingWorker bSw = new GetBooksSwingWorker();
+        updateLeases();
+        updateBooks();
+        updateCustomers();
+    }
+
+    private void updateCustomers() {
         GetCustomerSwingWorker cSw = new GetCustomerSwingWorker();
-        lSw.execute();
-        bSw.execute();
         cSw.execute();
+    }
+
+    private void updateBooks() {
+        GetBooksSwingWorker bSw = new GetBooksSwingWorker();
+        bSw.execute();
+    }
+
+    private void updateLeases() {
+        GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
+        lSw.execute();
     }
 
     public static void main(String[] args) {
@@ -190,9 +227,36 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            updateLists();
+            updateLeases();
             leasesTableModel.setLeases(leases);
             leasesTableModel.fireTableRowsInserted(leases.size() - 1, leases.size() - 1);
+        }
+    }
+
+    private class UpdateLeaseSwingWorker extends SwingWorker<Void, Void> {
+
+        private LeaseUpdate leaseUpdate;
+        private int index;
+
+        public UpdateLeaseSwingWorker(LeaseUpdate leaseUpdate, int index) {
+            this.leaseUpdate = leaseUpdate;
+            this.index = index;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Lease leaseToUpdate;
+            if ((leaseToUpdate = leaseUpdate.getData()) != null) {
+                leaseManager.updateLease(leaseToUpdate);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            updateLeases();
+            leasesTableModel.setLeases(leases);
+            leasesTableModel.fireTableRowsUpdated(index, index);
         }
     }
 
@@ -214,9 +278,35 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            updateLists();
+            updateBooks();
             booksTableModel.setBooks(books);
             booksTableModel.fireTableRowsInserted(books.size() - 1, books.size() - 1);
+        }
+    }
+
+    private class UpdateBookSwingWorker extends SwingWorker<Void, Void> {
+        private BookUpdate bookUpdate;
+        private int index;
+
+        public UpdateBookSwingWorker(BookUpdate bookUpdate, int index) {
+            this.bookUpdate = bookUpdate;
+            this.index = index;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Book bookToUpdate;
+            if ((bookToUpdate = bookUpdate.getData()) != null) {
+                bookManager.updateBook(bookToUpdate);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            updateBooks();
+            booksTableModel.setBooks(books);
+            booksTableModel.fireTableRowsUpdated(index, index);
         }
     }
 
@@ -238,9 +328,35 @@ public class LibraryManager {
 
         @Override
         protected void done() {
-            updateLists();
+            updateCustomers();
             customersTableModel.setCustomers(customers);
             customersTableModel.fireTableRowsInserted(customers.size() - 1, customers.size() - 1);
+        }
+    }
+
+    private class UpdateCustomerSwingWorker extends SwingWorker<Void, Void> {
+        private final CustomerUpdate customerUpdate;
+        private final int index;
+
+        public UpdateCustomerSwingWorker(CustomerUpdate customerUpdate, int index) {
+            this.customerUpdate = customerUpdate;
+            this.index = index;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            Customer customerToUpdate;
+            if ((customerToUpdate = customerUpdate.getData()) != null) {
+                customerManager.updateCustomer(customerToUpdate);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            updateCustomers();
+            customersTableModel.setCustomers(customers);
+            customersTableModel.fireTableRowsUpdated(index, index);
         }
     }
 

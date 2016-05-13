@@ -27,13 +27,13 @@ public class LeaseUpdate {
     private JFrame parent;
     private JDialog dialog;
 
-    private Lease toUpdate;
+    private Lease leaseToUpdate;
     private List<Book> books;
     private List<Customer> customers;
 
-    public LeaseUpdate(JFrame parent, Lease toUpdate, List<Book> books, List<Customer> customers) {
+    public LeaseUpdate(JFrame parent, List<Book> books, List<Customer> customers, Lease leaseToUpdate) {
         this.parent = parent;
-        this.toUpdate = toUpdate;
+        this.leaseToUpdate = leaseToUpdate;
         this.books = books;
         this.customers = customers;
 
@@ -41,25 +41,42 @@ public class LeaseUpdate {
         customers.forEach(customer -> cbCustomer.addItem(customer));
 
         updateButton.addActionListener(e -> {
-            toUpdate.setBook((Book) cbBook.getSelectedItem());
-            toUpdate.setCustomer((Customer) cbCustomer.getSelectedItem());
+            this.leaseToUpdate.setBook((Book) cbBook.getSelectedItem());
+            this.leaseToUpdate.setCustomer((Customer) cbCustomer.getSelectedItem());
             Date endTime = (Date) endTimeDatePicker.getModel().getValue();
             if (endTime != null) {
-                toUpdate.setEndTime(endTime.toLocalDate());
+                this.leaseToUpdate.setEndTime(endTime.toLocalDate());
             }
             Date realTime = (Date) realTimeDatePicker.getModel().getValue();
             if (realTime != null) {
-                toUpdate.setRealEndTime(realTime.toLocalDate());
+                this.leaseToUpdate.setRealEndTime(realTime.toLocalDate());
             }
 
             dialog.dispose();
         });
     }
 
+    public Lease getData() {
+        return leaseToUpdate;
+    }
+
     public void display() {
         dialog = new JDialog(parent, true);
 
         dialog.setContentPane(main);
+
+        if (leaseToUpdate.getEndTime() != null) {
+            endTimeDatePicker.getModel().setDate(leaseToUpdate.getEndTime().getYear(),
+                    leaseToUpdate.getEndTime().getMonthValue(),
+                    leaseToUpdate.getEndTime().getDayOfMonth());
+            endTimeDatePicker.getModel().setSelected(true);
+        }
+        if (leaseToUpdate.getRealEndTime() != null) {
+            realTimeDatePicker.getModel().setDate(leaseToUpdate.getRealEndTime().getYear(),
+                    leaseToUpdate.getRealEndTime().getMonthValue(),
+                    leaseToUpdate.getRealEndTime().getDayOfMonth());
+            realTimeDatePicker.getModel().setSelected(true);
+        }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.pack();
         dialog.setVisible(true);
