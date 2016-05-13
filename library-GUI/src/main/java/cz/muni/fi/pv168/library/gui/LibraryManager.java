@@ -61,7 +61,60 @@ public class LibraryManager {
 
     public LibraryManager() {
         updateLists();
+        setButtonsListeners();
+    }
 
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() ->
+                initFrame());
+    }
+
+    private static void initFrame() {
+        frame = new JFrame("LibraryManager");
+
+        frame.setContentPane(new LibraryManager().mainPane);
+        frame.setJMenuBar(createMenu());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        initManagers();
+        // Lease Table
+        leasesTableModel = new LeasesTableModel();
+        leaseTable = new JTable(leasesTableModel);
+        leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
+        leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
+        leaseColumnModel.getColumn(0).setMaxWidth(40);
+
+        // Customer Table
+        customersTableModel = new CustomersTableModel();
+        customerTable = new JTable(customersTableModel);
+        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel customerColumnModel = customerTable.getColumnModel();
+        customerColumnModel.getColumn(0).setMaxWidth(40);
+
+        // Book Table
+        booksTableModel = new BooksTableModel();
+        bookTable = new JTable(booksTableModel);
+        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel bookColumnModel = bookTable.getColumnModel();
+        bookColumnModel.getColumn(0).setMaxWidth(40);
+    }
+
+    private void initManagers() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                Lease.class.getResource("spring-config.xml").toString());
+
+        bookManager = ctx.getBean(BookManager.class);
+        customerManager = ctx.getBean(CustomerManager.class);
+        leaseManager = ctx.getBean(LeaseManager.class);
+    }
+
+    private void setButtonsListeners() {
         btAddLease.addActionListener(e -> {
             LeaseAdd leaseAdd = new LeaseAdd(frame, books, customers);
             leaseAdd.display();
@@ -160,55 +213,6 @@ public class LibraryManager {
         lSw.execute();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() ->
-                initFrame());
-    }
-
-    private static void initFrame() {
-        frame = new JFrame("LibraryManager");
-
-        frame.setContentPane(new LibraryManager().mainPane);
-        frame.setJMenuBar(createMenu());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private void createUIComponents() {
-        initManagers();
-        // Lease Table
-        leasesTableModel = new LeasesTableModel();
-        leaseTable = new JTable(leasesTableModel);
-        leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
-        leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
-        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
-        leaseColumnModel.getColumn(0).setMaxWidth(40);
-
-        // Customer Table
-        customersTableModel = new CustomersTableModel();
-        customerTable = new JTable(customersTableModel);
-        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel customerColumnModel = customerTable.getColumnModel();
-        customerColumnModel.getColumn(0).setMaxWidth(40);
-
-        // Book Table
-        booksTableModel = new BooksTableModel();
-        bookTable = new JTable(booksTableModel);
-        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel bookColumnModel = bookTable.getColumnModel();
-        bookColumnModel.getColumn(0).setMaxWidth(40);
-    }
-
-    private void initManagers() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                Lease.class.getResource("spring-config.xml").toString());
-
-        bookManager = ctx.getBean(BookManager.class);
-        customerManager = ctx.getBean(CustomerManager.class);
-        leaseManager = ctx.getBean(LeaseManager.class);
-    }
 
     private static JMenuBar createMenu() {
         JMenuBar menubar = new JMenuBar();
