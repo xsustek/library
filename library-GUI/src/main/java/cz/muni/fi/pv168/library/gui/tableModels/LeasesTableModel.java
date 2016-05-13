@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -17,10 +18,12 @@ import java.util.concurrent.ExecutionException;
 public class LeasesTableModel extends AbstractTableModel {
 
     private LeaseManager manager;
+    private ResourceBundle bundle;
     private List<Lease> leases;
 
     public LeasesTableModel(LeaseManager manager) {
         this.manager = manager;
+        bundle = ResourceBundle.getBundle("stringValues");
         updateLeases();
     }
 
@@ -61,13 +64,13 @@ public class LeasesTableModel extends AbstractTableModel {
             case 0:
                 return "Id";
             case 1:
-                return "Book";
+                return bundle.getString("lbBook");
             case 2:
-                return "Customer";
+                return bundle.getString("lbCustomer");
             case 3:
-                return "End Time";
+                return bundle.getString("lbEndTime");
             case 4:
-                return "Real End Time";
+                return bundle.getString("lbRealEndTime");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

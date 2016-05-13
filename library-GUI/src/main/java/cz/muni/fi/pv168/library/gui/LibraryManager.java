@@ -12,7 +12,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.concurrent.ExecutionException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by robert on 21.4.2016.
@@ -53,14 +54,9 @@ public class LibraryManager {
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
 
-    private java.util.List<Book> books;
-    private java.util.List<Customer> customers;
-
     public LibraryManager() {
-        GetBooksSwingWorker sw = new GetBooksSwingWorker();
-        sw.execute();
         btAddLease.addActionListener(e -> {
-            LeaseAdd leaseAdd = new LeaseAdd(frame, books, customerManager.findAllCustomers());
+            LeaseAdd leaseAdd = new LeaseAdd(frame, bookManager.findAllBooks(), customerManager.findAllCustomers());
             leaseAdd.display();
             new AddLeaseSwingWorker(leaseAdd).execute();
         });
@@ -81,12 +77,6 @@ public class LibraryManager {
             new AddCustomerSwingWorker(customerAdd).execute();
 
         });
-
-        btUpdateLease.addActionListener(e -> {
-            LeaseUpdate leaseUpdate = new LeaseUpdate(frame, leaseManager.findAllLeases().get(leaseTable.getSelectedRow()), bookManager.findAllBooks(), customerManager.findAllCustomers());
-            leaseUpdate.display();
-
-        });
     }
 
     public static void main(String[] args) {
@@ -98,6 +88,7 @@ public class LibraryManager {
         frame = new JFrame("LibraryManager");
 
         frame.setContentPane(new LibraryManager().mainPane);
+        frame.setJMenuBar(createMenu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -105,6 +96,7 @@ public class LibraryManager {
 
     private void createUIComponents() {
         initManagers();
+        // Lease Table
         leasesTableModel = new LeasesTableModel(leaseManager);
         leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
@@ -113,17 +105,19 @@ public class LibraryManager {
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 
+        // Customer Table
         customersTableModel = new CustomersTableModel(customerManager);
         customerTable = new JTable(customersTableModel);
-        customerTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
-        TableColumnModel customerTableModel = customerTable.getColumnModel();
-        customerTableModel.getColumn(0).setMaxWidth(40);
+        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel customerColumnModel = customerTable.getColumnModel();
+        customerColumnModel.getColumn(0).setMaxWidth(40);
 
+        // Book Table
         booksTableModel = new BooksTableModel(bookManager);
         bookTable = new JTable(booksTableModel);
-        bookTable.setDefaultRenderer(Book.class, new BookCellRender());
-        TableColumnModel bookTableModel = bookTable.getColumnModel();
-        bookTableModel.getColumn(0).setMaxWidth(40);
+        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel bookColumnModel = bookTable.getColumnModel();
+        bookColumnModel.getColumn(0).setMaxWidth(40);
     }
 
     private void initManagers() {
@@ -133,6 +127,33 @@ public class LibraryManager {
         bookManager = ctx.getBean(BookManager.class);
         customerManager = ctx.getBean(CustomerManager.class);
         leaseManager = ctx.getBean(LeaseManager.class);
+    }
+
+    private static JMenuBar createMenu() {
+        JMenuBar menubar = new JMenuBar();
+        menubar.add(createLaFMenu());
+
+        return menubar;
+    }
+
+    private static JMenu createLaFMenu() {
+        JMenu laf = new JMenu("Look and feel");
+        for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            JMenuItem item = new JMenuItem(info.getName());
+            laf.add(item);
+            item.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ev) {
+                    try {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+        }
+        return laf;
     }
 
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
@@ -198,24 +219,6 @@ public class LibraryManager {
         @Override
         protected void done() {
             customersTableModel.addedCustomer();
-        }
-    }
-
-    private class GetBooksSwingWorker extends SwingWorker<java.util.List<Book>, Void> {
-
-        @Override
-        protected java.util.List<Book> doInBackground() throws Exception {
-            return bookManager.findAllBooks();
-        }
-
-        @Override
-        protected void done() {
-            try {
-                books = get();
-
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
         }
     }
 

@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.library.CustomerManager;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -13,10 +14,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class CustomersTableModel extends AbstractTableModel {
     private CustomerManager manager;
+    private ResourceBundle bundle;
     private List<Customer> customers;
 
     public CustomersTableModel(CustomerManager customerManager) {
         manager = customerManager;
+        bundle = ResourceBundle.getBundle("stringValues");
         updateCustomers();
     }
 
@@ -62,11 +65,11 @@ public class CustomersTableModel extends AbstractTableModel {
             case 0:
                 return "Id";
             case 1:
-                return "Name";
+                return bundle.getString("lbName");
             case 2:
-                return "Address";
+                return bundle.getString("lbAddress");
             case 3:
-                return "Phone";
+                return bundle.getString("lbPhoneNumb");
             default:
                 throw new IndexOutOfBoundsException("columnIndex greater than 3");
         }
