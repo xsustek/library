@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
@@ -10,12 +11,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Created by robert on 21.4.2016.
@@ -28,11 +31,9 @@ public class LibraryManager {
     private JButton btDeleteLease;
     private JButton btAddBook;
     private JButton btDeleteBook;
-    private JButton btFindBook;
     private JButton btUpdateBook;
     private JButton btAddCustomer;
     private JButton btDeleteCustomer;
-    private JButton btFindCustomer;
     private JButton btUpdateCustomer;
     private JTable leaseTable;
     private JScrollPane jsLease;
@@ -43,17 +44,23 @@ public class LibraryManager {
     private JPanel booksTab;
     private JScrollPane jsCustomer;
     private JScrollPane jsBook;
-    private JTextField textField1;
-    private JTextField textField3;
+    private JTextField tfFindBook;
+    private JTextField tfFindCustomer;
     private JButton btReturn;
+    private JLabel lbFindCustomer;
+    private JLabel lbFindBook;
     private static JFrame frame;
 
     private LeaseManager leaseManager;
     private BookManager bookManager;
     private CustomerManager customerManager;
+
     private LeasesTableModel leasesTableModel;
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
+    private TableRowSorter<BooksTableModel> bookSorter;
+    private TableRowSorter<CustomersTableModel> customerSorter;
+
 
     private java.util.List<Lease> leases;
     private java.util.List<Book> books;
@@ -137,6 +144,60 @@ public class LibraryManager {
             if (selectedRowIndex < 0) return;
             new DeleteCustomerSwingWorker(customers.get(selectedRowIndex), selectedRowIndex).execute();
         });
+
+        tfFindCustomer.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+        });
+
+        tfFindBook.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+        });
+    }
+
+    private void newCustomerFilter() {
+        RowFilter<CustomersTableModel, Integer> rf = null;
+        try {
+            rf = RowFilter.regexFilter(tfFindCustomer.getText());
+        } catch (PatternSyntaxException ex) {
+            return;
+        }
+        customerSorter.setRowFilter(rf);
+    }
+
+    private void newBookFilter() {
+        RowFilter<BooksTableModel, Integer> rf = null;
+        try {
+            rf = RowFilter.regexFilter(tfFindBook.getText());
+        } catch (PatternSyntaxException ex) {
+            return;
+        }
+        bookSorter.setRowFilter(rf);
     }
 
     private void updateLists() {
@@ -171,7 +232,7 @@ public class LibraryManager {
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setJMenuBar(createMenu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setSize(new Dimension(800, 500));
         frame.setVisible(true);
     }
 
@@ -188,17 +249,22 @@ public class LibraryManager {
 
         // Customer Table
         customersTableModel = new CustomersTableModel();
+        customerSorter = new TableRowSorter<>(customersTableModel);
         customerTable = new JTable(customersTableModel);
+        customerTable.setRowSorter(customerSorter);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
         customerColumnModel.getColumn(0).setMaxWidth(40);
 
         // Book Table
         booksTableModel = new BooksTableModel();
+        bookSorter = new TableRowSorter<>(booksTableModel);
         bookTable = new JTable(booksTableModel);
+        bookTable.setRowSorter(bookSorter);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
         bookColumnModel.getColumn(0).setMaxWidth(40);
+
     }
 
     private void initManagers() {
@@ -222,15 +288,12 @@ public class LibraryManager {
         for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             JMenuItem item = new JMenuItem(info.getName());
             laf.add(item);
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ev) {
-                    try {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+            item.addActionListener(ev -> {
+                try {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             });
         }
@@ -299,11 +362,7 @@ public class LibraryManager {
         @Override
         protected Void doInBackground() throws Exception {
             if (lease != null) {
-                try {
-                    leaseManager.deleteLease(lease);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                leaseManager.deleteLease(lease);
             }
             return null;
         }
@@ -385,8 +444,9 @@ public class LibraryManager {
             if (book != null) {
                 try {
                     bookManager.deleteBook(book);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (ServiceFailureException ex) {
+                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             return null;
@@ -462,8 +522,9 @@ public class LibraryManager {
             if (customer != null) {
                 try {
                     customerManager.deleteCustomer(customer);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (ServiceFailureException ex) {
+                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             return null;
