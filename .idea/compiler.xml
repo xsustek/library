@@ -24,7 +24,6 @@
         <processorPath useClasspath="true" />
         <module name="Books Rental" />
         <module name="Library" />
-        <module name="library-GUI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
