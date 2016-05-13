@@ -557,9 +557,7 @@ public class LibraryManager {
                 availableBooks = get();
                 booksTableModel.setAvailableBooks(availableBooks);
                 booksTableModel.fireTableDataChanged();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
@@ -582,9 +580,7 @@ public class LibraryManager {
                 expiredLeases = get();
                 leasesTableModel.setExpiredLeases(expiredLeases);
                 leasesTableModel.fireTableDataChanged();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
