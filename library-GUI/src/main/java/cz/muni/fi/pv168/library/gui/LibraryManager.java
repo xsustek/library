@@ -14,6 +14,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -43,9 +44,8 @@ public class LibraryManager {
     private JScrollPane jsCustomer;
     private JScrollPane jsBook;
     private JTextField textField1;
-    private JButton btFindLease;
-    private JTextField tfFindLease;
     private JTextField textField3;
+    private JButton btReturn;
     private static JFrame frame;
 
     private LeaseManager leaseManager;
@@ -65,7 +65,7 @@ public class LibraryManager {
         btAddLease.addActionListener(e -> {
             LeaseAdd leaseAdd = new LeaseAdd(frame, books, customers);
             leaseAdd.display();
-            new AddLeaseSwingWorker(leaseAdd).execute();
+            new AddLeaseSwingWorker(leaseAdd.getData()).execute();
         });
 
         btUpdateLease.addActionListener(e -> {
@@ -74,7 +74,16 @@ public class LibraryManager {
             LeaseUpdate leaseUpdate = new LeaseUpdate(frame, books, customers, leases.get(selectedRowIndex));
             leaseUpdate.display();
 
-            new UpdateLeaseSwingWorker(leaseUpdate, selectedRowIndex).execute();
+            new UpdateLeaseSwingWorker(leaseUpdate.getData(), selectedRowIndex).execute();
+        });
+
+        btReturn.addActionListener(e -> {
+            int selectedRowIndex = leaseTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            Lease lease = leases.get(selectedRowIndex);
+            lease.setRealEndTime(LocalDate.now());
+
+            new UpdateLeaseSwingWorker(lease, selectedRowIndex).execute();
         });
 
         btDeleteLease.addActionListener(e -> {
@@ -89,7 +98,7 @@ public class LibraryManager {
             BookAdd bookAdd = new BookAdd(frame);
             bookAdd.display();
 
-            new AddBookSwingWorker(bookAdd).execute();
+            new AddBookSwingWorker(bookAdd.getData()).execute();
         });
 
         btUpdateBook.addActionListener(e -> {
@@ -98,7 +107,7 @@ public class LibraryManager {
             BookUpdate bookUpdate = new BookUpdate(frame, books.get(selectedRowIndex));
             bookUpdate.display();
 
-            new UpdateBookSwingWorker(bookUpdate, selectedRowIndex).execute();
+            new UpdateBookSwingWorker(bookUpdate.getData(), selectedRowIndex).execute();
         });
 
         btDeleteBook.addActionListener(e -> {
@@ -110,7 +119,7 @@ public class LibraryManager {
         btAddCustomer.addActionListener(e -> {
             CustomerAdd customerAdd = new CustomerAdd(frame);
             customerAdd.display();
-            new AddCustomerSwingWorker(customerAdd).execute();
+            new AddCustomerSwingWorker(customerAdd.getData()).execute();
 
         });
 
@@ -120,7 +129,7 @@ public class LibraryManager {
             CustomerUpdate customerUpdate = new CustomerUpdate(frame, customers.get(selectedRowIndex));
             customerUpdate.display();
 
-            new UpdateCustomerSwingWorker(customerUpdate, selectedRowIndex).execute();
+            new UpdateCustomerSwingWorker(customerUpdate.getData(), selectedRowIndex).execute();
         });
 
         btDeleteCustomer.addActionListener(e -> {
@@ -229,16 +238,15 @@ public class LibraryManager {
     }
 
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
-        private final LeaseAdd leaseAdd;
+        private final Lease lease;
 
-        public AddLeaseSwingWorker(LeaseAdd leaseAdd) {
-            this.leaseAdd = leaseAdd;
+        public AddLeaseSwingWorker(Lease lease) {
+            this.lease = lease;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Lease lease;
-            if ((lease = leaseAdd.getData()) != null) {
+            if (lease != null) {
                 leaseManager.createLease(lease);
             }
             return null;
@@ -254,18 +262,17 @@ public class LibraryManager {
 
     private class UpdateLeaseSwingWorker extends SwingWorker<Void, Void> {
 
-        private LeaseUpdate leaseUpdate;
+        private Lease leaseToUpdate;
         private int index;
 
-        public UpdateLeaseSwingWorker(LeaseUpdate leaseUpdate, int index) {
-            this.leaseUpdate = leaseUpdate;
+        public UpdateLeaseSwingWorker(Lease leaseToUpdate, int index) {
+            this.leaseToUpdate = leaseToUpdate;
             this.index = index;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Lease leaseToUpdate;
-            if ((leaseToUpdate = leaseUpdate.getData()) != null) {
+            if (leaseToUpdate != null) {
                 leaseManager.updateLease(leaseToUpdate);
             }
             return null;
@@ -310,16 +317,15 @@ public class LibraryManager {
     }
 
     private class AddBookSwingWorker extends SwingWorker<Void, Void> {
-        private final BookAdd bookAdd;
+        private final Book book;
 
-        public AddBookSwingWorker(BookAdd bookAdd) {
-            this.bookAdd = bookAdd;
+        public AddBookSwingWorker(Book book) {
+            this.book = book;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Book book;
-            if ((book = bookAdd.getData()) != null) {
+            if (book != null) {
                 bookManager.createBook(book);
             }
             return null;
@@ -334,19 +340,18 @@ public class LibraryManager {
     }
 
     private class UpdateBookSwingWorker extends SwingWorker<Void, Void> {
-        private BookUpdate bookUpdate;
+        private Book book;
         private int index;
 
-        public UpdateBookSwingWorker(BookUpdate bookUpdate, int index) {
-            this.bookUpdate = bookUpdate;
+        public UpdateBookSwingWorker(Book book, int index) {
+            this.book = book;
             this.index = index;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Book bookToUpdate;
-            if ((bookToUpdate = bookUpdate.getData()) != null) {
-                bookManager.updateBook(bookToUpdate);
+            if (book != null) {
+                bookManager.updateBook(book);
             }
             return null;
         }
@@ -389,16 +394,15 @@ public class LibraryManager {
     }
 
     private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
-        private final CustomerAdd customerAdd;
+        private final Customer customer;
 
-        public AddCustomerSwingWorker(CustomerAdd customerAdd) {
-            this.customerAdd = customerAdd;
+        public AddCustomerSwingWorker(Customer customer) {
+            this.customer = customer;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Customer customer;
-            if ((customer = customerAdd.getData()) != null) {
+            if (customer != null) {
                 customerManager.createCustomer(customer);
             }
             return null;
@@ -413,19 +417,18 @@ public class LibraryManager {
     }
 
     private class UpdateCustomerSwingWorker extends SwingWorker<Void, Void> {
-        private final CustomerUpdate customerUpdate;
+        private final Customer customer;
         private final int index;
 
-        public UpdateCustomerSwingWorker(CustomerUpdate customerUpdate, int index) {
-            this.customerUpdate = customerUpdate;
+        public UpdateCustomerSwingWorker(Customer customer, int index) {
+            this.customer = customer;
             this.index = index;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            Customer customerToUpdate;
-            if ((customerToUpdate = customerUpdate.getData()) != null) {
-                customerManager.updateCustomer(customerToUpdate);
+            if (customer != null) {
+                customerManager.updateCustomer(customer);
             }
             return null;
         }
