@@ -3,7 +3,9 @@ package cz.muni.fi.pv168.library.gui;
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
+import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -261,24 +263,25 @@ public class LibraryManager {
         leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
+        leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
         leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 
         // Customer Table
         customersTableModel = new CustomersTableModel();
-        customerSorter = new TableRowSorter<>(customersTableModel);
         customerTable = new JTable(customersTableModel);
-        customerTable.setRowSorter(customerSorter);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
         customerColumnModel.getColumn(0).setMaxWidth(40);
 
         // Book Table
         booksTableModel = new BooksTableModel();
-        bookSorter = new TableRowSorter<>(booksTableModel);
         bookTable = new JTable(booksTableModel);
-        bookTable.setRowSorter(bookSorter);
+        bookTable.setDefaultRenderer(String.class, new BooksCellRenderer());
+        bookTable.setDefaultRenderer(Long.class, new BooksCellRenderer());
+        bookTable.setDefaultRenderer(Integer.class, new BooksCellRenderer());
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
         bookColumnModel.getColumn(0).setMaxWidth(40);
