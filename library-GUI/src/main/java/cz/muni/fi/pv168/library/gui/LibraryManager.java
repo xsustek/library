@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 21.4.2016.
@@ -52,9 +53,14 @@ public class LibraryManager {
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
 
+    private java.util.List<Book> books;
+    private java.util.List<Customer> customers;
+
     public LibraryManager() {
+        GetBooksSwingWorker sw = new GetBooksSwingWorker();
+        sw.execute();
         btAddLease.addActionListener(e -> {
-            LeaseAdd leaseAdd = new LeaseAdd(frame, bookManager.findAllBooks(), customerManager.findAllCustomers());
+            LeaseAdd leaseAdd = new LeaseAdd(frame, books, customerManager.findAllCustomers());
             leaseAdd.display();
             new AddLeaseSwingWorker(leaseAdd).execute();
         });
@@ -73,6 +79,12 @@ public class LibraryManager {
             CustomerAdd customerAdd = new CustomerAdd(frame);
             customerAdd.display();
             new AddCustomerSwingWorker(customerAdd).execute();
+
+        });
+
+        btUpdateLease.addActionListener(e -> {
+            LeaseUpdate leaseUpdate = new LeaseUpdate(frame, leaseManager.findAllLeases().get(leaseTable.getSelectedRow()), bookManager.findAllBooks(), customerManager.findAllCustomers());
+            leaseUpdate.display();
 
         });
     }
@@ -97,7 +109,7 @@ public class LibraryManager {
         leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
-        // leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 
@@ -186,6 +198,24 @@ public class LibraryManager {
         @Override
         protected void done() {
             customersTableModel.addedCustomer();
+        }
+    }
+
+    private class GetBooksSwingWorker extends SwingWorker<java.util.List<Book>, Void> {
+
+        @Override
+        protected java.util.List<Book> doInBackground() throws Exception {
+            return bookManager.findAllBooks();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                books = get();
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 

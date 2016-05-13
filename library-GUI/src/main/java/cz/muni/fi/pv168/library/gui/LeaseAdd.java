@@ -26,7 +26,7 @@ public class LeaseAdd {
     private JPanel leaseAddPanel;
     private JDatePickerImpl realTimeDatePicker;
     private Lease lease;
-    private JDialog frame;
+    private JDialog dialog;
     private JFrame parent;
     private List<Book> books;
     private List<Customer> customers;
@@ -52,7 +52,7 @@ public class LeaseAdd {
             if (realEndTime != null) {
                 lease.setRealEndTime(realEndTime.toLocalDate());
             }
-            frame.dispose();
+            dialog.dispose();
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -84,11 +84,11 @@ public class LeaseAdd {
     }
 
     public void display() {
-        frame = new JDialog(parent, true);
+        dialog = new JDialog(parent, true);
 
-        frame.setContentPane(leaseAddPanel);
-        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        dialog.setContentPane(leaseAddPanel);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 }

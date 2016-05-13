@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cz.muni.fi.pv168.library.gui.LeaseUpdate">
-  <grid id="27dc6" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -56,25 +56,25 @@
           <text value="Cancel"/>
         </properties>
       </component>
-      <component id="4dc5f" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="4dc5f" class="javax.swing.JComboBox" binding="cbBook">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="4e774" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+      <component id="4e774" class="javax.swing.JComboBox" binding="cbCustomer">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="7323e" class="org.jdatepicker.impl.JDatePickerImpl" binding="JDatePickerImpl1" default-binding="true">
+      <component id="7323e" class="org.jdatepicker.impl.JDatePickerImpl" binding="realTimeDatePicker" custom-create="true">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="fddbd" class="org.jdatepicker.impl.JDatePickerImpl" binding="JDatePickerImpl2" default-binding="true">
+      <component id="fddbd" class="org.jdatepicker.impl.JDatePickerImpl" binding="endTimeDatePicker" custom-create="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

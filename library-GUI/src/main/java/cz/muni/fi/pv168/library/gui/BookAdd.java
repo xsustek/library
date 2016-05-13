@@ -16,7 +16,7 @@ public class BookAdd {
     private JSpinner pagesSpinner;
     private JSpinner yearSpinner;
     private JPanel main;
-    private JDialog frame;
+    private JDialog dialog;
     private JFrame parent;
     private Book book;
 
@@ -26,9 +26,9 @@ public class BookAdd {
 
 
     public void display() {
-        frame = new JDialog(parent, true);
-        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        frame.setContentPane(main);
+        dialog = new JDialog(parent, true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(main);
         addButton.addActionListener(e -> {
             try {
                 yearSpinner.commitEdit();
@@ -43,10 +43,10 @@ public class BookAdd {
             book.setReleaseYear((Integer) yearSpinner.getValue());
             book.setPages(Integer.parseInt(pagesSpinner.getValue().toString()));
 
-            frame.dispose();
+            dialog.dispose();
         });
-        frame.pack();
-        frame.setVisible(true);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     public Book getData() {
