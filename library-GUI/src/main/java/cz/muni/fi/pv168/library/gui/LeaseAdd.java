@@ -10,6 +10,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Properties;
@@ -28,13 +29,9 @@ public class LeaseAdd {
     private Lease lease;
     private JDialog dialog;
     private JFrame parent;
-    private List<Book> books;
-    private List<Customer> customers;
 
     public LeaseAdd(JFrame parent, List<Book> books, List<Customer> customers) {
         this.parent = parent;
-        this.books = books;
-        this.customers = customers;
 
         books.forEach(book -> cbBook.addItem(book));
         customers.forEach(customer -> cbCustomer.addItem(customer));
@@ -84,6 +81,7 @@ public class LeaseAdd {
         SqlDateModel realTimeDateModel = new SqlDateModel();
         JDatePanelImpl realTimeDatePanel = new JDatePanelImpl(realTimeDateModel, p);
         realTimeDatePicker = new JDatePickerImpl(realTimeDatePanel, new DateLabelFormatter());
+
     }
 
     public void display() {
@@ -91,7 +89,8 @@ public class LeaseAdd {
 
         dialog.setContentPane(leaseAddPanel);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.pack();
+        dialog.setMaximumSize(new Dimension(300, 200));
         dialog.setVisible(true);
+        System.out.print(endTimeDatePicker.getSize().toString());
     }
 }

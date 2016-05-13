@@ -30,14 +30,10 @@ public class LeaseUpdate {
     private JDialog dialog;
 
     private Lease leaseToUpdate;
-    private List<Book> books;
-    private List<Customer> customers;
 
     public LeaseUpdate(JFrame parent, List<Book> books, List<Customer> customers, Lease leaseToUpdate) {
         this.parent = parent;
         this.leaseToUpdate = leaseToUpdate;
-        this.books = books;
-        this.customers = customers;
 
         books.forEach(book -> cbBook.addItem(book));
         customers.forEach(customer -> cbCustomer.addItem(customer));
@@ -70,7 +66,7 @@ public class LeaseUpdate {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Update Lease", true);
 
         dialog.setContentPane(main);
 

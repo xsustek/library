@@ -1,10 +1,9 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
-import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
-import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -12,11 +11,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Created by robert on 21.4.2016.
@@ -29,11 +32,9 @@ public class LibraryManager {
     private JButton btDeleteLease;
     private JButton btAddBook;
     private JButton btDeleteBook;
-    private JButton btFindBook;
     private JButton btUpdateBook;
     private JButton btAddCustomer;
     private JButton btDeleteCustomer;
-    private JButton btFindCustomer;
     private JButton btUpdateCustomer;
     private JTable leaseTable;
     private JScrollPane jsLease;
@@ -44,17 +45,23 @@ public class LibraryManager {
     private JPanel booksTab;
     private JScrollPane jsCustomer;
     private JScrollPane jsBook;
-    private JTextField textField1;
-    private JTextField textField3;
+    private JTextField tfFindBook;
+    private JTextField tfFindCustomer;
     private JButton btReturn;
+    private JLabel lbFindCustomer;
+    private JLabel lbFindBook;
     private static JFrame frame;
 
     private LeaseManager leaseManager;
     private BookManager bookManager;
     private CustomerManager customerManager;
+
     private LeasesTableModel leasesTableModel;
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
+    private TableRowSorter<BooksTableModel> bookSorter;
+    private TableRowSorter<CustomersTableModel> customerSorter;
+
 
     private List<Lease> leases;
     private List<Lease> expiredLeases;
@@ -68,60 +75,7 @@ public class LibraryManager {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() ->
-                initFrame());
-    }
-
-    private static void initFrame() {
-        frame = new JFrame("LibraryManager");
-
-        frame.setContentPane(new LibraryManager().mainPane);
-        frame.setJMenuBar(createMenu());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private void createUIComponents() {
-        initManagers();
-        // Lease Table
-        leasesTableModel = new LeasesTableModel();
-        leaseTable = new JTable(leasesTableModel);
-        leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
-        leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
-        leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
-        leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
-        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
-        leaseColumnModel.getColumn(0).setMaxWidth(40);
-
-        // Customer Table
-        customersTableModel = new CustomersTableModel();
-        customerTable = new JTable(customersTableModel);
-        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel customerColumnModel = customerTable.getColumnModel();
-        customerColumnModel.getColumn(0).setMaxWidth(40);
-
-        // Book Table
-        booksTableModel = new BooksTableModel();
-        bookTable = new JTable(booksTableModel);
-        bookTable.setDefaultRenderer(String.class, new BooksCellRenderer());
-        bookTable.setDefaultRenderer(Long.class, new BooksCellRenderer());
-        bookTable.setDefaultRenderer(Integer.class, new BooksCellRenderer());
-        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        TableColumnModel bookColumnModel = bookTable.getColumnModel();
-        bookColumnModel.getColumn(0).setMaxWidth(40);
-
-
-    }
-
-    private void initManagers() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                Lease.class.getResource("spring-config.xml").toString());
-
-        bookManager = ctx.getBean(BookManager.class);
-        customerManager = ctx.getBean(CustomerManager.class);
-        leaseManager = ctx.getBean(LeaseManager.class);
+        EventQueue.invokeLater(() -> initFrame());
     }
 
     private void setButtonsListeners() {
@@ -200,6 +154,60 @@ public class LibraryManager {
             if (selectedRowIndex < 0) return;
             new DeleteCustomerSwingWorker(customers.get(selectedRowIndex), selectedRowIndex).execute();
         });
+
+        tfFindCustomer.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newCustomerFilter();
+            }
+        });
+
+        tfFindBook.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                newBookFilter();
+            }
+        });
+    }
+
+    private void newCustomerFilter() {
+        RowFilter<CustomersTableModel, Integer> rf = null;
+        try {
+            rf = RowFilter.regexFilter(tfFindCustomer.getText());
+        } catch (PatternSyntaxException ex) {
+            return;
+        }
+        customerSorter.setRowFilter(rf);
+    }
+
+    private void newBookFilter() {
+        RowFilter<BooksTableModel, Integer> rf = null;
+        try {
+            rf = RowFilter.regexFilter(tfFindBook.getText());
+        } catch (PatternSyntaxException ex) {
+            return;
+        }
+        bookSorter.setRowFilter(rf);
     }
 
     private void updateLists() {
@@ -236,6 +244,54 @@ public class LibraryManager {
         leases.execute();
     }
 
+    private static void initFrame() {
+        frame = new JFrame("LibraryManager");
+
+        frame.setContentPane(new LibraryManager().mainPane);
+        frame.setJMenuBar(createMenu());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        initManagers();
+        // Lease Table
+        leasesTableModel = new LeasesTableModel();
+        leaseTable = new JTable(leasesTableModel);
+        leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
+        leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
+        leaseColumnModel.getColumn(0).setMaxWidth(40);
+
+        // Customer Table
+        customersTableModel = new CustomersTableModel();
+        customerSorter = new TableRowSorter<>(customersTableModel);
+        customerTable = new JTable(customersTableModel);
+        customerTable.setRowSorter(customerSorter);
+        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel customerColumnModel = customerTable.getColumnModel();
+        customerColumnModel.getColumn(0).setMaxWidth(40);
+
+        // Book Table
+        booksTableModel = new BooksTableModel();
+        bookSorter = new TableRowSorter<>(booksTableModel);
+        bookTable = new JTable(booksTableModel);
+        bookTable.setRowSorter(bookSorter);
+        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel bookColumnModel = bookTable.getColumnModel();
+        bookColumnModel.getColumn(0).setMaxWidth(40);
+    }
+
+    private void initManagers() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                Lease.class.getResource("spring-config.xml").toString());
+
+        bookManager = ctx.getBean(BookManager.class);
+        customerManager = ctx.getBean(CustomerManager.class);
+        leaseManager = ctx.getBean(LeaseManager.class);
+    }
 
     private static JMenuBar createMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -323,11 +379,7 @@ public class LibraryManager {
         @Override
         protected Void doInBackground() throws Exception {
             if (lease != null) {
-                try {
-                    leaseManager.deleteLease(lease);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                leaseManager.deleteLease(lease);
             }
             return null;
         }
@@ -409,8 +461,9 @@ public class LibraryManager {
             if (book != null) {
                 try {
                     bookManager.deleteBook(book);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (ServiceFailureException ex) {
+                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             return null;
@@ -486,8 +539,9 @@ public class LibraryManager {
             if (customer != null) {
                 try {
                     customerManager.deleteCustomer(customer);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (ServiceFailureException ex) {
+                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             return null;
