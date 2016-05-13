@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import cz.muni.fi.pv168.library.Book;
 
 import javax.swing.*;
@@ -22,13 +24,7 @@ public class BookAdd {
 
     public BookAdd(JFrame parent) {
         this.parent = parent;
-    }
 
-
-    public void display() {
-        dialog = new JDialog(parent, true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setContentPane(main);
         addButton.addActionListener(e -> {
             try {
                 yearSpinner.commitEdit();
@@ -43,8 +39,24 @@ public class BookAdd {
             book.setReleaseYear((Integer) yearSpinner.getValue());
             book.setPages(Integer.parseInt(pagesSpinner.getValue().toString()));
 
+            try {
+                Validator.validateBook(book);
+                dialog.dispose();
+            } catch (ValidationException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        cancelButton.addActionListener(e -> {
             dialog.dispose();
         });
+    }
+
+
+    public void display() {
+        dialog = new JDialog(parent, "Add Book", true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(main);
         dialog.pack();
         dialog.setVisible(true);
     }
@@ -52,4 +64,5 @@ public class BookAdd {
     public Book getData() {
         return book;
     }
+
 }

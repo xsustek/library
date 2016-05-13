@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import cz.muni.fi.pv168.library.Customer;
 
 import javax.swing.*;
@@ -27,8 +29,15 @@ public class CustomerAdd {
             customer.setAddress(tfAddress.getText());
             customer.setPhoneNumber(tfPhoneNumb.getText());
 
-            dialog.dispose();
+            try {
+                Validator.validateCustomer(customer);
+                dialog.dispose();
+            } catch (ValidationException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
     }
 
     public Customer getData() {
@@ -36,7 +45,7 @@ public class CustomerAdd {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Add Customer", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(main);
         dialog.pack();
