@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import cz.muni.fi.pv168.library.Book;
 
 import javax.swing.*;
@@ -37,8 +39,15 @@ public class BookUpdate {
             book.setReleaseYear((Integer) yearSpinner.getValue());
             book.setPages(Integer.parseInt(pagesSpinner.getValue().toString()));
 
-            dialog.dispose();
+            try {
+                Validator.validateBook(bookToUpdate);
+                dialog.dispose();
+            } catch (ValidationException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
     }
 
     public Book getData() {

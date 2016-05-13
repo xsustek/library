@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.library;
 import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
-import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -41,7 +41,7 @@ public class BookManagerImpl implements BookManager {
 
     public void createBook(Book book) {
         checkSources();
-        validate(book);
+        Validator.validateBook(book);
 
         if (book.getId() != null) {
             throw new IllegalEntityException("Book id is already set");
@@ -66,28 +66,6 @@ public class BookManagerImpl implements BookManager {
             String msg = "Error when inserting book into db";
             logger.log(Level.SEVERE, msg, e);
             throw new ServiceFailureException(msg, e);
-        }
-
-    }
-
-    private void validate(Book book) throws IllegalArgumentException {
-        if (book == null) {
-            throw new IllegalArgumentException("Book is null");
-        }
-        if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
-            throw new IllegalArgumentException("Author is null or empty");
-        }
-        if (!book.getAuthor().matches("^[A-Z][a-z]*( ?[A-Z][a-z]*)* [A-Z][a-z]*$")) {
-            throw new ValidationException("Invalid author format");
-        }
-        if (book.getPages() < 1) {
-            throw new ValidationException("Pages is less then 1");
-        }
-        if (book.getTitle() == null || book.getTitle().isEmpty()) {
-            throw new IllegalArgumentException("Title is null or empty");
-        }
-        if (book.getReleaseYear() < 0) {
-            throw new ValidationException("Date is less than zero");
         }
 
     }
@@ -139,7 +117,7 @@ public class BookManagerImpl implements BookManager {
 
     public void updateBook(Book book) {
         checkSources();
-        validate(book);
+        Validator.validateBook(book);
 
         if (book.getId() == null) {
             throw new IllegalEntityException("Book id is null");
@@ -165,7 +143,7 @@ public class BookManagerImpl implements BookManager {
 
     public void deleteBook(Book book) {
         checkSources();
-        validate(book);
+        Validator.validateBook(book);
 
         if (book.getId() == null) {
             throw new IllegalEntityException("Book id is null");

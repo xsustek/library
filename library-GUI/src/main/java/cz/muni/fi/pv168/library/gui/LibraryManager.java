@@ -86,6 +86,13 @@ public class LibraryManager {
             new UpdateLeaseSwingWorker(lease, selectedRowIndex).execute();
         });
 
+        btDeleteLease.addActionListener(e -> {
+            int selectedRowIndex = leaseTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            new DeleteLeaseSwingWorker(leases.get(selectedRowIndex), selectedRowIndex).execute();
+
+        });
+
 
         btAddBook.addActionListener(e -> {
             BookAdd bookAdd = new BookAdd(frame);
@@ -103,6 +110,12 @@ public class LibraryManager {
             new UpdateBookSwingWorker(bookUpdate.getData(), selectedRowIndex).execute();
         });
 
+        btDeleteBook.addActionListener(e -> {
+            int selectedRowIndex = bookTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            new DeleteBookSwingWorker(books.get(selectedRowIndex), selectedRowIndex).execute();
+        });
+
         btAddCustomer.addActionListener(e -> {
             CustomerAdd customerAdd = new CustomerAdd(frame);
             customerAdd.display();
@@ -117,6 +130,12 @@ public class LibraryManager {
             customerUpdate.display();
 
             new UpdateCustomerSwingWorker(customerUpdate.getData(), selectedRowIndex).execute();
+        });
+
+        btDeleteCustomer.addActionListener(e -> {
+            int selectedRowIndex = customerTable.getSelectedRow();
+            if (selectedRowIndex < 0) return;
+            new DeleteCustomerSwingWorker(customers.get(selectedRowIndex), selectedRowIndex).execute();
         });
     }
 
@@ -267,6 +286,36 @@ public class LibraryManager {
         }
     }
 
+    private class DeleteLeaseSwingWorker extends SwingWorker<Void, Void> {
+
+        private Lease lease;
+        private int index;
+
+        public DeleteLeaseSwingWorker(Lease lease, int index) {
+            this.lease = lease;
+            this.index = index;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            if (lease != null) {
+                try {
+                    leaseManager.deleteLease(lease);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            updateLeases();
+            leasesTableModel.setLeases(leases);
+            leasesTableModel.fireTableRowsDeleted(index, index);
+        }
+    }
+
     private class AddBookSwingWorker extends SwingWorker<Void, Void> {
         private final Book book;
 
@@ -315,6 +364,35 @@ public class LibraryManager {
         }
     }
 
+    private class DeleteBookSwingWorker extends SwingWorker<Void, Void> {
+        private Book book;
+        private int row;
+
+        public DeleteBookSwingWorker(Book book, int row) {
+            this.book = book;
+            this.row = row;
+        }
+
+        @Override
+        protected void done() {
+            updateBooks();
+            booksTableModel.setBooks(books);
+            booksTableModel.fireTableRowsDeleted(row, row);
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            if (book != null) {
+                try {
+                    bookManager.deleteBook(book);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            return null;
+        }
+    }
+
     private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
         private final Customer customer;
 
@@ -360,6 +438,35 @@ public class LibraryManager {
             updateCustomers();
             customersTableModel.setCustomers(customers);
             customersTableModel.fireTableRowsUpdated(index, index);
+        }
+    }
+
+    private class DeleteCustomerSwingWorker extends SwingWorker<Void, Void> {
+        private Customer customer;
+        private int row;
+
+        public DeleteCustomerSwingWorker(Customer customer, int row) {
+            this.customer = customer;
+            this.row = row;
+        }
+
+        @Override
+        protected void done() {
+            updateCustomers();
+            customersTableModel.setCustomers(customers);
+            customersTableModel.fireTableRowsDeleted(row, row);
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            if (customer != null) {
+                try {
+                    customerManager.deleteCustomer(customer);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            return null;
         }
     }
 

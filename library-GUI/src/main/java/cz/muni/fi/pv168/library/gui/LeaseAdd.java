@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import cz.muni.fi.pv168.library.Book;
 import cz.muni.fi.pv168.library.Customer;
 import cz.muni.fi.pv168.library.Lease;
@@ -8,8 +10,6 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.List;
 import java.util.Properties;
@@ -52,14 +52,17 @@ public class LeaseAdd {
             if (realEndTime != null) {
                 lease.setRealEndTime(realEndTime.toLocalDate());
             }
-            dialog.dispose();
-        });
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
+            try {
+                Validator.validateLease(lease);
+                dialog.dispose();
+            } catch (ValidationException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
             }
+
         });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
 
 
     }
@@ -84,7 +87,7 @@ public class LeaseAdd {
     }
 
     public void display() {
-        dialog = new JDialog(parent, true);
+        dialog = new JDialog(parent, "Add Lease", true);
 
         dialog.setContentPane(leaseAddPanel);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

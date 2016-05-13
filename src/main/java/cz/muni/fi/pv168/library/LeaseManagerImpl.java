@@ -1,9 +1,6 @@
 package cz.muni.fi.pv168.library;
 
-import cz.muni.fi.pv168.common.DBUtils;
-import cz.muni.fi.pv168.common.IllegalEntityException;
-import cz.muni.fi.pv168.common.ServiceFailureException;
-import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -60,7 +57,7 @@ public class LeaseManagerImpl implements LeaseManager {
 
     public void createLease(Lease lease) {
         checkSources();
-        validate(lease);
+        Validator.validateLease(lease);
 
         if (lease.getId() != null) {
             throw new IllegalEntityException("Lease id is already set");
@@ -139,7 +136,7 @@ public class LeaseManagerImpl implements LeaseManager {
 
     public void updateLease(Lease lease) {
         checkSources();
-        validate(lease);
+        Validator.validateLease(lease);
 
         if (lease.getId() == null) {
             throw new IllegalEntityException("Lease id is null");
@@ -178,7 +175,7 @@ public class LeaseManagerImpl implements LeaseManager {
 
     public void deleteLease(Lease lease) {
         checkSources();
-        validate(lease);
+        Validator.validateLease(lease);
 
         if (lease.getId() == null) {
             throw new IllegalEntityException("Lease id is null");
@@ -276,32 +273,6 @@ public class LeaseManagerImpl implements LeaseManager {
         }
 
         return true;
-    }
-
-    private void validate(Lease lease) {
-        if (lease == null) {
-            throw new IllegalArgumentException("Lease is null");
-        }
-
-        if (lease.getBook() == null) {
-            throw new ValidationException("Lease's book is null");
-        }
-
-        if (lease.getBook().getId() == null) {
-            throw new ValidationException("Lease's book's id is null");
-        }
-
-        if (lease.getCustomer() == null) {
-            throw new ValidationException("Lease's customer is null");
-        }
-
-        if (lease.getCustomer().getId() == null) {
-            throw new ValidationException("Lease's customer's id is null");
-        }
-
-        if (lease.getEndTime() == null) {
-            throw new ValidationException("Lease's end time is null");
-        }
     }
 
     private final RowMapper<Lease> leaseMapper = (rs, rowNum) -> {

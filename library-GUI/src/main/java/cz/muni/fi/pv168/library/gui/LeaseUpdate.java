@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.library.gui;
 
+import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import cz.muni.fi.pv168.library.Book;
 import cz.muni.fi.pv168.library.Customer;
 import cz.muni.fi.pv168.library.Lease;
@@ -17,7 +19,7 @@ import java.util.Properties;
  */
 public class LeaseUpdate {
     private JButton updateButton;
-    private JButton zrušitButton;
+    private JButton cancelButton;
     private JComboBox cbBook;
     private JComboBox cbCustomer;
     private JDatePickerImpl endTimeDatePicker;
@@ -52,8 +54,15 @@ public class LeaseUpdate {
                 this.leaseToUpdate.setRealEndTime(realTime.toLocalDate());
             }
 
-            dialog.dispose();
+            try {
+                Validator.validateLease(leaseToUpdate);
+                dialog.dispose();
+            } catch (ValidationException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
     }
 
     public Lease getData() {

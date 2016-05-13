@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.library;
 import cz.muni.fi.pv168.common.DBUtils;
 import cz.muni.fi.pv168.common.IllegalEntityException;
 import cz.muni.fi.pv168.common.ServiceFailureException;
-import cz.muni.fi.pv168.common.ValidationException;
+import cz.muni.fi.pv168.common.Validator;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -18,7 +18,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 /**
  * Created by Milan Šůstek on 26.02.2016.
@@ -42,7 +41,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public void createCustomer(Customer customer) {
         checkSources();
-        validate(customer);
+        Validator.validateCustomer(customer);
 
         if (customer.getId() != null) {
             throw new IllegalEntityException("Customer id is already set");
@@ -109,7 +108,7 @@ public class CustomerManagerImpl implements CustomerManager {
     public List<Customer> findCustomerByName(String name) {
         checkSources();
 
-        if (!isValidName(name)) {
+        if (Validator.isValidCustomerName(name)) {
             throw new IllegalArgumentException("Invalid customer's name");
         }
 
@@ -124,7 +123,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public void updateCustomer(Customer customer) {
         checkSources();
-        validate(customer);
+        Validator.validateCustomer(customer);
 
         if (customer.getId() == null) {
             throw new IllegalEntityException("Customer id is null");
@@ -149,7 +148,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public void deleteCustomer(Customer customer) {
         checkSources();
-        validate(customer);
+        Validator.validateCustomer(customer);
 
         if (customer.getId() == null) {
             throw new IllegalEntityException("Customer id is null");
@@ -175,48 +174,5 @@ public class CustomerManagerImpl implements CustomerManager {
         return customer;
     };
 
-    private void validate(Customer customer) throws IllegalArgumentException {
-        if (customer == null) {
-            throw new IllegalArgumentException("customer is null");
-        }
 
-        if (!isValidName(customer.getName())) {
-            throw new ValidationException("Invalid customer's name");
-        }
-
-        if (!isValidAddress(customer.getAddress())) {
-            throw new ValidationException("Invalid customer's address. Valid address " +
-                    "format \"streetName buildingNumber, postalCode city\'");
-        }
-
-        if (!isValidPhoneNumber(customer.getPhoneNumber())) {
-            throw new ValidationException("Invalid customer's phone number. Valid phone" +
-                    " number format \"+xxxxxxxxxxxx\"");
-        }
-    }
-
-    private boolean isValidName(String name) {
-        if (name == null || name.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[a-zA-Z\\u00c0-\\u017e ]+", name);
-    }
-
-    private boolean isValidPhoneNumber(String number) {
-        if (number == null || number.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[+]\\d{12}+", number);
-    }
-
-    private boolean isValidAddress(String address) {
-        if (address == null || address.isEmpty()) {
-            return false;
-        }
-
-        return Pattern.matches("[a-zA-Z0-9\\u00c0-\\u017e -]+[,][ ]" +
-                "[0-9]{3}+[ ][0-9]{2}+[ ][a-zA-Z0-9\\u00c0-\\u017e., -]+", address);
-    }
 }
