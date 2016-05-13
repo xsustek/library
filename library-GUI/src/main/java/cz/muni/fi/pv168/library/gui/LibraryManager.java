@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.library.*;
 import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
 import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
 import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -56,6 +57,7 @@ public class LibraryManager {
     private BooksTableModel booksTableModel;
 
     private List<Lease> leases;
+    private List<Lease> expiredLeases;
     private List<Book> books;
     private List<Book> availableBooks;
     private List<Customer> customers;
@@ -87,6 +89,8 @@ public class LibraryManager {
         leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
+        leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
         leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
@@ -224,6 +228,12 @@ public class LibraryManager {
         GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
         lSw.execute();
         updateAvailableBooks();
+        updateExpiredLeases();
+    }
+
+    private void updateExpiredLeases() {
+        GetExpiredLeases leases = new GetExpiredLeases();
+        leases.execute();
     }
 
 
@@ -557,6 +567,26 @@ public class LibraryManager {
         @Override
         protected List<Book> doInBackground() throws Exception {
             return bookManager.findAvailableBooks();
+        }
+    }
+
+    private class GetExpiredLeases extends SwingWorker<List<Lease>, Void> {
+        @Override
+        protected List<Lease> doInBackground() throws Exception {
+            return leaseManager.findExpiredLeases();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                expiredLeases = get();
+                leasesTableModel.setExpiredLeases(expiredLeases);
+                leasesTableModel.fireTableDataChanged();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 

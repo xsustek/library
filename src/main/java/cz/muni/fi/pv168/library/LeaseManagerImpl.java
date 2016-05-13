@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -233,10 +234,11 @@ public class LeaseManagerImpl implements LeaseManager {
         checkSources();
 
         try {
-            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES WHERE REAL_END_TIME > END_TIME",
+            Date now = Date.valueOf(LocalDate.now());
+            List<Lease> leases = jdbcTemplate.query("SELECT * FROM LEASES WHERE '" + now + "' > END_TIME AND REAL_END_TIME IS NULL",
                     leaseMapper);
 
-            logger.debug("{} leases were returned", leases.size());
+            logger.debug("{} expired leases were returned", leases.size());
 
             return leases;
         } catch (DataAccessException ex) {

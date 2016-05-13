@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.library.Lease;
 import cz.muni.fi.pv168.library.LeaseManager;
 
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,6 +19,7 @@ public class LeasesTableModel extends AbstractTableModel {
     private LeaseManager manager;
     private ResourceBundle bundle;
     private List<Lease> leases;
+    private List<Lease> expiredLeases;
 
     public LeasesTableModel() {
         bundle = ResourceBundle.getBundle("stringValues");
@@ -25,6 +27,10 @@ public class LeasesTableModel extends AbstractTableModel {
 
     public void setLeases(List<Lease> leases) {
         this.leases = leases;
+    }
+
+    public void setExpiredLeases(List<Lease> leases) {
+        expiredLeases = leases;
     }
 
     @Override
@@ -94,17 +100,9 @@ public class LeasesTableModel extends AbstractTableModel {
         }
     }
 
-
-    public void addedLease() {
-        int lastRow = leases.size() - 1;
-        fireTableRowsInserted(lastRow, lastRow);
-    }
-
-    public void deleteLease(int row) {
-
-    }
-
-    public void updateLease(int row) {
-
+    public Color getLeaseColor(int row) {
+        Lease lease = leases.get(row);
+        if (expiredLeases == null) return Color.WHITE;
+        return expiredLeases.contains(lease) ? Color.RED : Color.WHITE;
     }
 }
