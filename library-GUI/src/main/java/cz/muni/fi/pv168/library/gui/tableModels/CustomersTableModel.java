@@ -19,12 +19,12 @@ public class CustomersTableModel extends AbstractTableModel {
 
     public CustomersTableModel(CustomerManager customerManager) {
         manager = customerManager;
+        bundle = ResourceBundle.getBundle("stringValues");
         updateCustomers();
     }
 
     private void updateCustomers() {
         GetCustomerSwingWorker sw = new GetCustomerSwingWorker();
-        bundle = ResourceBundle.getBundle("stringValues");
         sw.execute();
     }
 

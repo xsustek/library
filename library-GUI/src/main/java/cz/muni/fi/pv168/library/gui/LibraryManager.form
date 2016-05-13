@@ -187,7 +187,9 @@
                 <children>
                   <component id="4733e" class="javax.swing.JTable" binding="bookTable" custom-create="true">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <autoCreateColumnsFromModel value="true"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
