@@ -1,28 +1,25 @@
 package cz.muni.fi.pv168.library.gui.tableModels;
 
 import cz.muni.fi.pv168.library.Book;
-import cz.muni.fi.pv168.library.BookManager;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 28.4.2016.
  */
 public class BooksTableModel extends AbstractTableModel {
-    private BookManager manager;
     private ResourceBundle bundle;
     private List<Book> books;
 
-    public BooksTableModel(BookManager bookManager) {
-        manager = bookManager;
+    public BooksTableModel() {
         bundle = ResourceBundle.getBundle("stringValues");
-        updateBooks();
     }
 
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
     @Override
     public int getRowCount() {
 
@@ -93,31 +90,8 @@ public class BooksTableModel extends AbstractTableModel {
     }
 
     public void addedBook() {
-        updateBooks();
         int index = books.size() - 1;
         fireTableRowsInserted(index, index);
     }
 
-    private void updateBooks() {
-        GetBooksSwingWorker sw = new GetBooksSwingWorker();
-        sw.execute();
-    }
-
-    private class GetBooksSwingWorker extends SwingWorker<List<Book>, Void> {
-
-        @Override
-        protected List<Book> doInBackground() throws Exception {
-            return manager.findAllBooks();
-        }
-
-        @Override
-        protected void done() {
-            try {
-                books = get();
-                fireTableStructureChanged();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

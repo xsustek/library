@@ -5,12 +5,10 @@ import cz.muni.fi.pv168.library.Customer;
 import cz.muni.fi.pv168.library.Lease;
 import cz.muni.fi.pv168.library.LeaseManager;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 28.4.2016.
@@ -21,10 +19,12 @@ public class LeasesTableModel extends AbstractTableModel {
     private ResourceBundle bundle;
     private List<Lease> leases;
 
-    public LeasesTableModel(LeaseManager manager) {
-        this.manager = manager;
+    public LeasesTableModel() {
         bundle = ResourceBundle.getBundle("stringValues");
-        updateLeases();
+    }
+
+    public void setLeases(List<Lease> leases) {
+        this.leases = leases;
     }
 
     @Override
@@ -96,7 +96,6 @@ public class LeasesTableModel extends AbstractTableModel {
 
 
     public void addedLease() {
-        updateLeases();
         int lastRow = leases.size() - 1;
         fireTableRowsInserted(lastRow, lastRow);
     }
@@ -107,27 +106,5 @@ public class LeasesTableModel extends AbstractTableModel {
 
     public void updateLease(int row) {
 
-    }
-
-    private void updateLeases() {
-        GetLeasesSwingWorker sw = new GetLeasesSwingWorker();
-        sw.execute();
-    }
-
-    private class GetLeasesSwingWorker extends SwingWorker<List<Lease>, Void> {
-        @Override
-        protected List<Lease> doInBackground() throws Exception {
-            return manager.findAllLeases();
-        }
-
-        @Override
-        protected void done() {
-            try {
-                leases = get();
-                fireTableDataChanged();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

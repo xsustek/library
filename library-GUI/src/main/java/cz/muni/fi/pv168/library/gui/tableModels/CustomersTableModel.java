@@ -1,31 +1,25 @@
 package cz.muni.fi.pv168.library.gui.tableModels;
 
 import cz.muni.fi.pv168.library.Customer;
-import cz.muni.fi.pv168.library.CustomerManager;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 28.4.2016.
  */
 public class CustomersTableModel extends AbstractTableModel {
-    private CustomerManager manager;
+
     private ResourceBundle bundle;
     private List<Customer> customers;
 
-    public CustomersTableModel(CustomerManager customerManager) {
-        manager = customerManager;
+    public CustomersTableModel() {
         bundle = ResourceBundle.getBundle("stringValues");
-        updateCustomers();
     }
 
-    private void updateCustomers() {
-        GetCustomerSwingWorker sw = new GetCustomerSwingWorker();
-        sw.execute();
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     @Override
@@ -92,25 +86,9 @@ public class CustomersTableModel extends AbstractTableModel {
     }
 
     public void addedCustomer() {
-        updateCustomers();
         int index = customers.size() - 1;
         fireTableRowsInserted(index, index);
     }
 
-    private class GetCustomerSwingWorker extends SwingWorker<List<Customer>, Void> {
-        @Override
-        protected List<Customer> doInBackground() throws Exception {
-            return manager.findAllCustomers();
-        }
 
-        @Override
-        protected void done() {
-            try {
-                customers = get();
-                fireTableDataChanged();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

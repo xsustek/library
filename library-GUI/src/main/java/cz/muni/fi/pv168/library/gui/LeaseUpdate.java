@@ -17,7 +17,7 @@ import java.util.Properties;
  */
 public class LeaseUpdate {
     private JButton updateButton;
-    private JButton cancelButton;
+    private JButton zrušitButton;
     private JComboBox cbBook;
     private JComboBox cbCustomer;
     private JDatePickerImpl endTimeDatePicker;

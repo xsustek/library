@@ -14,7 +14,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by robert on 21.4.2016.
@@ -55,9 +55,15 @@ public class LibraryManager {
     private CustomersTableModel customersTableModel;
     private BooksTableModel booksTableModel;
 
+    private java.util.List<Lease> leases;
+    private java.util.List<Book> books;
+    private java.util.List<Customer> customers;
+
     public LibraryManager() {
+        updateLists();
+
         btAddLease.addActionListener(e -> {
-            LeaseAdd leaseAdd = new LeaseAdd(frame, bookManager.findAllBooks(), customerManager.findAllCustomers());
+            LeaseAdd leaseAdd = new LeaseAdd(frame, books, customers);
             leaseAdd.display();
             new AddLeaseSwingWorker(leaseAdd).execute();
         });
@@ -80,9 +86,16 @@ public class LibraryManager {
         });
     }
 
-    public static void main(String[] args) {
+    private void updateLists() {
+        GetLeasesSwingWorker lSw = new GetLeasesSwingWorker();
+        GetBooksSwingWorker bSw = new GetBooksSwingWorker();
+        GetCustomerSwingWorker cSw = new GetCustomerSwingWorker();
+        lSw.execute();
+        bSw.execute();
+        cSw.execute();
+    }
 
-        Locale.setDefault(new Locale("sk", "SK"));
+    public static void main(String[] args) {
         EventQueue.invokeLater(() ->
                 initFrame());
     }
@@ -100,7 +113,7 @@ public class LibraryManager {
     private void createUIComponents() {
         initManagers();
         // Lease Table
-        leasesTableModel = new LeasesTableModel(leaseManager);
+        leasesTableModel = new LeasesTableModel();
         leaseTable = new JTable(leasesTableModel);
         leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
@@ -109,14 +122,14 @@ public class LibraryManager {
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 
         // Customer Table
-        customersTableModel = new CustomersTableModel(customerManager);
+        customersTableModel = new CustomersTableModel();
         customerTable = new JTable(customersTableModel);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
         customerColumnModel.getColumn(0).setMaxWidth(40);
 
         // Book Table
-        booksTableModel = new BooksTableModel(bookManager);
+        booksTableModel = new BooksTableModel();
         bookTable = new JTable(booksTableModel);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
@@ -225,5 +238,59 @@ public class LibraryManager {
         }
     }
 
+    private class GetBooksSwingWorker extends SwingWorker<java.util.List<Book>, Void> {
+
+        @Override
+        protected java.util.List<Book> doInBackground() throws Exception {
+            return bookManager.findAllBooks();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                books = get();
+                booksTableModel.setBooks(books);
+                booksTableModel.fireTableDataChanged();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class GetCustomerSwingWorker extends SwingWorker<java.util.List<Customer>, Void> {
+        @Override
+        protected java.util.List<Customer> doInBackground() throws Exception {
+            return customerManager.findAllCustomers();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                customers = get();
+                customersTableModel.setCustomers(customers);
+                customersTableModel.fireTableDataChanged();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class GetLeasesSwingWorker extends SwingWorker<java.util.List<Lease>, Void> {
+        @Override
+        protected java.util.List<Lease> doInBackground() throws Exception {
+            return leaseManager.findAllLeases();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                leases = get();
+                leasesTableModel.setLeases(leases);
+                leasesTableModel.fireTableStructureChanged();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
