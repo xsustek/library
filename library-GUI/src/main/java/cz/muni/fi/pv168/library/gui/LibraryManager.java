@@ -250,7 +250,7 @@ public class LibraryManager {
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setJMenuBar(createMenu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setSize(new Dimension(800, 500));
         frame.setVisible(true);
     }
 
