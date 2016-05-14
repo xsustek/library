@@ -2,10 +2,10 @@ package cz.muni.fi.pv168.library.gui;
 
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
-import cz.muni.fi.pv168.library.gui.renders.BookCellRender;
 import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
-import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
-import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
+import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.BookCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -82,7 +82,7 @@ public class LibraryManager {
 
     private void setButtonsListeners() {
         btAddLease.addActionListener(e -> {
-            LeaseAdd leaseAdd = new LeaseAdd(frame, books, customers);
+            LeaseAdd leaseAdd = new LeaseAdd(frame, availableBooks, customers);
             leaseAdd.display();
             new AddLeaseSwingWorker(leaseAdd.getData()).execute();
         });
@@ -266,6 +266,7 @@ public class LibraryManager {
         leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
         leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        leaseTable.setRowSelectionAllowed(true);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 

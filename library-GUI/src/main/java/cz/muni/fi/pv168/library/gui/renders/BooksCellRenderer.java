@@ -15,8 +15,14 @@ public class BooksCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         BooksTableModel model = (BooksTableModel) table.getModel();
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
+        c.setForeground(Color.black);
         c.setBackground(model.getRowColour(row));
+        if (isSelected) {
+            if (model.getRowColour(row).equals(Color.RED)) {
+                c.setBackground(new Color(228, 97, 108));
+            }
+            c.setBackground(new Color(184, 207, 229));
+        }
         return this;
     }
 }
