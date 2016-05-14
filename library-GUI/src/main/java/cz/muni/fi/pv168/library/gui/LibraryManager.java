@@ -2,10 +2,9 @@ package cz.muni.fi.pv168.library.gui;
 
 import cz.muni.fi.pv168.common.ServiceFailureException;
 import cz.muni.fi.pv168.library.*;
-import cz.muni.fi.pv168.library.gui.renders.BooksCellRenderer;
-import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.BookCellRender;
-import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.CustomerCellRender;
-import cz.muni.fi.pv168.library.gui.renders.LeaseRenderers.LeaseObjectRenderer;
+import cz.muni.fi.pv168.library.gui.renders.BookCellRenderer;
+import cz.muni.fi.pv168.library.gui.renders.CustomerCellRender;
+import cz.muni.fi.pv168.library.gui.renders.LeaseObjectRenderer;
 import cz.muni.fi.pv168.library.gui.tableModels.BooksTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.CustomersTableModel;
 import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
@@ -261,11 +260,10 @@ public class LibraryManager {
         // Lease Table
         leasesTableModel = new LeasesTableModel();
         leaseTable = new JTable(leasesTableModel);
-        leaseTable.setDefaultRenderer(Book.class, new BookCellRender());
-        leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
+        leaseTable.setDefaultRenderer(Book.class, new LeaseObjectRenderer());
+        leaseTable.setDefaultRenderer(Customer.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
-        leaseTable.setAutoCreateRowSorter(true);
         leaseTable.setColumnSelectionAllowed(false);
         leaseTable.setRowSelectionAllowed(true);
         leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -276,6 +274,8 @@ public class LibraryManager {
         customersTableModel = new CustomersTableModel();
         customerSorter = new TableRowSorter<>(customersTableModel);
         customerTable = new JTable(customersTableModel);
+        customerTable.setDefaultRenderer(String.class, new CustomerCellRender());
+        customerTable.setDefaultRenderer(Long.class, new CustomerCellRender());
         customerTable.setRowSorter(customerSorter);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel customerColumnModel = customerTable.getColumnModel();
@@ -286,9 +286,9 @@ public class LibraryManager {
         bookSorter = new TableRowSorter<>(booksTableModel);
         bookTable = new JTable(booksTableModel);
         bookTable.setRowSorter(bookSorter);
-        bookTable.setDefaultRenderer(String.class, new BooksCellRenderer());
-        bookTable.setDefaultRenderer(Long.class, new BooksCellRenderer());
-        bookTable.setDefaultRenderer(Integer.class, new BooksCellRenderer());
+        bookTable.setDefaultRenderer(String.class, new BookCellRenderer());
+        bookTable.setDefaultRenderer(Long.class, new BookCellRenderer());
+        bookTable.setDefaultRenderer(Integer.class, new BookCellRenderer());
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel bookColumnModel = bookTable.getColumnModel();
         bookColumnModel.getColumn(0).setMaxWidth(40);
@@ -326,6 +326,12 @@ public class LibraryManager {
         }
         return laf;
     }
+
+    /*********************************************************************
+     * *
+     * LEASE SWING WORKERS                           *
+     * *
+     *********************************************************************/
 
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
         private final Lease lease;
@@ -401,6 +407,12 @@ public class LibraryManager {
             leasesTableModel.fireTableRowsDeleted(index, index);
         }
     }
+
+    /*********************************************************************
+     *                                                                    *
+     *                      BOOK SWING WORKERS                            *
+     *                                                                    *
+     *********************************************************************/
 
     private class AddBookSwingWorker extends SwingWorker<Void, Void> {
         private final Book book;
@@ -479,6 +491,12 @@ public class LibraryManager {
             return null;
         }
     }
+
+    /*********************************************************************
+     *                                                                    *
+     *                      CUSTOMER SWING WORKERS                        *
+     *                                                                    *
+     *********************************************************************/
 
     private class AddCustomerSwingWorker extends SwingWorker<Void, Void> {
         private final Customer customer;

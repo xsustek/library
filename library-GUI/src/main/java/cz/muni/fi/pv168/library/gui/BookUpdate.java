@@ -72,4 +72,10 @@ public class BookUpdate {
         pagesSpinner.setValue(book.getPages());
     }
 
+    private void createUIComponents() {
+        yearSpinner = new JSpinner();
+        yearSpinner.setEditor(new JSpinner.NumberEditor(yearSpinner, "#"));
+        pagesSpinner = new JSpinner();
+        pagesSpinner.setEditor(new JSpinner.NumberEditor(pagesSpinner, "#"));
+    }
 }

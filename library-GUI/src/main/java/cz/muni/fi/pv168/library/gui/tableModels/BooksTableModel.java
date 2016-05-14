@@ -101,7 +101,7 @@ public class BooksTableModel extends AbstractTableModel {
         }
     }
 
-    public Color getRowColour(int row) {
+    public Color getRowColor(int row) {
         Book book = books.get(row);
 
         return availableBooks.contains(book) ? Color.WHITE : Color.RED;

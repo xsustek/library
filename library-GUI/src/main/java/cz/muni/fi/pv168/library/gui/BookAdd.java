@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.library.Book;
 
 import javax.swing.*;
 import java.text.ParseException;
+import java.time.LocalDate;
 
 /**
  * Created by robert on 25.4.2016.
@@ -65,4 +66,11 @@ public class BookAdd {
         return book;
     }
 
+    private void createUIComponents() {
+        yearSpinner = new JSpinner(new SpinnerNumberModel(LocalDate.now().getYear(),
+                0, LocalDate.now().getYear() + 20, 1));
+        yearSpinner.setEditor(new JSpinner.NumberEditor(yearSpinner, "#"));
+        pagesSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+        pagesSpinner.setEditor(new JSpinner.NumberEditor(pagesSpinner, "#"));
+    }
 }

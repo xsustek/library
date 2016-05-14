@@ -73,13 +73,13 @@
         </constraints>
         <properties/>
       </component>
-      <component id="4b6c2" class="javax.swing.JSpinner" binding="pagesSpinner" default-binding="true">
+      <component id="4b6c2" class="javax.swing.JSpinner" binding="pagesSpinner" custom-create="true" default-binding="true">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="a6e3e" class="javax.swing.JSpinner" binding="yearSpinner">
+      <component id="a6e3e" class="javax.swing.JSpinner" binding="yearSpinner" custom-create="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

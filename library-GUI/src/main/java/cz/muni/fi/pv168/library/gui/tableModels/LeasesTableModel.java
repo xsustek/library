@@ -100,7 +100,7 @@ public class LeasesTableModel extends AbstractTableModel {
         }
     }
 
-    public Color getLeaseColor(int row) {
+    public Color getRowColor(int row) {
         Lease lease = leases.get(row);
         if (expiredLeases == null) return Color.WHITE;
         return expiredLeases.contains(lease) ? Color.RED : Color.WHITE;
