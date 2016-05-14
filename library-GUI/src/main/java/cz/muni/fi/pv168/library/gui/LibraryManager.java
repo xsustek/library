@@ -89,7 +89,8 @@ public class LibraryManager {
         btUpdateLease.addActionListener(e -> {
             int selectedRowIndex = leaseTable.getSelectedRow();
             if (selectedRowIndex < 0) return;
-            LeaseUpdate leaseUpdate = new LeaseUpdate(frame, books, customers, leases.get(selectedRowIndex));
+            int index = leaseTable.convertRowIndexToModel(selectedRowIndex);
+            LeaseUpdate leaseUpdate = new LeaseUpdate(frame, books, customers, leases.get(index));
             leaseUpdate.display();
 
             new UpdateLeaseSwingWorker(leaseUpdate.getData(), selectedRowIndex).execute();
@@ -111,7 +112,6 @@ public class LibraryManager {
 
         });
 
-
         btAddBook.addActionListener(e -> {
             BookAdd bookAdd = new BookAdd(frame);
             bookAdd.display();
@@ -122,7 +122,8 @@ public class LibraryManager {
         btUpdateBook.addActionListener(e -> {
             int selectedRowIndex = bookTable.getSelectedRow();
             if (selectedRowIndex < 0) return;
-            BookUpdate bookUpdate = new BookUpdate(frame, books.get(selectedRowIndex));
+            int index = bookTable.convertRowIndexToModel(selectedRowIndex);
+            BookUpdate bookUpdate = new BookUpdate(frame, books.get(index));
             bookUpdate.display();
 
             new UpdateBookSwingWorker(bookUpdate.getData(), selectedRowIndex).execute();
@@ -144,7 +145,8 @@ public class LibraryManager {
         btUpdateCustomer.addActionListener(e -> {
             int selectedRowIndex = customerTable.getSelectedRow();
             if (selectedRowIndex < 0) return;
-            CustomerUpdate customerUpdate = new CustomerUpdate(frame, customers.get(selectedRowIndex));
+            int index = customerTable.convertRowIndexToModel(selectedRowIndex);
+            CustomerUpdate customerUpdate = new CustomerUpdate(frame, customers.get(index));
             customerUpdate.display();
 
             new UpdateCustomerSwingWorker(customerUpdate.getData(), selectedRowIndex).execute();
@@ -459,6 +461,7 @@ public class LibraryManager {
             updateBooks();
             booksTableModel.setBooks(books);
             booksTableModel.fireTableRowsUpdated(index, index);
+            updateLeases();
         }
     }
 
@@ -484,7 +487,7 @@ public class LibraryManager {
                 try {
                     bookManager.deleteBook(book);
                 } catch (ServiceFailureException ex) {
-                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                    JOptionPane.showMessageDialog(frame, "Cannot delete this book, because it is use in the lease",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -569,7 +572,7 @@ public class LibraryManager {
                 try {
                     customerManager.deleteCustomer(customer);
                 } catch (ServiceFailureException ex) {
-                    JOptionPane.showMessageDialog(frame, "You cannot delete this customer, because it is use in the lease",
+                    JOptionPane.showMessageDialog(frame, "Cannot delete this customer, because it is use in the lease",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }

@@ -67,7 +67,7 @@
                     <constraints/>
                     <properties>
                       <autoCreateColumnsFromModel value="true"/>
-                      <autoCreateRowSorter value="false"/>
+                      <autoCreateRowSorter value="true"/>
                       <cellSelectionEnabled value="false"/>
                       <rowSelectionAllowed value="true"/>
                     </properties>

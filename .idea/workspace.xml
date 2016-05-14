@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="UnShit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CellRender.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/BookCellRender.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/LeaseRender.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/CustomerCellRender.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CustomerCellRender.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/LeaseObjectRenderer.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseObjectRenderer.java" />
+    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="renders+spinnerFormat">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/db.lck" afterPath="$PROJECT_DIR$/data/db.lck" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/log.ctrl" afterPath="$PROJECT_DIR$/data/log/log.ctrl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/log1.dat" afterPath="$PROJECT_DIR$/data/log/log1.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/logmirror.ctrl" afterPath="$PROJECT_DIR$/data/log/logmirror.ctrl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c400.dat" afterPath="$PROJECT_DIR$/data/seg0/c400.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c510.dat" afterPath="$PROJECT_DIR$/data/seg0/c510.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c530.dat" afterPath="$PROJECT_DIR$/data/seg0/c530.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c541.dat" afterPath="$PROJECT_DIR$/data/seg0/c541.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c550.dat" afterPath="$PROJECT_DIR$/data/seg0/c550.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Book.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Book.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookAdd.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRenderer.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BookCellRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/BooksTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/LeasesTableModel.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/tableModels/LeasesTableModel.java" />
     </list>
     <ignored path="Books Rental.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,8 +55,8 @@
       <file leaf-file-name="LibraryManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3486">
-              <caret line="272" column="25" selection-start-line="272" selection-start-column="25" selection-end-line="272" selection-end-column="25" />
+            <state relative-caret-position="-270">
+              <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,15 +64,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LeaseUpdate.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="68" column="52" selection-start-line="68" selection-start-column="52" selection-end-line="68" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
+      <file leaf-file-name="Lease.form" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
+          <provider selected="true" editor-type-id="ui-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LibraryManager.form" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form">
+          <provider selected="true" editor-type-id="ui-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -147,9 +137,7 @@
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.form" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e8b58cd9-4ae1-464d-aa4b-ba6baef95027/console.sql" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/resources/stringValues.properties" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/CustomerUpdate.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java" />
@@ -162,16 +150,18 @@
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/LeaseObjectRenderer.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/BooksCellRenderer.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRenderers/CustomerCellRender.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CustomerCellRender.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseObjectRenderer.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/LeaseRender.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/renders/CellRender.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Book.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookAdd.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
       </list>
     </option>
   </component>
@@ -442,6 +432,10 @@
               <option name="myItemId" value="gui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LibraryManager" />
+              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -475,6 +469,70 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="LeaseUpdate" />
               <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library-GUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LeaseAdd" />
+              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library-GUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1232,7 +1290,7 @@
       <workItem from="1463166440499" duration="14497000" />
       <workItem from="1463182419529" duration="6291000" />
       <workItem from="1463219367252" duration="846000" />
-      <workItem from="1463221215066" duration="6582000" />
+      <workItem from="1463221215066" duration="7811000" />
     </task>
     <task id="LOCAL-00001" summary="Vytvoreny priecinok test, trieda CustomManagerImplTest">
       <created>1457779488538</created>
@@ -1479,7 +1537,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463182557305</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="renders+spinnerFormat">
+      <created>1463253593663</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1463253593663</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1515,7 +1580,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249682000" />
+    <option name="totallyTimeSpent" value="250911000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1558,7 +1623,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="102" y="180" width="1720" height="856" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="104" y="207" width="1720" height="856" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.75965667" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36576787" sideWeight="0.47758806" order="0" side_tool="false" content_ui="tabs" />
@@ -1604,7 +1669,8 @@
     <MESSAGE value="SwingWorker" />
     <MESSAGE value="update" />
     <MESSAGE value="UnShit" />
-    <option name="LAST_COMMIT_MESSAGE" value="UnShit" />
+    <MESSAGE value="renders+spinnerFormat" />
+    <option name="LAST_COMMIT_MESSAGE" value="renders+spinnerFormat" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1685,11 +1751,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/resources/stringValues.properties" />
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/common/Validator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1702,17 +1763,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="43" column="25" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1761,14 +1811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -1855,17 +1897,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
@@ -1888,21 +1919,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3486">
-          <caret line="272" column="25" selection-start-line="272" selection-start-column="25" selection-end-line="272" selection-end-column="25" />
+        <state relative-caret-position="-270">
+          <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseAdd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-455">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="68" column="52" selection-start-line="68" selection-start-column="52" selection-end-line="68" selection-end-column="52" />
+        <state relative-caret-position="344">
+          <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

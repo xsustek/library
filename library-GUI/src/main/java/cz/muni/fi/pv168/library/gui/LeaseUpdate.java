@@ -72,13 +72,13 @@ public class LeaseUpdate {
 
         if (leaseToUpdate.getEndTime() != null) {
             endTimeDatePicker.getModel().setDate(leaseToUpdate.getEndTime().getYear(),
-                    leaseToUpdate.getEndTime().getMonthValue(),
+                    leaseToUpdate.getEndTime().getMonthValue() - 1,
                     leaseToUpdate.getEndTime().getDayOfMonth());
             endTimeDatePicker.getModel().setSelected(true);
         }
         if (leaseToUpdate.getRealEndTime() != null) {
             realTimeDatePicker.getModel().setDate(leaseToUpdate.getRealEndTime().getYear(),
-                    leaseToUpdate.getRealEndTime().getMonthValue(),
+                    leaseToUpdate.getRealEndTime().getMonthValue() - 1,
                     leaseToUpdate.getRealEndTime().getDayOfMonth());
             realTimeDatePicker.getModel().setSelected(true);
         }
