@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="renders+spinnerFormat">
+    <list default="true" id="7b8bb717-2ec8-4349-97e1-8e9e9ec4e9ad" name="Default" comment="update bug">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/db.lck" afterPath="$PROJECT_DIR$/data/db.lck" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/log.ctrl" afterPath="$PROJECT_DIR$/data/log/log.ctrl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/log1.dat" afterPath="$PROJECT_DIR$/data/log/log1.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/log/logmirror.ctrl" afterPath="$PROJECT_DIR$/data/log/logmirror.ctrl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c510.dat" afterPath="$PROJECT_DIR$/data/seg0/c510.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c530.dat" afterPath="$PROJECT_DIR$/data/seg0/c530.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/seg0/c550.dat" afterPath="$PROJECT_DIR$/data/seg0/c550.dat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" afterPath="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
     </list>
     <ignored path="Books Rental.iws" />
@@ -52,11 +48,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LibraryManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LibraryManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-270">
-              <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
+            <state relative-caret-position="4078">
+              <caret line="328" column="55" selection-start-line="328" selection-start-column="55" selection-end-line="328" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,14 +60,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Lease.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LibraryManager.form" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LibraryManager.form" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form">
           <provider selected="true" editor-type-id="ui-designer">
             <state />
@@ -159,9 +148,9 @@
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.java" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/BookUpdate.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.java" />
+        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form" />
         <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java" />
-        <option value="$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form" />
       </list>
     </option>
   </component>
@@ -277,102 +266,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pv168" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pv168" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="library-GUI" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -434,74 +327,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="LibraryManager" />
-              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library-GUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LeaseUpdate" />
-              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library-GUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LeaseAdd" />
               <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1290,7 +1115,7 @@
       <workItem from="1463166440499" duration="14497000" />
       <workItem from="1463182419529" duration="6291000" />
       <workItem from="1463219367252" duration="846000" />
-      <workItem from="1463221215066" duration="7811000" />
+      <workItem from="1463221215066" duration="9664000" />
     </task>
     <task id="LOCAL-00001" summary="Vytvoreny priecinok test, trieda CustomManagerImplTest">
       <created>1457779488538</created>
@@ -1544,7 +1369,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463253593663</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="update bug">
+      <created>1463254810001</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1463254810001</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1580,7 +1412,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250911000" />
+    <option name="totallyTimeSpent" value="252764000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1645,7 +1477,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Vytvoreny priecinok test, trieda CustomManagerImplTest" />
     <MESSAGE value="Pridany JUnit. Prve testovacie metody pre CustomerManagerImpl." />
     <MESSAGE value="Dalsie testovacie metody pre CustomerManagerImpl" />
     <MESSAGE value="Testovacie metody pre CustomerManagerImpl cca kompletne" />
@@ -1670,7 +1501,8 @@
     <MESSAGE value="update" />
     <MESSAGE value="UnShit" />
     <MESSAGE value="renders+spinnerFormat" />
-    <option name="LAST_COMMIT_MESSAGE" value="renders+spinnerFormat" />
+    <MESSAGE value="update bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="update bug" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1917,27 +1749,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LeaseUpdate.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
@@ -1961,6 +1772,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/Lease.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
@@ -1969,6 +1791,16 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library-GUI/src/main/java/cz/muni/fi/pv168/library/gui/LibraryManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4078">
+          <caret line="328" column="55" selection-start-line="328" selection-start-column="55" selection-end-line="328" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

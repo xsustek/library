@@ -20,6 +20,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.prefs.Preferences;
 import java.util.regex.PatternSyntaxException;
 
 /**
@@ -249,12 +250,20 @@ public class LibraryManager {
 
     private static void initFrame() {
         frame = new JFrame("LibraryManager");
-
         frame.setContentPane(new LibraryManager().mainPane);
         frame.setJMenuBar(createMenu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(800, 500));
+        frame.setSize(new Dimension(820, 500));
         frame.setVisible(true);
+
+        Preferences userPref = Preferences.userNodeForPackage(LibraryManager.class);
+
+        try {
+            UIManager.setLookAndFeel(userPref.get("LaF", "com.sun.java.swing.plaf.gtk.GTKLookAndFeel"));
+            SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void createUIComponents() {
@@ -266,8 +275,6 @@ public class LibraryManager {
         leaseTable.setDefaultRenderer(Customer.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
-        leaseTable.setColumnSelectionAllowed(false);
-        leaseTable.setRowSelectionAllowed(true);
         leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
@@ -318,6 +325,8 @@ public class LibraryManager {
             JMenuItem item = new JMenuItem(info.getName());
             laf.add(item);
             item.addActionListener(ev -> {
+                Preferences userPref = Preferences.userNodeForPackage(LibraryManager.class);
+                userPref.put("LaF", info.getClassName());
                 try {
                     UIManager.setLookAndFeel(info.getClassName());
                     SwingUtilities.updateComponentTreeUI(LibraryManager.frame);
@@ -330,9 +339,9 @@ public class LibraryManager {
     }
 
     /*********************************************************************
-     * *
-     * LEASE SWING WORKERS                           *
-     * *
+     *                                                                   *
+     *                      LEASE SWING WORKERS                          *
+     *                                                                   *
      *********************************************************************/
 
     private class AddLeaseSwingWorker extends SwingWorker<Void, Void> {
