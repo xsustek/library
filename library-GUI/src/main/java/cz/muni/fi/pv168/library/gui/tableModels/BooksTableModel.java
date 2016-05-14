@@ -21,7 +21,7 @@ public class BooksTableModel extends AbstractTableModel {
 
 
     public BooksTableModel() {
-        bundle = ResourceBundle.getBundle("stringValues");
+        bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/library/gui/stringValues");
     }
 
     public void setBooks(List<Book> books) {

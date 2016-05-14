@@ -22,7 +22,7 @@ public class LeasesTableModel extends AbstractTableModel {
     private List<Lease> expiredLeases;
 
     public LeasesTableModel() {
-        bundle = ResourceBundle.getBundle("stringValues");
+        bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/library/gui/stringValues");
     }
 
     public void setLeases(List<Lease> leases) {

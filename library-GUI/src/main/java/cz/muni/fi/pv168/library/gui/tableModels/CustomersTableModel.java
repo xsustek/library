@@ -15,7 +15,7 @@ public class CustomersTableModel extends AbstractTableModel {
     private List<Customer> customers;
 
     public CustomersTableModel() {
-        bundle = ResourceBundle.getBundle("stringValues");
+        bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/library/gui/stringValues");
     }
 
     public void setCustomers(List<Customer> customers) {

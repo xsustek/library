@@ -265,8 +265,10 @@ public class LibraryManager {
         leaseTable.setDefaultRenderer(Customer.class, new CustomerCellRender());
         leaseTable.setDefaultRenderer(LocalDate.class, new LeaseObjectRenderer());
         leaseTable.setDefaultRenderer(Long.class, new LeaseObjectRenderer());
-        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        leaseTable.setAutoCreateRowSorter(true);
+        leaseTable.setColumnSelectionAllowed(false);
         leaseTable.setRowSelectionAllowed(true);
+        leaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumnModel leaseColumnModel = leaseTable.getColumnModel();
         leaseColumnModel.getColumn(0).setMaxWidth(40);
 
@@ -523,6 +525,7 @@ public class LibraryManager {
             updateCustomers();
             customersTableModel.setCustomers(customers);
             customersTableModel.fireTableRowsUpdated(index, index);
+            updateLeases();
         }
     }
 
@@ -548,7 +551,7 @@ public class LibraryManager {
                 try {
                     customerManager.deleteCustomer(customer);
                 } catch (ServiceFailureException ex) {
-                    JOptionPane.showMessageDialog(frame, "You cannot delete this book, because it is use in the lease",
+                    JOptionPane.showMessageDialog(frame, "You cannot delete this customer, because it is use in the lease",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }

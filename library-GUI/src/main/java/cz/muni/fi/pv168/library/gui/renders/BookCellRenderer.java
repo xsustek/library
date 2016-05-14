@@ -10,7 +10,7 @@ import java.awt.*;
  * Created by Milan on 13.05.2016.
  */
 
-public class BooksCellRenderer extends DefaultTableCellRenderer {
+public class BookCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         BooksTableModel model = (BooksTableModel) table.getModel();
