@@ -6,6 +6,8 @@ import cz.muni.fi.pv168.library.gui.tableModels.LeasesTableModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Milan on 14.05.2016.
@@ -25,6 +27,11 @@ public class LeaseObjectRenderer extends CellRender {
         if (value instanceof Customer) {
             Customer customer = (Customer) value;
             setText(customer.getName());
+        }
+
+        if (value instanceof LocalDate) {
+            LocalDate date = (LocalDate) value;
+            setText(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         }
 
         return this;
