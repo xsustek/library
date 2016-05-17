@@ -223,12 +223,13 @@ public class LibraryManager {
     private void updateCustomers() {
         GetCustomerSwingWorker cSw = new GetCustomerSwingWorker();
         cSw.execute();
+        updateLeases();
     }
 
     private void updateBooks() {
         GetBooksSwingWorker bSw = new GetBooksSwingWorker();
         bSw.execute();
-        updateAvailableBooks();
+        updateLeases();
     }
 
     private void updateAvailableBooks() {
